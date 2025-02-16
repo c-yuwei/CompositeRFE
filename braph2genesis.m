@@ -339,10 +339,8 @@ if flag_erase_braph2genesis_dir
 end
 
 %% Launch BRAPH2 distribution
-eval([launcher '()'])
+eval([launcher '(false)'])
 
-% % % %% Test compiled BRAPH2 distribution
-% % % test_braph2
-% % % 
-% % % %% Launch BRAPH2 distribution
-% % % braph2deephelloworld
+%% Test compiled BRAPH2 distribution
+test_braph2
+
