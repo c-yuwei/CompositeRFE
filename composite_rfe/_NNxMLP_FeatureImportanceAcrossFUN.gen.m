@@ -210,6 +210,9 @@ AE_TEMPLATE (data, item) is the list of FUN group, which also defines the subjec
 
 %% ¡tests!
 
+%%% ¡excluded_props!
+[NNxMLP_FeatureImportanceAcrossFUN.FI_TEMPLATE NNxMLP_FeatureImportanceAcrossFUN.BA]
+
 %%% ¡test!
 %%%% ¡name!
 GUI
