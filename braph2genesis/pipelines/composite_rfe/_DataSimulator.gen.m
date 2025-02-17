@@ -63,6 +63,7 @@ N (parameter, scalar) is a number of node for a Watts–Strogatz model.
 %%%% ¡default!
 68
 
+%%% ¡prop!
 N_SUB (data, scalar) is a number of subject to be generated.
 %%%% ¡default!
 10

@@ -110,12 +110,17 @@ classdef DataSimulator < ConcreteElement
 		N_CATEGORY = Category.PARAMETER;
 		N_FORMAT = Format.SCALAR;
 		
-		DIRECTORY = ConcreteElement.getPropNumber() + 4;
+		N_SUB = ConcreteElement.getPropNumber() + 4;
+		N_SUB_TAG = 'N_SUB';
+		N_SUB_CATEGORY = Category.DATA;
+		N_SUB_FORMAT = Format.SCALAR;
+		
+		DIRECTORY = ConcreteElement.getPropNumber() + 5;
 		DIRECTORY_TAG = 'DIRECTORY';
 		DIRECTORY_CATEGORY = Category.DATA;
 		DIRECTORY_FORMAT = Format.STRING;
 		
-		EX = ConcreteElement.getPropNumber() + 5;
+		EX = ConcreteElement.getPropNumber() + 6;
 		EX_TAG = 'EX';
 		EX_CATEGORY = Category.DATA;
 		EX_FORMAT = Format.ITEM;
@@ -210,6 +215,7 @@ classdef DataSimulator < ConcreteElement
 						DataSimulator.P ...
 						DataSimulator.D ...
 						DataSimulator.N ...
+						DataSimulator.N_SUB ...
 						DataSimulator.DIRECTORY ...
 						DataSimulator.EX ...
 						];
@@ -235,6 +241,7 @@ classdef DataSimulator < ConcreteElement
 				case Category.DATA
 					prop_list = [ ...
 						ConcreteElement.getProps(Category.DATA) ...
+						DataSimulator.N_SUB ...
 						DataSimulator.DIRECTORY ...
 						DataSimulator.EX ...
 						];
@@ -416,6 +423,8 @@ classdef DataSimulator < ConcreteElement
 						tag = DataSimulator.D_TAG;
 					case DataSimulator.N
 						tag = DataSimulator.N_TAG;
+					case DataSimulator.N_SUB
+						tag = DataSimulator.N_SUB_TAG;
 					case DataSimulator.DIRECTORY
 						tag = DataSimulator.DIRECTORY_TAG;
 					case DataSimulator.EX
@@ -454,6 +463,8 @@ classdef DataSimulator < ConcreteElement
 					prop_category = DataSimulator.D_CATEGORY;
 				case DataSimulator.N
 					prop_category = DataSimulator.N_CATEGORY;
+				case DataSimulator.N_SUB
+					prop_category = DataSimulator.N_SUB_CATEGORY;
 				case DataSimulator.DIRECTORY
 					prop_category = DataSimulator.DIRECTORY_CATEGORY;
 				case DataSimulator.EX
@@ -491,6 +502,8 @@ classdef DataSimulator < ConcreteElement
 					prop_format = DataSimulator.D_FORMAT;
 				case DataSimulator.N
 					prop_format = DataSimulator.N_FORMAT;
+				case DataSimulator.N_SUB
+					prop_format = DataSimulator.N_SUB_FORMAT;
 				case DataSimulator.DIRECTORY
 					prop_format = DataSimulator.DIRECTORY_FORMAT;
 				case DataSimulator.EX
@@ -528,6 +541,8 @@ classdef DataSimulator < ConcreteElement
 					prop_description = 'D (parameter, scalar) is a number of degree for a Watts–Strogatz model.';
 				case DataSimulator.N
 					prop_description = 'N (parameter, scalar) is a number of node for a Watts–Strogatz model.';
+				case DataSimulator.N_SUB
+					prop_description = 'N_SUB (data, scalar) is a number of subject to be generated.';
 				case DataSimulator.DIRECTORY
 					prop_description = 'DIRECTORY (data, string) is the directory to export the FUN subject group files.';
 				case DataSimulator.EX
@@ -578,6 +593,8 @@ classdef DataSimulator < ConcreteElement
 				case DataSimulator.D
 					prop_settings = Format.getFormatSettings(Format.SCALAR);
 				case DataSimulator.N
+					prop_settings = Format.getFormatSettings(Format.SCALAR);
+				case DataSimulator.N_SUB
 					prop_settings = 'Group';
 				case DataSimulator.DIRECTORY
 					prop_settings = Format.getFormatSettings(Format.STRING);
@@ -617,9 +634,11 @@ classdef DataSimulator < ConcreteElement
 				case DataSimulator.D
 					prop_default = 4;
 				case DataSimulator.N
-					prop_default = 68
+					prop_default = 68;
+				case DataSimulator.N_SUB
+					prop_default = 10
 
-N_SUB (data, scalar) is a number of subject to be generated.;
+SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.;
 				case DataSimulator.DIRECTORY
 					prop_default = fileparts(which('BRAPH2.LAUNCHER'));
 				case DataSimulator.EX
@@ -705,6 +724,8 @@ N_SUB (data, scalar) is a number of subject to be generated.;
 				case DataSimulator.D % __DataSimulator.D__
 					check = Format.checkFormat(Format.SCALAR, value, DataSimulator.getPropSettings(prop));
 				case DataSimulator.N % __DataSimulator.N__
+					check = Format.checkFormat(Format.SCALAR, value, DataSimulator.getPropSettings(prop));
+				case DataSimulator.N_SUB % __DataSimulator.N_SUB__
 					check = Format.checkFormat(Format.SCALAR, value, DataSimulator.getPropSettings(prop));
 				case DataSimulator.DIRECTORY % __DataSimulator.DIRECTORY__
 					check = Format.checkFormat(Format.STRING, value, DataSimulator.getPropSettings(prop));

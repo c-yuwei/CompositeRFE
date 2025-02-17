@@ -72,8 +72,8 @@ classdef BRAPH2
     properties (Constant) % BRAPH2 ID Card
         NAME = 'BRAPH 2' % BRAPH2 full name
         STR = 'BRAPH2' % BRAPH2 short string
-        DISTRIBUTION = 'Standard Distribution' % BRAPH2 distribution
-        LAUNCHER = 'braph2' % BRAPH2 launcher
+        DISTRIBUTION = 'Composite RFE';
+        LAUNCHER = 'braph2composite_rfe';
         VERSION = '2.0.1' % BRAPH2 version % % % ON RELEASE: Ensure correct VERSION
         BUILD = 7 % BRAPH2 build number % % % ON RELEASE: Ensure correct BUILD
         RELEASE = '2025-02-16' % BRAPH2 release date % % % ON RELEASE: Ensure correct RELEASE date

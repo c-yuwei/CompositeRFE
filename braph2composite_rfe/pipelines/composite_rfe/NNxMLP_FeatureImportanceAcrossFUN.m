@@ -6,42 +6,6 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 	%  assesses the importance of brain regions by measuring the increase in model error 
 	%  when its corresponding functional time series values are randomly shuffled.
 	%
-	% The list of NNxMLP_FeatureImportanceAcrossFUN properties is:
-	%  <strong>1</strong> <strong>ELCLASS</strong> 	ELCLASS (constant, string) is the class of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-	%  <strong>2</strong> <strong>NAME</strong> 	NAME (constant, string) is the name of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-	%  <strong>3</strong> <strong>DESCRIPTION</strong> 	DESCRIPTION (constant, string) is the description of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-	%  <strong>4</strong> <strong>TEMPLATE</strong> 	TEMPLATE (parameter, item) is the template of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-	%  <strong>5</strong> <strong>ID</strong> 	ID (data, string) is a few-letter code of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-	%  <strong>6</strong> <strong>LABEL</strong> 	LABEL (metadata, string) is an extended label of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-	%  <strong>7</strong> <strong>NOTES</strong> 	NOTES (metadata, string) are some specific notes about the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-	%  <strong>8</strong> <strong>TOSTRING</strong> 	TOSTRING (query, string) returns a string that represents the concrete element.
-	%  <strong>9</strong> <strong>D</strong> 	D (data, item) is the neural networks dataset for feature importance analysis.
-	%  <strong>10</strong> <strong>NN</strong> 	NN (data, item) contains a trained neural network multi-layer perceptron classifier or regressor.
-	%  <strong>11</strong> <strong>P</strong> 	P (parameter, scalar) is the permutation number that determines the statistical significance of the specific feature. 
-	%  <strong>12</strong> <strong>PERM_SEEDS</strong> 	PERM_SEEDS (result, rvector) is the list of seeds for the random permutations.
-	%  <strong>13</strong> <strong>APPLY_CONFIDENCE_INTERVALS</strong> 	APPLY_CONFIDENCE_INTERVALS (parameter, logical) determines whether to apply user-defined percent confidence interval.
-	%  <strong>14</strong> <strong>SIG_LEVEL</strong> 	SIG_LEVEL (parameter, scalar) determines the significant level.
-	%  <strong>15</strong> <strong>APPLY_BONFERRONI</strong> 	APPLY_BONFERRONI (parameter, logical) determines whether to apply Bonferroni correction.
-	%  <strong>16</strong> <strong>BASELINE_INPUTS</strong> 	BASELINE_INPUTS (result, cell) retrieves the input data to be shuffled.
-	%  <strong>17</strong> <strong>COMP_FEATURE_INDICES</strong> 	COMP_FEATURE_INDICES (result, cell) provides the indices of brain regions, represented as a cell array containing sets of feature indices, such as {[1], [2], [3], ...}.
-	%  <strong>18</strong> <strong>D_SHUFFLED</strong> 	D_SHUFFLED (query, item) generates a shuffled version of the dataset where the time series of one brain region is replaced with random values drawn from a distribution with the same mean and standard deviation as the orginal ones.
-	%  <strong>19</strong> <strong>BASELINE_LOSS</strong> 	BASELINE_LOSS (result, scalar) is the loss value obtained from original dataset, acting as a baseline loss value for evaluating the feature importance.
-	%  <strong>20</strong> <strong>SHUFFLED_LOSS</strong> 	SHUFFLED_LOSS (query, rvector) is the loss value obtained from shuffled datasets.
-	%  <strong>21</strong> <strong>PERM_SHUFFLED_LOSS</strong> 	PERM_SHUFFLED_LOSS (result, cell) is the permutation test for obtaining shuffled loss for a number of times in order to establish confidence interval.
-	%  <strong>22</strong> <strong>CONFIDENCE_INTERVALS</strong> 	CONFIDENCE_INTERVALS (query, rvector) derives the 95 percent of confidence interval for the permuation of shuffled loss values.
-	%  <strong>23</strong> <strong>STAT_SIG_MASK</strong> 	STAT_SIG_MASK (result, rvector) provides the statistical significance mask for composite features indicating which composite features has significant contribution.
-	%  <strong>24</strong> <strong>FEATURE_IMPORTANCE</strong> 	FEATURE_IMPORTANCE (result, cell) is determined by applying Bonferroni correction for the permutation and obtaining the value by the average of the permutation number times of shuffled loss, which then in trun are divided by base loss for normalizaiton.
-	%  <strong>25</strong> <strong>RESHAPED_FEATURE_IMPORTANCE</strong> 	RESHAPED_FEATURE_IMPORTANCE (query, empty) reshapes the cell of feature importances with the input data.
-	%  <strong>26</strong> <strong>MAP_TO_CELL</strong> 	MAP_TO_CELL (query, empty) maps a single vector back to the original cell array structure.
-	%  <strong>27</strong> <strong>COUNT_ELEMENTS</strong> 	COUNT_ELEMENTS (query, empty) counts the total number of elements within a nested cell array.
-	%  <strong>28</strong> <strong>FLATTEN_CELL</strong> 	FLATTEN_CELL (query, empty) flattens a cell array into to a single vector.
-	%  <strong>29</strong> <strong>VERBOSE</strong> 	VERBOSE (gui, logical) is an indicator to display permutation progress information.
-	%  <strong>30</strong> <strong>WAITBAR</strong> 	WAITBAR (gui, logical) determines whether to show the waitbar.
-	%  <strong>31</strong> <strong>INTERRUPTIBLE</strong> 	INTERRUPTIBLE (gui, scalar) sets whether the permutation computation is interruptible for multitasking.
-	%  <strong>32</strong> <strong>BA</strong> 	BA (parameter, item) is the brain atlas.
-	%  <strong>33</strong> <strong>GR_FUN_LIST</strong> 	GR_FUN_LIST (data, itemlist) is the list of FUN group, which also defines the subject class SubjectFUN.
-	%  <strong>34</strong> <strong>AE_TEMPLATE</strong> 	AE_TEMPLATE (data, item) is the list of FUN group, which also defines the subject class SubjectFUN.
-	%
 	% NNxMLP_FeatureImportanceAcrossFUN methods (constructor):
 	%  NNxMLP_FeatureImportanceAcrossFUN - constructor
 	%
@@ -130,23 +94,23 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 	%
 	% See also NNDataPoint_FUN_CLA, NNDataPoint_FUN_REG, NNxMLP_FeatureImportanceAcrossMeasures.
 	%
-	% BUILD BRAPH2 7 class_name 1
+	% BUILD BRAPH2 BRAPH2.BUILD class_name 1
 	
 	properties (Constant) % properties
-		BA = 32; %CET: Computational Efficiency Trick
+		BA = NNxMLP_FeatureImportance.getPropNumber() + 1;
 		BA_TAG = 'BA';
-		BA_CATEGORY = 3;
-		BA_FORMAT = 8;
+		BA_CATEGORY = Category.PARAMETER;
+		BA_FORMAT = Format.ITEM;
 		
-		GR_FUN_LIST = 33; %CET: Computational Efficiency Trick
+		GR_FUN_LIST = NNxMLP_FeatureImportance.getPropNumber() + 2;
 		GR_FUN_LIST_TAG = 'GR_FUN_LIST';
-		GR_FUN_LIST_CATEGORY = 4;
-		GR_FUN_LIST_FORMAT = 9;
+		GR_FUN_LIST_CATEGORY = Category.DATA;
+		GR_FUN_LIST_FORMAT = Format.ITEMLIST;
 		
-		AE_TEMPLATE = 34; %CET: Computational Efficiency Trick
+		AE_TEMPLATE = NNxMLP_FeatureImportance.getPropNumber() + 3;
 		AE_TEMPLATE_TAG = 'AE_TEMPLATE';
-		AE_TEMPLATE_CATEGORY = 4;
-		AE_TEMPLATE_FORMAT = 8;
+		AE_TEMPLATE_CATEGORY = Category.DATA;
+		AE_TEMPLATE_FORMAT = Format.ITEM;
 	end
 	methods % constructor
 		function nnfiam = NNxMLP_FeatureImportanceAcrossFUN(varargin)
@@ -159,41 +123,6 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			% Multiple properties can be initialized at once identifying
 			%  them with either property numbers (PROP) or tags (TAG).
 			%
-			% The list of NNxMLP_FeatureImportanceAcrossFUN properties is:
-			%  <strong>1</strong> <strong>ELCLASS</strong> 	ELCLASS (constant, string) is the class of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-			%  <strong>2</strong> <strong>NAME</strong> 	NAME (constant, string) is the name of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-			%  <strong>3</strong> <strong>DESCRIPTION</strong> 	DESCRIPTION (constant, string) is the description of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-			%  <strong>4</strong> <strong>TEMPLATE</strong> 	TEMPLATE (parameter, item) is the template of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-			%  <strong>5</strong> <strong>ID</strong> 	ID (data, string) is a few-letter code of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-			%  <strong>6</strong> <strong>LABEL</strong> 	LABEL (metadata, string) is an extended label of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-			%  <strong>7</strong> <strong>NOTES</strong> 	NOTES (metadata, string) are some specific notes about the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.
-			%  <strong>8</strong> <strong>TOSTRING</strong> 	TOSTRING (query, string) returns a string that represents the concrete element.
-			%  <strong>9</strong> <strong>D</strong> 	D (data, item) is the neural networks dataset for feature importance analysis.
-			%  <strong>10</strong> <strong>NN</strong> 	NN (data, item) contains a trained neural network multi-layer perceptron classifier or regressor.
-			%  <strong>11</strong> <strong>P</strong> 	P (parameter, scalar) is the permutation number that determines the statistical significance of the specific feature. 
-			%  <strong>12</strong> <strong>PERM_SEEDS</strong> 	PERM_SEEDS (result, rvector) is the list of seeds for the random permutations.
-			%  <strong>13</strong> <strong>APPLY_CONFIDENCE_INTERVALS</strong> 	APPLY_CONFIDENCE_INTERVALS (parameter, logical) determines whether to apply user-defined percent confidence interval.
-			%  <strong>14</strong> <strong>SIG_LEVEL</strong> 	SIG_LEVEL (parameter, scalar) determines the significant level.
-			%  <strong>15</strong> <strong>APPLY_BONFERRONI</strong> 	APPLY_BONFERRONI (parameter, logical) determines whether to apply Bonferroni correction.
-			%  <strong>16</strong> <strong>BASELINE_INPUTS</strong> 	BASELINE_INPUTS (result, cell) retrieves the input data to be shuffled.
-			%  <strong>17</strong> <strong>COMP_FEATURE_INDICES</strong> 	COMP_FEATURE_INDICES (result, cell) provides the indices of brain regions, represented as a cell array containing sets of feature indices, such as {[1], [2], [3], ...}.
-			%  <strong>18</strong> <strong>D_SHUFFLED</strong> 	D_SHUFFLED (query, item) generates a shuffled version of the dataset where the time series of one brain region is replaced with random values drawn from a distribution with the same mean and standard deviation as the orginal ones.
-			%  <strong>19</strong> <strong>BASELINE_LOSS</strong> 	BASELINE_LOSS (result, scalar) is the loss value obtained from original dataset, acting as a baseline loss value for evaluating the feature importance.
-			%  <strong>20</strong> <strong>SHUFFLED_LOSS</strong> 	SHUFFLED_LOSS (query, rvector) is the loss value obtained from shuffled datasets.
-			%  <strong>21</strong> <strong>PERM_SHUFFLED_LOSS</strong> 	PERM_SHUFFLED_LOSS (result, cell) is the permutation test for obtaining shuffled loss for a number of times in order to establish confidence interval.
-			%  <strong>22</strong> <strong>CONFIDENCE_INTERVALS</strong> 	CONFIDENCE_INTERVALS (query, rvector) derives the 95 percent of confidence interval for the permuation of shuffled loss values.
-			%  <strong>23</strong> <strong>STAT_SIG_MASK</strong> 	STAT_SIG_MASK (result, rvector) provides the statistical significance mask for composite features indicating which composite features has significant contribution.
-			%  <strong>24</strong> <strong>FEATURE_IMPORTANCE</strong> 	FEATURE_IMPORTANCE (result, cell) is determined by applying Bonferroni correction for the permutation and obtaining the value by the average of the permutation number times of shuffled loss, which then in trun are divided by base loss for normalizaiton.
-			%  <strong>25</strong> <strong>RESHAPED_FEATURE_IMPORTANCE</strong> 	RESHAPED_FEATURE_IMPORTANCE (query, empty) reshapes the cell of feature importances with the input data.
-			%  <strong>26</strong> <strong>MAP_TO_CELL</strong> 	MAP_TO_CELL (query, empty) maps a single vector back to the original cell array structure.
-			%  <strong>27</strong> <strong>COUNT_ELEMENTS</strong> 	COUNT_ELEMENTS (query, empty) counts the total number of elements within a nested cell array.
-			%  <strong>28</strong> <strong>FLATTEN_CELL</strong> 	FLATTEN_CELL (query, empty) flattens a cell array into to a single vector.
-			%  <strong>29</strong> <strong>VERBOSE</strong> 	VERBOSE (gui, logical) is an indicator to display permutation progress information.
-			%  <strong>30</strong> <strong>WAITBAR</strong> 	WAITBAR (gui, logical) determines whether to show the waitbar.
-			%  <strong>31</strong> <strong>INTERRUPTIBLE</strong> 	INTERRUPTIBLE (gui, scalar) sets whether the permutation computation is interruptible for multitasking.
-			%  <strong>32</strong> <strong>BA</strong> 	BA (parameter, item) is the brain atlas.
-			%  <strong>33</strong> <strong>GR_FUN_LIST</strong> 	GR_FUN_LIST (data, itemlist) is the list of FUN group, which also defines the subject class SubjectFUN.
-			%  <strong>34</strong> <strong>AE_TEMPLATE</strong> 	AE_TEMPLATE (data, item) is the list of FUN group, which also defines the subject class SubjectFUN.
 			%
 			% See also Category, Format.
 			
@@ -246,7 +175,7 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'NNxMLP_FeatureImportanceAcrossFUN' }; %CET: Computational Efficiency Trick
+			subclass_list = subclasses('NNxMLP_FeatureImportanceAcrossFUN', [], [], true);
 		end
 		function prop_list = getProps(category)
 			%GETPROPS returns the property list of neural network feature importace for multi-layer perceptron.
@@ -267,30 +196,56 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			%
 			% See also getPropNumber, Category.
 			
-			%CET: Computational Efficiency Trick
-			
 			if nargin == 0
-				prop_list = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34];
+				prop_list = [ ...
+					NNxMLP_FeatureImportance.getProps() ...
+						NNxMLP_FeatureImportanceAcrossFUN.BA ...
+						NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST ...
+						NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE ...
+						];
 				return
 			end
 			
 			switch category
-				case 1 % Category.CONSTANT
-					prop_list = [1 2 3];
-				case 2 % Category.METADATA
-					prop_list = [6 7];
-				case 3 % Category.PARAMETER
-					prop_list = [4 11 13 14 15 32];
-				case 4 % Category.DATA
-					prop_list = [5 9 10 33 34];
-				case 5 % Category.RESULT
-					prop_list = [12 16 17 19 21 23 24];
-				case 6 % Category.QUERY
-					prop_list = [8 18 20 22 25 26 27 28];
-				case 9 % Category.GUI
-					prop_list = [29 30 31];
-				otherwise
-					prop_list = [];
+				case Category.CONSTANT
+					prop_list = [ ...
+						NNxMLP_FeatureImportance.getProps(Category.CONSTANT) ...
+						];
+				case Category.METADATA
+					prop_list = [ ...
+						NNxMLP_FeatureImportance.getProps(Category.METADATA) ...
+						];
+				case Category.PARAMETER
+					prop_list = [ ...
+						NNxMLP_FeatureImportance.getProps(Category.PARAMETER) ...
+						NNxMLP_FeatureImportanceAcrossFUN.BA ...
+						];
+				case Category.DATA
+					prop_list = [ ...
+						NNxMLP_FeatureImportance.getProps(Category.DATA) ...
+						NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST ...
+						NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE ...
+						];
+				case Category.RESULT
+					prop_list = [
+						NNxMLP_FeatureImportance.getProps(Category.RESULT) ...
+						];
+				case Category.QUERY
+					prop_list = [ ...
+						NNxMLP_FeatureImportance.getProps(Category.QUERY) ...
+						];
+				case Category.EVANESCENT
+					prop_list = [ ...
+						NNxMLP_FeatureImportance.getProps(Category.EVANESCENT) ...
+						];
+				case Category.FIGURE
+					prop_list = [ ...
+						NNxMLP_FeatureImportance.getProps(Category.FIGURE) ...
+						];
+				case Category.GUI
+					prop_list = [ ...
+						NNxMLP_FeatureImportance.getProps(Category.GUI) ...
+						];
 			end
 		end
 		function prop_number = getPropNumber(varargin)
@@ -311,31 +266,7 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			%
 			% See also getProps, Category.
 			
-			%CET: Computational Efficiency Trick
-			
-			if nargin == 0
-				prop_number = 34;
-				return
-			end
-			
-			switch varargin{1} % category = varargin{1}
-				case 1 % Category.CONSTANT
-					prop_number = 3;
-				case 2 % Category.METADATA
-					prop_number = 2;
-				case 3 % Category.PARAMETER
-					prop_number = 6;
-				case 4 % Category.DATA
-					prop_number = 5;
-				case 5 % Category.RESULT
-					prop_number = 7;
-				case 6 % Category.QUERY
-					prop_number = 8;
-				case 9 % Category.GUI
-					prop_number = 3;
-				otherwise
-					prop_number = 0;
-			end
+			prop_number = numel(NNxMLP_FeatureImportanceAcrossFUN.getProps(varargin{:}));
 		end
 		function check_out = existsProp(prop)
 			%EXISTSPROP checks whether property exists in neural network feature importace for multi-layer perceptron/error.
@@ -363,14 +294,14 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			%
 			% See also getProps, existsTag.
 			
-			check = prop >= 1 && prop <= 34 && round(prop) == prop; %CET: Computational Efficiency Trick
+			check = any(prop == NNxMLP_FeatureImportanceAcrossFUN.getProps());
 			
 			if nargout == 1
 				check_out = check;
 			elseif ~check
 				error( ...
-					['BRAPH2' ':NNxMLP_FeatureImportanceAcrossFUN:' 'WrongInput'], ...
-					['BRAPH2' ':NNxMLP_FeatureImportanceAcrossFUN:' 'WrongInput' '\n' ...
+					[BRAPH2.STR ':NNxMLP_FeatureImportanceAcrossFUN:' BRAPH2.WRONG_INPUT], ...
+					[BRAPH2.STR ':NNxMLP_FeatureImportanceAcrossFUN:' BRAPH2.WRONG_INPUT '\n' ...
 					'The value ' tostring(prop, 100, ' ...') ' is not a valid prop for NNxMLP_FeatureImportanceAcrossFUN.'] ...
 					)
 			end
@@ -401,14 +332,15 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			%
 			% See also getProps, existsTag.
 			
-			check = any(strcmp(tag, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'D'  'NN'  'P'  'PERM_SEEDS'  'APPLY_CONFIDENCE_INTERVALS'  'SIG_LEVEL'  'APPLY_BONFERRONI'  'BASELINE_INPUTS'  'COMP_FEATURE_INDICES'  'D_SHUFFLED'  'BASELINE_LOSS'  'SHUFFLED_LOSS'  'PERM_SHUFFLED_LOSS'  'CONFIDENCE_INTERVALS'  'STAT_SIG_MASK'  'FEATURE_IMPORTANCE'  'RESHAPED_FEATURE_IMPORTANCE'  'MAP_TO_CELL'  'COUNT_ELEMENTS'  'FLATTEN_CELL'  'VERBOSE'  'WAITBAR'  'INTERRUPTIBLE'  'BA'  'GR_FUN_LIST'  'AE_TEMPLATE' })); %CET: Computational Efficiency Trick
+			nnxmlp_featureimportanceacrossfun_tag_list = cellfun(@(x) NNxMLP_FeatureImportanceAcrossFUN.getPropTag(x), num2cell(NNxMLP_FeatureImportanceAcrossFUN.getProps()), 'UniformOutput', false);
+			check = any(strcmp(tag, nnxmlp_featureimportanceacrossfun_tag_list));
 			
 			if nargout == 1
 				check_out = check;
 			elseif ~check
 				error( ...
-					['BRAPH2' ':NNxMLP_FeatureImportanceAcrossFUN:' 'WrongInput'], ...
-					['BRAPH2' ':NNxMLP_FeatureImportanceAcrossFUN:' 'WrongInput' '\n' ...
+					[BRAPH2.STR ':NNxMLP_FeatureImportanceAcrossFUN:' BRAPH2.WRONG_INPUT], ...
+					[BRAPH2.STR ':NNxMLP_FeatureImportanceAcrossFUN:' BRAPH2.WRONG_INPUT '\n' ...
 					'The value ' tag ' is not a valid tag for NNxMLP_FeatureImportanceAcrossFUN.'] ...
 					)
 			end
@@ -434,7 +366,8 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			%  getPropSettings, getPropDefault, checkProp.
 			
 			if ischar(pointer)
-				prop = find(strcmp(pointer, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'D'  'NN'  'P'  'PERM_SEEDS'  'APPLY_CONFIDENCE_INTERVALS'  'SIG_LEVEL'  'APPLY_BONFERRONI'  'BASELINE_INPUTS'  'COMP_FEATURE_INDICES'  'D_SHUFFLED'  'BASELINE_LOSS'  'SHUFFLED_LOSS'  'PERM_SHUFFLED_LOSS'  'CONFIDENCE_INTERVALS'  'STAT_SIG_MASK'  'FEATURE_IMPORTANCE'  'RESHAPED_FEATURE_IMPORTANCE'  'MAP_TO_CELL'  'COUNT_ELEMENTS'  'FLATTEN_CELL'  'VERBOSE'  'WAITBAR'  'INTERRUPTIBLE'  'BA'  'GR_FUN_LIST'  'AE_TEMPLATE' })); % tag = pointer %CET: Computational Efficiency Trick
+				nnxmlp_featureimportanceacrossfun_tag_list = cellfun(@(x) NNxMLP_FeatureImportanceAcrossFUN.getPropTag(x), num2cell(NNxMLP_FeatureImportanceAcrossFUN.getProps()), 'UniformOutput', false);
+				prop = find(strcmp(pointer, nnxmlp_featureimportanceacrossfun_tag_list)); % tag = pointer
 			else % numeric
 				prop = pointer;
 			end
@@ -462,9 +395,18 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			if ischar(pointer)
 				tag = pointer;
 			else % numeric
-				%CET: Computational Efficiency Trick
-				nnxmlp_featureimportanceacrossfun_tag_list = { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'D'  'NN'  'P'  'PERM_SEEDS'  'APPLY_CONFIDENCE_INTERVALS'  'SIG_LEVEL'  'APPLY_BONFERRONI'  'BASELINE_INPUTS'  'COMP_FEATURE_INDICES'  'D_SHUFFLED'  'BASELINE_LOSS'  'SHUFFLED_LOSS'  'PERM_SHUFFLED_LOSS'  'CONFIDENCE_INTERVALS'  'STAT_SIG_MASK'  'FEATURE_IMPORTANCE'  'RESHAPED_FEATURE_IMPORTANCE'  'MAP_TO_CELL'  'COUNT_ELEMENTS'  'FLATTEN_CELL'  'VERBOSE'  'WAITBAR'  'INTERRUPTIBLE'  'BA'  'GR_FUN_LIST'  'AE_TEMPLATE' };
-				tag = nnxmlp_featureimportanceacrossfun_tag_list{pointer}; % prop = pointer
+				prop = pointer;
+				
+				switch prop
+					case NNxMLP_FeatureImportanceAcrossFUN.BA
+						tag = NNxMLP_FeatureImportanceAcrossFUN.BA_TAG;
+					case NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
+						tag = NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST_TAG;
+					case NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
+						tag = NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE_TAG;
+					otherwise
+						tag = getPropTag@NNxMLP_FeatureImportance(prop);
+				end
 			end
 		end
 		function prop_category = getPropCategory(pointer)
@@ -489,9 +431,16 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			
 			prop = NNxMLP_FeatureImportanceAcrossFUN.getPropProp(pointer);
 			
-			%CET: Computational Efficiency Trick
-			nnxmlp_featureimportanceacrossfun_category_list = { 1  1  1  3  4  2  2  6  4  4  3  5  3  3  3  5  5  6  5  6  5  6  5  5  6  6  6  6  9  9  9  3  4  4 };
-			prop_category = nnxmlp_featureimportanceacrossfun_category_list{prop};
+			switch prop
+				case NNxMLP_FeatureImportanceAcrossFUN.BA
+					prop_category = NNxMLP_FeatureImportanceAcrossFUN.BA_CATEGORY;
+				case NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
+					prop_category = NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST_CATEGORY;
+				case NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
+					prop_category = NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE_CATEGORY;
+				otherwise
+					prop_category = getPropCategory@NNxMLP_FeatureImportance(prop);
+			end
 		end
 		function prop_format = getPropFormat(pointer)
 			%GETPROPFORMAT returns the format of a property.
@@ -515,9 +464,16 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			
 			prop = NNxMLP_FeatureImportanceAcrossFUN.getPropProp(pointer);
 			
-			%CET: Computational Efficiency Trick
-			nnxmlp_featureimportanceacrossfun_format_list = { 2  2  2  8  2  2  2  2  8  8  11  12  4  11  4  16  16  8  11  12  16  12  12  16  1  1  1  1  4  4  11  8  9  8 };
-			prop_format = nnxmlp_featureimportanceacrossfun_format_list{prop};
+			switch prop
+				case NNxMLP_FeatureImportanceAcrossFUN.BA
+					prop_format = NNxMLP_FeatureImportanceAcrossFUN.BA_FORMAT;
+				case NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
+					prop_format = NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST_FORMAT;
+				case NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
+					prop_format = NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE_FORMAT;
+				otherwise
+					prop_format = getPropFormat@NNxMLP_FeatureImportance(prop);
+			end
 		end
 		function prop_description = getPropDescription(pointer)
 			%GETPROPDESCRIPTION returns the description of a property.
@@ -541,9 +497,34 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			
 			prop = NNxMLP_FeatureImportanceAcrossFUN.getPropProp(pointer);
 			
-			%CET: Computational Efficiency Trick
-			nnxmlp_featureimportanceacrossfun_description_list = { 'ELCLASS (constant, string) is the class of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.'  'NAME (constant, string) is the name of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.'  'DESCRIPTION (constant, string) is the description of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.'  'TEMPLATE (parameter, item) is the template of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.'  'ID (data, string) is a few-letter code of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.'  'LABEL (metadata, string) is an extended label of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.'  'NOTES (metadata, string) are some specific notes about the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.'  'TOSTRING (query, string) returns a string that represents the concrete element.'  'D (data, item) is the neural networks dataset for feature importance analysis.'  'NN (data, item) contains a trained neural network multi-layer perceptron classifier or regressor.'  'P (parameter, scalar) is the permutation number that determines the statistical significance of the specific feature. '  'PERM_SEEDS (result, rvector) is the list of seeds for the random permutations.'  'APPLY_CONFIDENCE_INTERVALS (parameter, logical) determines whether to apply user-defined percent confidence interval.'  'SIG_LEVEL (parameter, scalar) determines the significant level.'  'APPLY_BONFERRONI (parameter, logical) determines whether to apply Bonferroni correction.'  'BASELINE_INPUTS (result, cell) retrieves the input data to be shuffled.'  'COMP_FEATURE_INDICES (result, cell) provides the indices of brain regions, represented as a cell array containing sets of feature indices, such as {[1], [2], [3], ...}.'  'D_SHUFFLED (query, item) generates a shuffled version of the dataset where the time series of one brain region is replaced with random values drawn from a distribution with the same mean and standard deviation as the orginal ones.'  'BASELINE_LOSS (result, scalar) is the loss value obtained from original dataset, acting as a baseline loss value for evaluating the feature importance.'  'SHUFFLED_LOSS (query, rvector) is the loss value obtained from shuffled datasets.'  'PERM_SHUFFLED_LOSS (result, cell) is the permutation test for obtaining shuffled loss for a number of times in order to establish confidence interval.'  'CONFIDENCE_INTERVALS (query, rvector) derives the 95 percent of confidence interval for the permuation of shuffled loss values.'  'STAT_SIG_MASK (result, rvector) provides the statistical significance mask for composite features indicating which composite features has significant contribution.'  'FEATURE_IMPORTANCE (result, cell) is determined by applying Bonferroni correction for the permutation and obtaining the value by the average of the permutation number times of shuffled loss, which then in trun are divided by base loss for normalizaiton.'  'RESHAPED_FEATURE_IMPORTANCE (query, empty) reshapes the cell of feature importances with the input data.'  'MAP_TO_CELL (query, empty) maps a single vector back to the original cell array structure.'  'COUNT_ELEMENTS (query, empty) counts the total number of elements within a nested cell array.'  'FLATTEN_CELL (query, empty) flattens a cell array into to a single vector.'  'VERBOSE (gui, logical) is an indicator to display permutation progress information.'  'WAITBAR (gui, logical) determines whether to show the waitbar.'  'INTERRUPTIBLE (gui, scalar) sets whether the permutation computation is interruptible for multitasking.'  'BA (parameter, item) is the brain atlas.'  'GR_FUN_LIST (data, itemlist) is the list of FUN group, which also defines the subject class SubjectFUN.'  'AE_TEMPLATE (data, item) is the list of FUN group, which also defines the subject class SubjectFUN.' };
-			prop_description = nnxmlp_featureimportanceacrossfun_description_list{prop};
+			switch prop
+				case NNxMLP_FeatureImportanceAcrossFUN.BA
+					prop_description = 'BA (parameter, item) is the brain atlas.';
+				case NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
+					prop_description = 'GR_FUN_LIST (data, itemlist) is the list of FUN group, which also defines the subject class SubjectFUN.';
+				case NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
+					prop_description = 'AE_TEMPLATE (data, item) is the list of FUN group, which also defines the subject class SubjectFUN.';
+				case NNxMLP_FeatureImportanceAcrossFUN.ELCLASS
+					prop_description = 'ELCLASS (constant, string) is the class of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.';
+				case NNxMLP_FeatureImportanceAcrossFUN.NAME
+					prop_description = 'NAME (constant, string) is the name of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.';
+				case NNxMLP_FeatureImportanceAcrossFUN.DESCRIPTION
+					prop_description = 'DESCRIPTION (constant, string) is the description of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.';
+				case NNxMLP_FeatureImportanceAcrossFUN.TEMPLATE
+					prop_description = 'TEMPLATE (parameter, item) is the template of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.';
+				case NNxMLP_FeatureImportanceAcrossFUN.ID
+					prop_description = 'ID (data, string) is a few-letter code of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.';
+				case NNxMLP_FeatureImportanceAcrossFUN.LABEL
+					prop_description = 'LABEL (metadata, string) is an extended label of the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.';
+				case NNxMLP_FeatureImportanceAcrossFUN.NOTES
+					prop_description = 'NOTES (metadata, string) are some specific notes about the feature importance analysis for multi-layer perceptron (MLP) across all included graph measures.';
+				case NNxMLP_FeatureImportanceAcrossFUN.COMP_FEATURE_INDICES
+					prop_description = 'COMP_FEATURE_INDICES (result, cell) provides the indices of brain regions, represented as a cell array containing sets of feature indices, such as {[1], [2], [3], ...}.';
+				case NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED
+					prop_description = 'D_SHUFFLED (query, item) generates a shuffled version of the dataset where the time series of one brain region is replaced with random values drawn from a distribution with the same mean and standard deviation as the orginal ones.';
+				otherwise
+					prop_description = getPropDescription@NNxMLP_FeatureImportance(prop);
+			end
 		end
 		function prop_settings = getPropSettings(pointer)
 			%GETPROPSETTINGS returns the settings of a property.
@@ -567,16 +548,16 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			
 			prop = NNxMLP_FeatureImportanceAcrossFUN.getPropProp(pointer);
 			
-			switch prop %CET: Computational Efficiency Trick
-				case 32 % NNxMLP_FeatureImportanceAcrossFUN.BA
+			switch prop
+				case NNxMLP_FeatureImportanceAcrossFUN.BA
 					prop_settings = 'BrainAtlas';
-				case 33 % NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
+				case NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
 					prop_settings = 'Group';
-				case 34 % NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
+				case NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
 					prop_settings = 'AnalyzeEnsemble';
-				case 4 % NNxMLP_FeatureImportanceAcrossFUN.TEMPLATE
+				case NNxMLP_FeatureImportanceAcrossFUN.TEMPLATE
 					prop_settings = 'NNxMLP_FeatureImportanceAcrossFUN';
-				case 18 % NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED
+				case NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED
 					prop_settings = 'NNDataset';
 				otherwise
 					prop_settings = getPropSettings@NNxMLP_FeatureImportance(prop);
@@ -604,29 +585,29 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			
 			prop = NNxMLP_FeatureImportanceAcrossFUN.getPropProp(pointer);
 			
-			switch prop %CET: Computational Efficiency Trick
-				case 32 % NNxMLP_FeatureImportanceAcrossFUN.BA
-					prop_default = Format.getFormatDefault(8, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
-				case 33 % NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
-					prop_default = Format.getFormatDefault(9, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
-				case 34 % NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
-					prop_default = Format.getFormatDefault(8, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
-				case 1 % NNxMLP_FeatureImportanceAcrossFUN.ELCLASS
+			switch prop
+				case NNxMLP_FeatureImportanceAcrossFUN.BA
+					prop_default = Format.getFormatDefault(Format.ITEM, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
+					prop_default = Format.getFormatDefault(Format.ITEMLIST, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
+					prop_default = Format.getFormatDefault(Format.ITEM, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.ELCLASS
 					prop_default = 'NNxMLP_FeatureImportanceAcrossFUN';
-				case 2 % NNxMLP_FeatureImportanceAcrossFUN.NAME
+				case NNxMLP_FeatureImportanceAcrossFUN.NAME
 					prop_default = 'Feature Importace for Multi-layer Perceptron Across Functional Time Series';
-				case 3 % NNxMLP_FeatureImportanceAcrossFUN.DESCRIPTION
+				case NNxMLP_FeatureImportanceAcrossFUN.DESCRIPTION
 					prop_default = 'Neural Network Feature Importance Across Functional Data (NNxMLP_FeatureImportanceAcrossFUN) assesses the importance of brain regions by measuring the increase in model error when its corresponding functional time series values are randomly shuffled.';
-				case 4 % NNxMLP_FeatureImportanceAcrossFUN.TEMPLATE
-					prop_default = Format.getFormatDefault(8, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
-				case 5 % NNxMLP_FeatureImportanceAcrossFUN.ID
+				case NNxMLP_FeatureImportanceAcrossFUN.TEMPLATE
+					prop_default = Format.getFormatDefault(Format.ITEM, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.ID
 					prop_default = 'NNxMLP_FeatureImportanceAcrossFUN ID';
-				case 6 % NNxMLP_FeatureImportanceAcrossFUN.LABEL
+				case NNxMLP_FeatureImportanceAcrossFUN.LABEL
 					prop_default = 'NNxMLP_FeatureImportanceAcrossFUN label';
-				case 7 % NNxMLP_FeatureImportanceAcrossFUN.NOTES
+				case NNxMLP_FeatureImportanceAcrossFUN.NOTES
 					prop_default = 'NNxMLP_FeatureImportanceAcrossFUN notes';
-				case 18 % NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED
-					prop_default = Format.getFormatDefault(8, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED
+					prop_default = Format.getFormatDefault(Format.ITEM, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
 				otherwise
 					prop_default = getPropDefault@NNxMLP_FeatureImportance(prop);
 			end
@@ -672,15 +653,15 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			% 
 			% NNFIAM.CHECKPROP(POINTER, VALUE) throws an error if VALUE is
 			%  NOT an acceptable value for the format of the property POINTER.
-			%  Error id: BRAPH2:NNxMLP_FeatureImportanceAcrossFUN:WrongInput
+			%  Error id: €BRAPH2.STR€:NNxMLP_FeatureImportanceAcrossFUN:€BRAPH2.WRONG_INPUT€
 			% 
 			% Alternative forms to call this method are (POINTER = PROP or TAG):
 			%  NNFIAM.CHECKPROP(POINTER, VALUE) throws error if VALUE has not a valid format for PROP of NNFIAM.
-			%   Error id: BRAPH2:NNxMLP_FeatureImportanceAcrossFUN:WrongInput
+			%   Error id: €BRAPH2.STR€:NNxMLP_FeatureImportanceAcrossFUN:€BRAPH2.WRONG_INPUT€
 			%  Element.CHECKPROP(NNxMLP_FeatureImportanceAcrossFUN, PROP, VALUE) throws error if VALUE has not a valid format for PROP of NNxMLP_FeatureImportanceAcrossFUN.
-			%   Error id: BRAPH2:NNxMLP_FeatureImportanceAcrossFUN:WrongInput
+			%   Error id: €BRAPH2.STR€:NNxMLP_FeatureImportanceAcrossFUN:€BRAPH2.WRONG_INPUT€
 			%  NNFIAM.CHECKPROP(NNxMLP_FeatureImportanceAcrossFUN, PROP, VALUE) throws error if VALUE has not a valid format for PROP of NNxMLP_FeatureImportanceAcrossFUN.
-			%   Error id: BRAPH2:NNxMLP_FeatureImportanceAcrossFUN:WrongInput]
+			%   Error id: €BRAPH2.STR€:NNxMLP_FeatureImportanceAcrossFUN:€BRAPH2.WRONG_INPUT€]
 			% 
 			% Note that the Element.CHECKPROP(NNFIAM) and Element.CHECKPROP('NNxMLP_FeatureImportanceAcrossFUN')
 			%  are less computationally efficient.
@@ -691,18 +672,18 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			prop = NNxMLP_FeatureImportanceAcrossFUN.getPropProp(pointer);
 			
 			switch prop
-				case 32 % NNxMLP_FeatureImportanceAcrossFUN.BA
-					check = Format.checkFormat(8, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
-				case 33 % NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST
-					check = Format.checkFormat(9, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
-				case 34 % NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE
-					check = Format.checkFormat(8, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
-				case 4 % NNxMLP_FeatureImportanceAcrossFUN.TEMPLATE
-					check = Format.checkFormat(8, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
-				case 18 % NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED
-					check = Format.checkFormat(8, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.BA % __NNxMLP_FeatureImportanceAcrossFUN.BA__
+					check = Format.checkFormat(Format.ITEM, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST % __NNxMLP_FeatureImportanceAcrossFUN.GR_FUN_LIST__
+					check = Format.checkFormat(Format.ITEMLIST, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE % __NNxMLP_FeatureImportanceAcrossFUN.AE_TEMPLATE__
+					check = Format.checkFormat(Format.ITEM, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.TEMPLATE % __NNxMLP_FeatureImportanceAcrossFUN.TEMPLATE__
+					check = Format.checkFormat(Format.ITEM, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
+				case NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED % __NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED__
+					check = Format.checkFormat(Format.ITEM, value, NNxMLP_FeatureImportanceAcrossFUN.getPropSettings(prop));
 				otherwise
-					if prop <= 31
+					if prop <= NNxMLP_FeatureImportance.getPropNumber()
 						check = checkProp@NNxMLP_FeatureImportance(prop, value);
 					end
 			end
@@ -711,8 +692,8 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 				prop_check = check;
 			elseif ~check
 				error( ...
-					['BRAPH2' ':NNxMLP_FeatureImportanceAcrossFUN:' 'WrongInput'], ...
-					['BRAPH2' ':NNxMLP_FeatureImportanceAcrossFUN:' 'WrongInput' '\n' ...
+					[BRAPH2.STR ':NNxMLP_FeatureImportanceAcrossFUN:' BRAPH2.WRONG_INPUT], ...
+					[BRAPH2.STR ':NNxMLP_FeatureImportanceAcrossFUN:' BRAPH2.WRONG_INPUT '\n' ...
 					'The value ' tostring(value, 100, ' ...') ' is not a valid property ' NNxMLP_FeatureImportanceAcrossFUN.getPropTag(prop) ' (' NNxMLP_FeatureImportanceAcrossFUN.getFormatTag(NNxMLP_FeatureImportanceAcrossFUN.getPropFormat(prop)) ').'] ...
 					)
 			end
@@ -723,20 +704,20 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 			%CALCULATEVALUE calculates the value of a property.
 			%
 			% VALUE = CALCULATEVALUE(EL, PROP) calculates the value of the property
-			%  PROP. It works only with properties with 5,
-			%  6, and 7. By default this function
+			%  PROP. It works only with properties with Category.RESULT,
+			%  Category.QUERY, and Category.EVANESCENT. By default this function
 			%  returns the default value for the prop and should be implemented in the
 			%  subclasses of Element when needed.
 			%
 			% VALUE = CALCULATEVALUE(EL, PROP, VARARGIN) works with properties with
-			%  6.
+			%  Category.QUERY.
 			%
 			% See also getPropDefaultConditioned, conditioning, preset, checkProp,
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case 17 % NNxMLP_FeatureImportanceAcrossFUN.COMP_FEATURE_INDICES
-					rng_settings_ = rng(); rng(nnfiam.getPropSeed(17), 'twister')
+				case NNxMLP_FeatureImportanceAcrossFUN.COMP_FEATURE_INDICES % __NNxMLP_FeatureImportanceAcrossFUN.COMP_FEATURE_INDICES__
+					rng_settings_ = rng(); rng(nnfiam.getPropSeed(NNxMLP_FeatureImportanceAcrossFUN.COMP_FEATURE_INDICES), 'twister')
 					
 					% yuxin 
 					% Instruction: the value of this one should be the brain node index, such as {[1], [2],
@@ -747,7 +728,7 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 					
 					rng(rng_settings_)
 					
-				case 18 % NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED
+				case NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED % __NNxMLP_FeatureImportanceAcrossFUN.D_SHUFFLED__
 					% yuxin
 					% Instruction: D_SHUFFLED will consist of NNDataPointMLP_Shuffled 
 					% with inputs being adjacency matrices derived from correlations
@@ -812,7 +793,7 @@ classdef NNxMLP_FeatureImportanceAcrossFUN < NNxMLP_FeatureImportance
 					    );
 					
 				otherwise
-					if prop <= 31
+					if prop <= NNxMLP_FeatureImportance.getPropNumber()
 						value = calculateValue@NNxMLP_FeatureImportance(nnfiam, prop, varargin{:});
 					else
 						value = calculateValue@Element(nnfiam, prop, varargin{:});
