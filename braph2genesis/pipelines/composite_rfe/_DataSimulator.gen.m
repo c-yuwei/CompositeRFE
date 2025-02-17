@@ -68,11 +68,13 @@ N_SUB (data, scalar) is a number of subject to be generated.
 %%%% ¡default!
 10
 
+%%% ¡prop!
 SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
 %%%% ¡calculate! 
 % yuxin
 value = {}; 
 
+%%% ¡prop!
 SIM_GR (result, item) is the group of subjectFUN for those simulated data.
 %%%% ¡settings!
 'Group'
