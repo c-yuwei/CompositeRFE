@@ -49,6 +49,36 @@ NOTES (metadata, string) are some specific notes about the data simulator.
 %% ¡props!
 
 %%% ¡prop!
+BA (parameter, item) is a brain atlas.
+%%%% ¡settings!
+'BrainAtlas'
+%%%% ¡postprocessing!
+ba = dsim.get('BA');
+if ba.get('BR_DICT').get('LENGTH') == 0
+    n = dsim.get('N');
+    brain_regions = cell(1, n);
+    for i = 1:n
+        brain_regions{i} = BrainRegion( ...
+            'ID', ['BR' num2str(i)], ... % 随机取ID，这里用编号
+            'LABEL', ['Region' num2str(i)], ... % 随机取LABEL，这里用编号
+            'NOTES', ['notes' num2str(i)], ... % NOTE 按照对应n的数字起名字
+            'X', rand()*100 - 50, ... % X 坐标在[-50, 50] 之间随机取值
+            'Y', rand()*100 - 50, ... % Y 坐标在[-50, 50] 之间随机取值
+            'Z', rand()*100 - 50 ... % Z 坐标在[-50, 50] 之间随机取值
+            );
+    end
+
+    % Create BrainAtlas with dynamically generated BrainRegions
+    ba = BrainAtlas( ...
+        'ID', 'GeneratedAtlas', ...
+        'LABEL', 'Dynamic Brain Atlas', ...
+        'NOTES', 'Automatically generated brain atlas', ...
+        'BR_DICT', IndexedDictionary('IT_CLASS', 'BrainRegion', 'IT_LIST', brain_regions) ...
+        );
+    dsim.set('BA', ba);
+end
+
+%%% ¡prop!
 P (parameter, scalar) is a number of probability for a Watts–Strogatz model.
 %%%% ¡default!
 0.2
@@ -64,23 +94,14 @@ N (parameter, scalar) is a number of node for a Watts–Strogatz model.
 68
 
 %%% ¡prop!
+TIME_STEP (parameter, scalar) is time_steps.
+%%%% ¡default!
+100
+
+%%% ¡prop!
 N_SUB (data, scalar) is a number of subject to be generated.
 %%%% ¡default!
 10
-
-%%% ¡prop!
-SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
-%%%% ¡calculate! 
-% yuxin
-value = {}; 
-
-%%% ¡prop!
-SIM_GR (result, item) is the group of subjectFUN for those simulated data.
-%%%% ¡settings!
-'Group'
-%%%% ¡calculate!
-% yuxin
-value = Group(); 
 
 %%% ¡prop!
 DIRECTORY (data, string) is the directory to export the FUN subject group files.
@@ -88,11 +109,212 @@ DIRECTORY (data, string) is the directory to export the FUN subject group files.
 fileparts(which('BRAPH2.LAUNCHER'))
 
 %%% ¡prop!
-EX (data, item) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
-%%%% ¡settings!
-'ExporterGroupSubjectFUN_XLS'
-%%%% ¡postset!
-if isa(dsim.getr('EX'), 'NoValue')
-    ex = ExporterGroupSubjectFUN_XLS('DIRECTORY', dsim.get('DIRECTORY'), dsim.get('SIM_GR'), gr);
-    dsim.set('EXPORTER', ex);
+GRAPH_DATA (result, cell) is the Small_World_Graph.
+%%%% ¡calculate!
+% Get parameters %%%YUXIN
+n = dsim.get('N'); % Number of nodes in the network
+d = dsim.get('D'); % Number of nearest neighbor connections per node (must be even)
+p = dsim.get('P'); % Probability of rewiring edges
+time_step = dsim.get('TIME_STEP'); % time_steps
+n_sub = dsim.get('N_SUB'); % Number of samples
+
+% Initialize a cell array to store multiple samples
+sim_data = cell(1, n_sub);
+
+% Generate N_SUB sets of data
+for sub = 1:n_sub
+    % 1. Generate adjacency matrix G using the Watts-Strogatz model
+    G = zeros(n); % Create an n x n zero matrix
+    half_d = d / 2; % Number of nearest neighbors each node connects to
+
+    % 2. Connect nearest neighbors (ring structure)
+    for i = 1:n
+        for j = 1:half_d
+            neighbor = mod(i + j - 1, n) + 1; % Compute the neighboring node
+            G(i, neighbor) = 1; % Connect i and neighbor
+            G(neighbor, i) = 1; % Ensure the adjacency matrix is symmetric
+        end
+    end
+
+    % 3. Perform random rewiring
+    for i = 1:n
+        for j = 1:half_d
+            if rand < p
+                % Disconnect the original connection
+                neighbor = mod(i + j - 1, n) + 1;
+                G(i, neighbor) = 0;
+                G(neighbor, i) = 0;
+
+                % Select a new node for connection
+                new_neighbor = i;
+                while new_neighbor == i || G(i, new_neighbor) == 1
+                    new_neighbor = randi(n); % Generate a new random neighbor
+                end
+                G(i, new_neighbor) = 1; % Connect to the new neighbor
+                G(new_neighbor, i) = 1;
+            end
+        end
+    end
+    graph_data{sub} = G;
 end
+
+% 8. 返回所有生成的数据
+value = graph_data;
+
+%%% ¡prop!
+SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
+%%%% ¡calculate! 
+% Get parameters  %%%YUXIN
+n_sub = dsim.get('N_SUB'); % Number of samples
+n = dsim.get('N'); % Number of nodes in the network
+time_step = dsim.get('TIME_STEP'); % <-- 这里添加获取时间步长变量
+graph_data = dsim.get('GRAPH_DATA');% 获取 cell 数组
+
+% Generate N_SUB sets of data
+for sub = 1:n_sub
+
+    graph_data_cell = graph_data{sub}; % 取出当前 subject 的邻接矩阵
+
+    % 4. Compute a positive definite covariance matrix (ensure usability)
+    graph_data_cell(1:n+1:end) = 1; % Set diagonal elements to 1 to prevent non-positive definiteness
+    cov_matrix = graph_data_cell * graph_data_cell'; % Compute the positive definite covariance matrix
+
+    % 5. Generate time series data
+    mu = ones(1, n); % Set the mean vector
+    R = mvnrnd(mu, cov_matrix, time_step); % Generate a time series following a multivariate normal distribution
+
+    % 6. Normalize the time series
+    mean_R = mean(R);
+    std_R = std(R);
+    R = (R - mean_R) ./ std_R; % Normalize the data
+
+    % 7. Store in the cell array
+    sim_data{sub} = R;
+end
+
+% 8. 返回所有生成的数据
+value = sim_data;
+
+%%% ¡prop!
+SIM_GR (result, item) is the group of subjectFUN for those simulated data.
+%%%% ¡settings!
+'Group'
+%%%% ¡calculate!
+%%%YUXIN
+
+% for i = 1:n_sub
+%     sim_data{i} = dsim.get('SIM_DATA');
+% end
+
+sim_data = dsim.get('SIM_DATA');
+n_sub = dsim.get('N_SUB');
+p = dsim.get('P');
+
+% Generate n BrainRegion instances
+n = dsim.get('N')% 获取节点数
+
+
+
+% % create dummy ba
+% br1 = BrainRegion( ...
+%     'ID', 'ISF', ...
+%     'LABEL', 'superiorfrontal', ...
+%     'NOTES', 'notes1', ...
+%     'X', -12.6, ...
+%     'Y', 22.9, ...
+%     'Z', 42.4 ...
+%     );
+% br2 = BrainRegion( ...
+%     'ID', 'lFP', ...
+%     'LABEL', 'frontalpole', ...
+%     'NOTES', 'notes2', ...
+%     'X', -8.6, ...
+%     'Y', 61.7, ...
+%     'Z', -8.7 ...
+%     );
+% br3 = BrainRegion( ...
+%     'ID', 'lRMF', ...
+%     'LABEL', 'rostralmiddlefrontal', ...
+%     'NOTES', 'notes3', ...
+%     'X', -31.3, ...
+%     'Y', 41.2, ...
+%     'Z', 16.5 ...
+%     );
+% br4 = BrainRegion( ...
+%     'ID', 'lCMF', ...
+%     'LABEL', 'caudalmiddlefrontal', ...
+%     'NOTES', 'notes4', ...
+%     'X', -34.6, ...
+%     'Y', 10.2, ...
+%     'Z', 42.8 ...
+%     );
+% br5 = BrainRegion( ...
+%     'ID', 'lPOB', ...
+%     'LABEL', 'parsorbitalis', ...
+%     'NOTES', 'notes5', ...
+%     'X', -41, ...
+%     'Y', 38.8, ...
+%     'Z', -11.1 ...
+%     );
+% 
+% ba = BrainAtlas( ...
+%     'ID', 'TestToSaveCoolID', ...
+%     'LABEL', 'Brain Atlas', ...
+%     'NOTES', 'Brain atlas notes', ...
+%     'BR_DICT', IndexedDictionary('IT_CLASS', 'BrainRegion', 'IT_LIST', {br1, br2, br3, br4, br5}) ...
+%     );
+% 
+ba = dsim.get('BA');
+
+
+for i = 1:n_sub
+    subs{i} = SubjectFUN( ...
+        'ID', ['Subject FUN ' num2str(i)], ...
+        'LABEL', ['Subject FUN ' num2str(i)], ...
+        'NOTES', ['Notes on Subject FUN ' num2str(i)], ...
+        'BA', ba, ...
+        'FUN', sim_data{i} ...
+        );
+    subs{i}.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p))
+end
+
+value = Group( ...
+    'ID', 'GR FUN', ...
+    'LABEL', 'Group label', ...
+    'NOTES', 'Group notes', ...
+    'SUB_CLASS', 'SubjectFUN', ...
+    'SUB_DICT', IndexedDictionary('IT_CLASS', 'SubjectFUN', 'IT_LIST', subs) ...
+    );
+
+%%% ¡prop!
+EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
+%%%% ¡calculate!
+%%%YUXIN
+directory = dsim.get('DIRECTORY');
+if ~exist(directory, 'dir')
+    mkdir(directory)
+end
+
+gr = dsim.get('SIM_GR');
+ex = ExporterGroupSubjectFUN_XLS( ...
+    'DIRECTORY', directory, ...
+    'GR', gr ...
+    );
+ex.get('SAVE');
+
+ba = dsim.get('BA');
+file = [directory filesep 'atlas.xlsx'];
+ex = ExporterBrainAtlasXLS( ...
+    'FILE', file, ...
+    'BA', ba ...
+    );
+ex.get('SAVE');
+
+
+value={};
+
+%% ¡tests!
+
+%%% ¡excluded_props!
+[DataSimulator.TEMPLATE DataSimulator.EXPORT_DATA DataSimulator.BA]
+
