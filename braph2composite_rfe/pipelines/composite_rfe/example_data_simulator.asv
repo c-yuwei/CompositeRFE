@@ -72,7 +72,7 @@ sm_WU2 = a_WU2.get('MEASUREENSEMBLE', 'SmallWorldness').get('M');
 
 output_folder = [fileparts(which('DataSimulator')) filesep 'SIM_DATASET_VARYING_P'];
 
-% create simulated data for group % use the text parameter
+% create simulated data for group 1 % use the text parameter
 dsim = DataSimulator('D', 4, 'N', 500, 'TIME_STEP', 200, 'N_SUB', 50, 'DIRECTORY', output_folder, 'GR_ID', 'TEXT_BOOOK_DATA');
 ground_truth_graph_data = dsim.get('GRAPH_DATA');
 p = dsim.get('P');
@@ -119,4 +119,3 @@ end
 
 %yuxin add the plot of pathlength_av with respect to p 
 
-%% Key feature configuration (Task 4)

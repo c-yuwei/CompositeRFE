@@ -79,9 +79,30 @@ if ba.get('BR_DICT').get('LENGTH') == 0
 end
 
 %%% ¡prop!
-P (parameter, scalar) is a number of probability for a Watts–Strogatz model.
+P_MAX (parameter, scalar) is the maximum probability for simulating Watts–Strogatz models.
 %%%% ¡default!
-0.2
+1
+
+%%% ¡prop!
+P_MIN (parameter, scalar) is the minimum probability for simulating Watts–Strogatz models.
+%%%% ¡default!
+0
+
+%%% ¡prop!
+P (parameter, rvector) is a vector of probability for simulating Watts–Strogatz models.
+%%%% ¡postset!
+if isempty(dsim.get('P')) % not sure, yuxin check
+    n = dsim.get('N');
+    p_min = dsim.get('P_MIN');
+    p_max = dsim.get('P_MAX');
+    step = (p_max - p_min) / (n - 1);
+    if step == 0
+        dsim.set('P', p_max*ones(1, n));
+    else
+        dsim.set('P', pmin:step:p_max);
+    end
+    
+end
 
 %%% ¡prop!
 D (parameter, scalar) is a number of degree for a Watts–Strogatz model.
@@ -107,6 +128,11 @@ N_SUB (data, scalar) is a number of subject to be generated.
 DIRECTORY (data, string) is the directory to export the FUN subject group files.
 %%%% ¡default!
 fileparts(which('BRAPH2.LAUNCHER'))
+
+%%% ¡prop!
+GR_ID (data, string) is the folder name to export the FUN subject group files.
+%%%% ¡default!
+'SIM_GR'
 
 %%% ¡prop!
 GRAPH_DATA (result, cell) is the Small_World_Graph.
@@ -158,7 +184,6 @@ for sub = 1:n_sub
     graph_data{sub} = G;
 end
 
-% 8. 返回所有生成的数据
 value = graph_data;
 
 %%% ¡prop!
@@ -200,7 +225,6 @@ SIM_GR (result, item) is the group of subjectFUN for those simulated data.
 %%%% ¡settings!
 'Group'
 %%%% ¡calculate!
-%%%YUXIN
 
 % for i = 1:n_sub
 %     sim_data{i} = dsim.get('SIM_DATA');
@@ -279,7 +303,7 @@ for i = 1:n_sub
 end
 
 value = Group( ...
-    'ID', 'GR FUN', ...
+    'ID', dsim.get('GR_ID'), ...
     'LABEL', 'Group label', ...
     'NOTES', 'Group notes', ...
     'SUB_CLASS', 'SubjectFUN', ...
@@ -302,6 +326,17 @@ ex = ExporterGroupSubjectFUN_XLS( ...
     );
 ex.get('SAVE');
 
+value = {};
+
+%%% ¡prop!
+EXPORT_BA (query, empty) exports a brain atlas to XLSX file.
+%%%% ¡calculate!
+%%%YUXIN
+directory = dsim.get('DIRECTORY');
+if ~exist(directory, 'dir')
+    mkdir(directory)
+end
+
 ba = dsim.get('BA');
 file = [directory filesep 'atlas.xlsx'];
 ex = ExporterBrainAtlasXLS( ...
@@ -309,9 +344,7 @@ ex = ExporterBrainAtlasXLS( ...
     'BA', ba ...
     );
 ex.get('SAVE');
-
-
-value={};
+value = {};
 
 %% ¡tests!
 

@@ -1,0 +1,121 @@
+%EXAMPLE_DATA_SIMULATOR
+% Script example data simulator
+
+clear variables %#ok<*NASGU>
+
+%% Simulate data with small worldness (Task 1)
+
+output_folder = [fileparts(which('DataSimulator')) filesep 'SIM_DATASET_TWO_GROUPS'];
+
+% create simulated data for group 1
+dsim_1 = DataSimulator('P_MAX', 0.02, 'P_MIN', 0.02, 'D', 4, 'N', 68, 'TIME_STEP', 200, 'N_SUB', 25, 'DIRECTORY', output_folder, 'GR_ID', 'SimGroup1');
+graph_data_1 = dsim_1.get('GRAPH_DATA');
+
+%yuxin add the circle plot for sim_data_1 with 5x5 panels
+
+% create simulated data for group 2
+dsim_2 = DataSimulator('P_MAX', 0.5, 'P_MIN', 0.5, 'D', 4, 'N', 68, 'TIME_STEP', 200, 'N_SUB', 25, 'DIRECTORY', output_folder, 'GR_ID', 'SimGroup2');
+graph_data_2 = dsim_2.get('GRAPH_DATA');
+
+%yuxin add the circle plot for sim_data_1 with 5x5 panels
+
+% export to folder
+dsim_1.get('EXPORT_BA');
+dsim_1.get('EXPORT_DATA');
+dsim_2.get('EXPORT_DATA');
+
+%% Load simulated data and verify the built-in meausre functions (Task 2)
+% Load Brain Atlas
+im_ba = ImporterBrainAtlasXLS( ...
+    'FILE', [output_folder filesep 'atlas.xlsx'], ...
+    'WAITBAR', true ...
+    );
+
+ba = im_ba.get('BA');
+
+% Load Group of Simulated Data
+im_gr1 = ImporterGroupSubjectFUN_XLS( ...
+    'DIRECTORY', [output_folder filesep 'SimGroup1'], ...
+    'BA', ba, ...
+    'WAITBAR', true ...
+    );
+
+gr1 = im_gr1.get('GR');
+
+im_gr2 = ImporterGroupSubjectFUN_XLS( ...
+    'DIRECTORY', [output_folder filesep 'SimGroup1'], ...
+    'BA', ba, ...
+    'WAITBAR', true ...
+    );
+
+gr2 = im_gr2.get('GR');
+
+% Analysis FUN WU
+a_WU1 = AnalyzeEnsemble_FUN_WU( ...
+    'GR', gr1 ...
+    );
+
+a_WU2 = AnalyzeEnsemble_FUN_WU( ...
+    'TEMPLATE', a_WU1, ...
+    'GR', gr2 ...
+    );
+
+% Calculate individual network
+clustering_WU1 = a_WU1.get('MEASUREENSEMBLE', 'Clustering').get('M');
+clustering_WU2 = a_WU2.get('MEASUREENSEMBLE', 'Clustering').get('M');
+clusteringAv_WU1 = a_WU1.get('MEASUREENSEMBLE', 'ClusteringAv').get('M');
+clusteringAv_WU2 = a_WU2.get('MEASUREENSEMBLE', 'ClusteringAv').get('M');
+sm_WU1 = a_WU1.get('MEASUREENSEMBLE', 'SmallWorldness').get('M');
+sm_WU2 = a_WU2.get('MEASUREENSEMBLE', 'SmallWorldness').get('M');
+
+%% Load simulated data and produce text book figures (Task 3)
+
+output_folder = [fileparts(which('DataSimulator')) filesep 'SIM_DATASET_VARYING_P'];
+
+% create simulated data for group 1 % use the text parameter
+dsim = DataSimulator('D', 4, 'N', 500, 'TIME_STEP', 200, 'N_SUB', 50, 'DIRECTORY', output_folder, 'GR_ID', 'TEXT_BOOOK_DATA');
+ground_truth_graph_data = dsim.get('GRAPH_DATA');
+p = dsim.get('P');
+% ground_truth_pathlength_av = ....
+
+%yuxin add the function to calculate the ground_truth_pathlength_av on the ground_truth_graph_data 
+%yuxin add the plot of ground_truth_pathlength_av with respect to p 
+
+% export the simulated data
+dsim.get('EXPORT_BA');
+dsim.get('EXPORT_DATA');
+
+% load ba and data
+im_ba = ImporterBrainAtlasXLS( ...
+    'FILE', [output_folder filesep 'atlas.xlsx'], ...
+    'WAITBAR', true ...
+    );
+
+ba = im_ba.get('BA');
+
+im_gr = ImporterGroupSubjectFUN_XLS( ...
+    'DIRECTORY', [output_folder filesep 'TEXT_BOOOK_DATA'], ...
+    'BA', ba, ...
+    'WAITBAR', true ...
+    );
+
+gr = im_gr.get('GR');
+
+a_WU = AnalyzeEnsemble_FUN_WU( ...
+    'GR', gr ...
+    );
+
+g_dict = g_WU.get('G_DICT');
+
+graph_data = g_dict.get('IT_LIST');
+%yuxin compare on the ground_truth_graph_data 
+
+
+target_measure = 'PathLengthAv';
+
+for i = 1:g_dict.get('LENGTH')
+    pathlength_av(i) = g_dict.get('IT', i).get('M_DICT').get('IT', target_measure).get('M');
+end
+
+%yuxin add the plot of pathlength_av with respect to p 
+

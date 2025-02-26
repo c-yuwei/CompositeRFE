@@ -97,12 +97,8 @@ if isempty(dsim.get('P')) % not sure, yuxin check
     p_min = dsim.get('P_MIN');
     p_max = dsim.get('P_MAX');
     step = (p_max - p_min) / (n - 1);
-    if step == 0
-        dsim.set('P', p_max*ones(1, n));
-    else
-        dsim.set('P', pmin:step:p_max);
-    end
-    
+    if step == 
+    dsim.set('P', pmin:step:p_max);
 end
 
 %%% ¡prop!
