@@ -196,7 +196,7 @@ classdef Triangles < Measure
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'Triangles'  'Clustering' }; %CET: Computational Efficiency Trick
+			subclass_list = { 'Triangles'  'Clustering'  'ClusteringAv' }; %CET: Computational Efficiency Trick
 		end
 		function prop_list = getProps(category)
 			%GETPROPS returns the property list of triangles.

@@ -538,13 +538,13 @@ classdef ImporterGroupSubjectFUN_TXT < Importer
 			prop = ImporterGroupSubjectFUN_TXT.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case ImporterGroupSubjectFUN_TXT.DIRECTORY % __ImporterGroupSubjectFUN_TXT.DIRECTORY__
+				case 10 % ImporterGroupSubjectFUN_TXT.DIRECTORY
 					prop_settings = Format.getFormatSettings(2);
-				case ImporterGroupSubjectFUN_TXT.GET_DIR % __ImporterGroupSubjectFUN_TXT.GET_DIR__
+				case 11 % ImporterGroupSubjectFUN_TXT.GET_DIR
 					prop_settings = 'ImporterGroupSubjectFUN_TXT';
-				case ImporterGroupSubjectFUN_TXT.BA % __ImporterGroupSubjectFUN_TXT.BA__
+				case 12 % ImporterGroupSubjectFUN_TXT.BA
 					prop_settings = 'BrainAtlas';
-				case ImporterGroupSubjectFUN_TXT.GR % __ImporterGroupSubjectFUN_TXT.GR__
+				case 13 % ImporterGroupSubjectFUN_TXT.GR
 					prop_settings = 'Group';
 				otherwise
 					prop_settings = getPropSettings@Importer(prop);
@@ -573,25 +573,25 @@ classdef ImporterGroupSubjectFUN_TXT < Importer
 			prop = ImporterGroupSubjectFUN_TXT.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case ImporterGroupSubjectFUN_TXT.DIRECTORY % __ImporterGroupSubjectFUN_TXT.DIRECTORY__
+				case 10 % ImporterGroupSubjectFUN_TXT.DIRECTORY
 					prop_default = fileparts(which('test_braph2'));
-				case ImporterGroupSubjectFUN_TXT.GET_DIR % __ImporterGroupSubjectFUN_TXT.GET_DIR__
+				case 11 % ImporterGroupSubjectFUN_TXT.GET_DIR
 					prop_default = Format.getFormatDefault(8, ImporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_TXT.BA % __ImporterGroupSubjectFUN_TXT.BA__
+				case 12 % ImporterGroupSubjectFUN_TXT.BA
 					prop_default = Format.getFormatDefault(8, ImporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_TXT.GR % __ImporterGroupSubjectFUN_TXT.GR__
+				case 13 % ImporterGroupSubjectFUN_TXT.GR
 					prop_default = Group('SUB_CLASS', 'SubjectFUN', 'SUB_DICT', IndexedDictionary('IT_CLASS', 'SubjectFUN'));
-				case ImporterGroupSubjectFUN_TXT.ELCLASS % __ImporterGroupSubjectFUN_TXT.ELCLASS__
+				case 1 % ImporterGroupSubjectFUN_TXT.ELCLASS
 					prop_default = 'ImporterGroupSubjectFUN_TXT';
-				case ImporterGroupSubjectFUN_TXT.NAME % __ImporterGroupSubjectFUN_TXT.NAME__
+				case 2 % ImporterGroupSubjectFUN_TXT.NAME
 					prop_default = 'Functional Subject Group TXT Importer';
-				case ImporterGroupSubjectFUN_TXT.DESCRIPTION % __ImporterGroupSubjectFUN_TXT.DESCRIPTION__
+				case 3 % ImporterGroupSubjectFUN_TXT.DESCRIPTION
 					prop_default = 'ImporterGroupSubjectFUN_TXT imports a group of subjects with connectivity data from a series of TXT file and their covariates (optional) from another TXT file.';
-				case ImporterGroupSubjectFUN_TXT.ID % __ImporterGroupSubjectFUN_TXT.ID__
+				case 5 % ImporterGroupSubjectFUN_TXT.ID
 					prop_default = 'ImporterGroupSubjectFUN_TXT ID';
-				case ImporterGroupSubjectFUN_TXT.LABEL % __ImporterGroupSubjectFUN_TXT.LABEL__
+				case 6 % ImporterGroupSubjectFUN_TXT.LABEL
 					prop_default = 'ImporterGroupSubjectFUN_TXT label';
-				case ImporterGroupSubjectFUN_TXT.NOTES % __ImporterGroupSubjectFUN_TXT.NOTES__
+				case 7 % ImporterGroupSubjectFUN_TXT.NOTES
 					prop_default = 'ImporterGroupSubjectFUN_TXT notes';
 				otherwise
 					prop_default = getPropDefault@Importer(prop);
@@ -657,13 +657,13 @@ classdef ImporterGroupSubjectFUN_TXT < Importer
 			prop = ImporterGroupSubjectFUN_TXT.getPropProp(pointer);
 			
 			switch prop
-				case ImporterGroupSubjectFUN_TXT.DIRECTORY % __ImporterGroupSubjectFUN_TXT.DIRECTORY__
+				case 10 % ImporterGroupSubjectFUN_TXT.DIRECTORY
 					check = Format.checkFormat(2, value, ImporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_TXT.GET_DIR % __ImporterGroupSubjectFUN_TXT.GET_DIR__
+				case 11 % ImporterGroupSubjectFUN_TXT.GET_DIR
 					check = Format.checkFormat(8, value, ImporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_TXT.BA % __ImporterGroupSubjectFUN_TXT.BA__
+				case 12 % ImporterGroupSubjectFUN_TXT.BA
 					check = Format.checkFormat(8, value, ImporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_TXT.GR % __ImporterGroupSubjectFUN_TXT.GR__
+				case 13 % ImporterGroupSubjectFUN_TXT.GR
 					check = Format.checkFormat(8, value, ImporterGroupSubjectFUN_TXT.getPropSettings(prop));
 				otherwise
 					if prop <= 9
@@ -699,15 +699,15 @@ classdef ImporterGroupSubjectFUN_TXT < Importer
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case ImporterGroupSubjectFUN_TXT.GET_DIR % __ImporterGroupSubjectFUN_TXT.GET_DIR__
+				case 11 % ImporterGroupSubjectFUN_TXT.GET_DIR
 					directory = uigetdir('Select directory');
 					if ischar(directory) && isfolder(directory)
 						im.set('DIRECTORY', directory);
 					end
 					value = im;
 					
-				case ImporterGroupSubjectFUN_TXT.GR % __ImporterGroupSubjectFUN_TXT.GR__
-					rng_settings_ = rng(); rng(im.getPropSeed(ImporterGroupSubjectFUN_TXT.GR), 'twister')
+				case 13 % ImporterGroupSubjectFUN_TXT.GR
+					rng_settings_ = rng(); rng(im.getPropSeed(13), 'twister')
 					
 					% creates empty Group
 					gr = Group( ...
@@ -846,7 +846,7 @@ classdef ImporterGroupSubjectFUN_TXT < Importer
 			msg = ['Error while checking ' tostring(im) ' ' im.getPropTag(prop) '.'];
 			
 			switch prop
-				case ImporterGroupSubjectFUN_TXT.GR % __ImporterGroupSubjectFUN_TXT.GR__
+				case 13 % ImporterGroupSubjectFUN_TXT.GR
 					check = any(strcmp(value.get('SUB_CLASS'), subclasses('SubjectFUN', [], [], true))); % Format.checkFormat(8, value, 'Group') already checked
 					
 				otherwise

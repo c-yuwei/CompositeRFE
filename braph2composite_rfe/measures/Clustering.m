@@ -191,7 +191,7 @@ classdef Clustering < Triangles
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'Clustering' }; %CET: Computational Efficiency Trick
+			subclass_list = { 'Clustering'  'ClusteringAv' }; %CET: Computational Efficiency Trick
 		end
 		function prop_list = getProps(category)
 			%GETPROPS returns the property list of clustering.

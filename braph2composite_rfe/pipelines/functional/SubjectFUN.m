@@ -507,9 +507,9 @@ classdef SubjectFUN < Subject
 			prop = SubjectFUN.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case SubjectFUN.BA % __SubjectFUN.BA__
+				case 10 % SubjectFUN.BA
 					prop_settings = 'BrainAtlas';
-				case SubjectFUN.FUN % __SubjectFUN.FUN__
+				case 11 % SubjectFUN.FUN
 					prop_settings = Format.getFormatSettings(14);
 				otherwise
 					prop_settings = getPropSettings@Subject(prop);
@@ -538,21 +538,21 @@ classdef SubjectFUN < Subject
 			prop = SubjectFUN.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case SubjectFUN.BA % __SubjectFUN.BA__
+				case 10 % SubjectFUN.BA
 					prop_default = Format.getFormatDefault(8, SubjectFUN.getPropSettings(prop));
-				case SubjectFUN.FUN % __SubjectFUN.FUN__
+				case 11 % SubjectFUN.FUN
 					prop_default = Format.getFormatDefault(14, SubjectFUN.getPropSettings(prop));
-				case SubjectFUN.ELCLASS % __SubjectFUN.ELCLASS__
+				case 1 % SubjectFUN.ELCLASS
 					prop_default = 'SubjectFUN';
-				case SubjectFUN.NAME % __SubjectFUN.NAME__
+				case 2 % SubjectFUN.NAME
 					prop_default = 'Functional Subject';
-				case SubjectFUN.DESCRIPTION % __SubjectFUN.DESCRIPTION__
+				case 3 % SubjectFUN.DESCRIPTION
 					prop_default = 'Subject with a functional matrix (e.g. obtained from fMRI).';
-				case SubjectFUN.ID % __SubjectFUN.ID__
+				case 5 % SubjectFUN.ID
 					prop_default = 'SubjectFUN ID';
-				case SubjectFUN.LABEL % __SubjectFUN.LABEL__
+				case 6 % SubjectFUN.LABEL
 					prop_default = 'SubjectFUN label';
-				case SubjectFUN.NOTES % __SubjectFUN.NOTES__
+				case 7 % SubjectFUN.NOTES
 					prop_default = 'SubjectFUN notes';
 				otherwise
 					prop_default = getPropDefault@Subject(prop);
@@ -618,9 +618,9 @@ classdef SubjectFUN < Subject
 			prop = SubjectFUN.getPropProp(pointer);
 			
 			switch prop
-				case SubjectFUN.BA % __SubjectFUN.BA__
+				case 10 % SubjectFUN.BA
 					check = Format.checkFormat(8, value, SubjectFUN.getPropSettings(prop));
-				case SubjectFUN.FUN % __SubjectFUN.FUN__
+				case 11 % SubjectFUN.FUN
 					check = Format.checkFormat(14, value, SubjectFUN.getPropSettings(prop));
 				otherwise
 					if prop <= 9
@@ -655,7 +655,7 @@ classdef SubjectFUN < Subject
 			msg = ['Error while checking ' tostring(sub) ' ' sub.getPropTag(prop) '.'];
 			
 			switch prop
-				case SubjectFUN.FUN % __SubjectFUN.FUN__
+				case 11 % SubjectFUN.FUN
 					br_number = sub.get('BA').get('BR_DICT').get('LENGTH');
 					check = size(value, 2) == br_number; % Format.checkFormat(14, value) already checked
 					if check
@@ -688,8 +688,8 @@ classdef SubjectFUN < Subject
 			%  PanelPropString, PanelPropStringList.
 			
 			switch prop
-				case SubjectFUN.FUN % __SubjectFUN.FUN__
-					pr = PanelPropMatrix('EL', sub, 'PROP', SubjectFUN.FUN, ...
+				case 11 % SubjectFUN.FUN
+					pr = PanelPropMatrix('EL', sub, 'PROP', 11, ...
 					    'ROWNAME', {'numbered'}, ...
 					    'COLUMNNAME', sub.get('BA').get('BR_DICT').getCallback('KEYS'), ...
 					    varargin{:});

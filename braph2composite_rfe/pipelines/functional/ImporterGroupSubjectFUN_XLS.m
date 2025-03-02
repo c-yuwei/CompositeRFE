@@ -538,13 +538,13 @@ classdef ImporterGroupSubjectFUN_XLS < Importer
 			prop = ImporterGroupSubjectFUN_XLS.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case ImporterGroupSubjectFUN_XLS.DIRECTORY % __ImporterGroupSubjectFUN_XLS.DIRECTORY__
+				case 10 % ImporterGroupSubjectFUN_XLS.DIRECTORY
 					prop_settings = Format.getFormatSettings(2);
-				case ImporterGroupSubjectFUN_XLS.GET_DIR % __ImporterGroupSubjectFUN_XLS.GET_DIR__
+				case 11 % ImporterGroupSubjectFUN_XLS.GET_DIR
 					prop_settings = 'ImporterGroupSubjectFUN_XLS';
-				case ImporterGroupSubjectFUN_XLS.BA % __ImporterGroupSubjectFUN_XLS.BA__
+				case 12 % ImporterGroupSubjectFUN_XLS.BA
 					prop_settings = 'BrainAtlas';
-				case ImporterGroupSubjectFUN_XLS.GR % __ImporterGroupSubjectFUN_XLS.GR__
+				case 13 % ImporterGroupSubjectFUN_XLS.GR
 					prop_settings = 'Group';
 				otherwise
 					prop_settings = getPropSettings@Importer(prop);
@@ -573,25 +573,25 @@ classdef ImporterGroupSubjectFUN_XLS < Importer
 			prop = ImporterGroupSubjectFUN_XLS.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case ImporterGroupSubjectFUN_XLS.DIRECTORY % __ImporterGroupSubjectFUN_XLS.DIRECTORY__
+				case 10 % ImporterGroupSubjectFUN_XLS.DIRECTORY
 					prop_default = fileparts(which('test_braph2'));
-				case ImporterGroupSubjectFUN_XLS.GET_DIR % __ImporterGroupSubjectFUN_XLS.GET_DIR__
+				case 11 % ImporterGroupSubjectFUN_XLS.GET_DIR
 					prop_default = Format.getFormatDefault(8, ImporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_XLS.BA % __ImporterGroupSubjectFUN_XLS.BA__
+				case 12 % ImporterGroupSubjectFUN_XLS.BA
 					prop_default = Format.getFormatDefault(8, ImporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_XLS.GR % __ImporterGroupSubjectFUN_XLS.GR__
+				case 13 % ImporterGroupSubjectFUN_XLS.GR
 					prop_default = Group('SUB_CLASS', 'SubjectFUN', 'SUB_DICT', IndexedDictionary('IT_CLASS', 'SubjectFUN'));
-				case ImporterGroupSubjectFUN_XLS.ELCLASS % __ImporterGroupSubjectFUN_XLS.ELCLASS__
+				case 1 % ImporterGroupSubjectFUN_XLS.ELCLASS
 					prop_default = 'ImporterGroupSubjectFUN_XLS';
-				case ImporterGroupSubjectFUN_XLS.NAME % __ImporterGroupSubjectFUN_XLS.NAME__
+				case 2 % ImporterGroupSubjectFUN_XLS.NAME
 					prop_default = 'Functional Subject Group XLS Importer';
-				case ImporterGroupSubjectFUN_XLS.DESCRIPTION % __ImporterGroupSubjectFUN_XLS.DESCRIPTION__
+				case 3 % ImporterGroupSubjectFUN_XLS.DESCRIPTION
 					prop_default = 'ImporterGroupSubjectFUN_XLS imports a group of subjects with functional data from a series of XLS/XLSX file and their covariates (optional) from another XLS/XLSX file.';
-				case ImporterGroupSubjectFUN_XLS.ID % __ImporterGroupSubjectFUN_XLS.ID__
+				case 5 % ImporterGroupSubjectFUN_XLS.ID
 					prop_default = 'ImporterGroupSubjectFUN_XLS ID';
-				case ImporterGroupSubjectFUN_XLS.LABEL % __ImporterGroupSubjectFUN_XLS.LABEL__
+				case 6 % ImporterGroupSubjectFUN_XLS.LABEL
 					prop_default = 'ImporterGroupSubjectFUN_XLS label';
-				case ImporterGroupSubjectFUN_XLS.NOTES % __ImporterGroupSubjectFUN_XLS.NOTES__
+				case 7 % ImporterGroupSubjectFUN_XLS.NOTES
 					prop_default = 'ImporterGroupSubjectFUN_XLS notes';
 				otherwise
 					prop_default = getPropDefault@Importer(prop);
@@ -657,13 +657,13 @@ classdef ImporterGroupSubjectFUN_XLS < Importer
 			prop = ImporterGroupSubjectFUN_XLS.getPropProp(pointer);
 			
 			switch prop
-				case ImporterGroupSubjectFUN_XLS.DIRECTORY % __ImporterGroupSubjectFUN_XLS.DIRECTORY__
+				case 10 % ImporterGroupSubjectFUN_XLS.DIRECTORY
 					check = Format.checkFormat(2, value, ImporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_XLS.GET_DIR % __ImporterGroupSubjectFUN_XLS.GET_DIR__
+				case 11 % ImporterGroupSubjectFUN_XLS.GET_DIR
 					check = Format.checkFormat(8, value, ImporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_XLS.BA % __ImporterGroupSubjectFUN_XLS.BA__
+				case 12 % ImporterGroupSubjectFUN_XLS.BA
 					check = Format.checkFormat(8, value, ImporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ImporterGroupSubjectFUN_XLS.GR % __ImporterGroupSubjectFUN_XLS.GR__
+				case 13 % ImporterGroupSubjectFUN_XLS.GR
 					check = Format.checkFormat(8, value, ImporterGroupSubjectFUN_XLS.getPropSettings(prop));
 				otherwise
 					if prop <= 9
@@ -699,15 +699,15 @@ classdef ImporterGroupSubjectFUN_XLS < Importer
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case ImporterGroupSubjectFUN_XLS.GET_DIR % __ImporterGroupSubjectFUN_XLS.GET_DIR__
+				case 11 % ImporterGroupSubjectFUN_XLS.GET_DIR
 					directory = uigetdir('Select directory');
 					if ischar(directory) && isfolder(directory)
 						im.set('DIRECTORY', directory);
 					end
 					value = im;
 					
-				case ImporterGroupSubjectFUN_XLS.GR % __ImporterGroupSubjectFUN_XLS.GR__
-					rng_settings_ = rng(); rng(im.getPropSeed(ImporterGroupSubjectFUN_XLS.GR), 'twister')
+				case 13 % ImporterGroupSubjectFUN_XLS.GR
+					rng_settings_ = rng(); rng(im.getPropSeed(13), 'twister')
 					
 					% creates empty Group
 					gr = Group( ...
@@ -849,7 +849,7 @@ classdef ImporterGroupSubjectFUN_XLS < Importer
 			msg = ['Error while checking ' tostring(im) ' ' im.getPropTag(prop) '.'];
 			
 			switch prop
-				case ImporterGroupSubjectFUN_XLS.GR % __ImporterGroupSubjectFUN_XLS.GR__
+				case 13 % ImporterGroupSubjectFUN_XLS.GR
 					check = any(strcmp(value.get('SUB_CLASS'), subclasses('SubjectFUN', [], [], true))); % Format.checkFormat(8, value, 'Group') already checked
 					
 				otherwise

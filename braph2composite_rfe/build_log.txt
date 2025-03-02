@@ -2,7 +2,9 @@ BRAPH2,7
 Element,7
 GraphWU,1
 Clustering,1
+ClusteringAv,1
 Degree,1
+Distance,1
 PathLength,1
 PathLengthAv,1
 SmallWorldness,1

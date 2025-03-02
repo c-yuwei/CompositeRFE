@@ -79,30 +79,31 @@ if ba.get('BR_DICT').get('LENGTH') == 0
 end
 
 %%% ¡prop!
-P_MAX (parameter, scalar) is the maximum probability for simulating Watts–Strogatz model.
+P_MAX (parameter, scalar) is the maximum probability for simulating Watts–Strogatz models.
 %%%% ¡default!
 1
 
-
 %%% ¡prop!
-P_MIN (parameter, scalar) is the maximum probability for simulating Watts–Strogatz model.
+P_MIN (parameter, scalar) is the minimum probability for simulating Watts–Strogatz models.
 %%%% ¡default!
 0
 
 %%% ¡prop!
 P (parameter, rvector) is a vector of probability for simulating Watts–Strogatz models.
-%%%% ¡postset!
-if isempty(dsim.get('P')) % not sure, yuxin check
-    n = dsim.get('N');
+%%%% ¡default!
+1:1:10
+%%%% ¡postprocessing!
+n_sub = dsim.get('N_SUB');
+p = dsim.get('P');
+if ~isequal(length(p), n_sub)     
     p_min = dsim.get('P_MIN');
     p_max = dsim.get('P_MAX');
-    step = (p_max - p_min) / (n - 1);
+    step = (p_max - p_min) / (n_sub - 1);
     if step == 0
-        dsim.set('P', p_max*ones(1, n));
+        dsim.set('P', p_max*ones(1, n_sub));
     else
-        dsim.set('P', pmin:step:p_max);
+        dsim.set('P', p_min:step:p_max);
     end
-    
 end
 
 %%% ¡prop!
@@ -138,63 +139,62 @@ GR_ID (data, string) is the folder name to export the FUN subject group files.
 %%% ¡prop!
 GRAPH_DATA (result, cell) is the Small_World_Graph.
 %%%% ¡calculate!
-% Get parameters %%%YUXIN
-n = dsim.get('N'); % Number of nodes in the network
-d = dsim.get('D'); % Number of nearest neighbor connections per node (must be even)
-p = dsim.get('P'); % Probability of rewiring edges
-time_step = dsim.get('TIME_STEP'); % time_steps
-n_sub = dsim.get('N_SUB'); % Number of samples
+% 获取参数
+n = dsim.get('N'); % 节点数
+d = dsim.get('D'); % 连接数
+p_list = dsim.get('P'); % 连接概率
+n_sub = dsim.get('N_SUB'); % 样本数量
 
-% Initialize a cell array to store multiple samples
-sim_data = cell(1, n_sub);
+% 初始化 cell 数组
+graph_data = cell(1, n_sub);
 
-% Generate N_SUB sets of data
+% 生成不同 p 的网络
 for sub = 1:n_sub
-    % 1. Generate adjacency matrix G using the Watts-Strogatz model
-    G = zeros(n); % Create an n x n zero matrix
-    half_d = d / 2; % Number of nearest neighbors each node connects to
+    p_sub = p_list(sub);  % 取当前样本的 p
+    G = zeros(n); % 创建 n x n 的空邻接矩阵
+    half_d = d / 2; % 最近邻连接数
 
-    % 2. Connect nearest neighbors (ring structure)
+    % 1. 先生成规则的环状结构
     for i = 1:n
         for j = 1:half_d
-            neighbor = mod(i + j - 1, n) + 1; % Compute the neighboring node
-            G(i, neighbor) = 1; % Connect i and neighbor
-            G(neighbor, i) = 1; % Ensure the adjacency matrix is symmetric
+            neighbor = mod(i + j - 1, n) + 1;
+            G(i, neighbor) = 1;
+            G(neighbor, i) = 1;
         end
     end
 
-    % 3. Perform random rewiring
+    % 2. 进行重连操作（确保 p 生效）
     for i = 1:n
         for j = 1:half_d
-            if rand < p
-                % Disconnect the original connection
+            if rand < p_sub  % 按照 p_sub 的概率进行重连
                 neighbor = mod(i + j - 1, n) + 1;
                 G(i, neighbor) = 0;
                 G(neighbor, i) = 0;
 
-                % Select a new node for connection
                 new_neighbor = i;
                 while new_neighbor == i || G(i, new_neighbor) == 1
-                    new_neighbor = randi(n); % Generate a new random neighbor
+                    new_neighbor = randi(n); % 随机选择一个新的节点
                 end
-                G(i, new_neighbor) = 1; % Connect to the new neighbor
+                G(i, new_neighbor) = 1;
                 G(new_neighbor, i) = 1;
             end
         end
     end
-    graph_data{sub} = G;
+
+    graph_data{sub} = G; % 存储当前 p_sub 生成的图
 end
 
 value = graph_data;
 
+
 %%% ¡prop!
 SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
 %%%% ¡calculate! 
-% Get parameters  %%%YUXIN
+% Get parameters
 n_sub = dsim.get('N_SUB'); % Number of samples
 n = dsim.get('N'); % Number of nodes in the network
-time_step = dsim.get('TIME_STEP'); % <-- 这里添加获取时间步长变量
-graph_data = dsim.get('GRAPH_DATA');% 获取 cell 数组
+time_step = dsim.get('TIME_STEP'); % Time step variable
+graph_data = dsim.get('GRAPH_DATA');% Get cell array, small world matrix
 
 % Generate N_SUB sets of data
 for sub = 1:n_sub
@@ -226,11 +226,6 @@ SIM_GR (result, item) is the group of subjectFUN for those simulated data.
 %%%% ¡settings!
 'Group'
 %%%% ¡calculate!
-
-% for i = 1:n_sub
-%     sim_data{i} = dsim.get('SIM_DATA');
-% end
-
 sim_data = dsim.get('SIM_DATA');
 n_sub = dsim.get('N_SUB');
 p = dsim.get('P');
@@ -238,57 +233,6 @@ p = dsim.get('P');
 % Generate n BrainRegion instances
 n = dsim.get('N')% 获取节点数
 
-
-
-% % create dummy ba
-% br1 = BrainRegion( ...
-%     'ID', 'ISF', ...
-%     'LABEL', 'superiorfrontal', ...
-%     'NOTES', 'notes1', ...
-%     'X', -12.6, ...
-%     'Y', 22.9, ...
-%     'Z', 42.4 ...
-%     );
-% br2 = BrainRegion( ...
-%     'ID', 'lFP', ...
-%     'LABEL', 'frontalpole', ...
-%     'NOTES', 'notes2', ...
-%     'X', -8.6, ...
-%     'Y', 61.7, ...
-%     'Z', -8.7 ...
-%     );
-% br3 = BrainRegion( ...
-%     'ID', 'lRMF', ...
-%     'LABEL', 'rostralmiddlefrontal', ...
-%     'NOTES', 'notes3', ...
-%     'X', -31.3, ...
-%     'Y', 41.2, ...
-%     'Z', 16.5 ...
-%     );
-% br4 = BrainRegion( ...
-%     'ID', 'lCMF', ...
-%     'LABEL', 'caudalmiddlefrontal', ...
-%     'NOTES', 'notes4', ...
-%     'X', -34.6, ...
-%     'Y', 10.2, ...
-%     'Z', 42.8 ...
-%     );
-% br5 = BrainRegion( ...
-%     'ID', 'lPOB', ...
-%     'LABEL', 'parsorbitalis', ...
-%     'NOTES', 'notes5', ...
-%     'X', -41, ...
-%     'Y', 38.8, ...
-%     'Z', -11.1 ...
-%     );
-% 
-% ba = BrainAtlas( ...
-%     'ID', 'TestToSaveCoolID', ...
-%     'LABEL', 'Brain Atlas', ...
-%     'NOTES', 'Brain atlas notes', ...
-%     'BR_DICT', IndexedDictionary('IT_CLASS', 'BrainRegion', 'IT_LIST', {br1, br2, br3, br4, br5}) ...
-%     );
-% 
 ba = dsim.get('BA');
 
 
@@ -300,7 +244,7 @@ for i = 1:n_sub
         'BA', ba, ...
         'FUN', sim_data{i} ...
         );
-    subs{i}.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p))
+    subs{i}.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(i)))
 end
 
 value = Group( ...
@@ -314,7 +258,6 @@ value = Group( ...
 %%% ¡prop!
 EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
 %%%% ¡calculate!
-%%%YUXIN
 directory = dsim.get('DIRECTORY');
 if ~exist(directory, 'dir')
     mkdir(directory)

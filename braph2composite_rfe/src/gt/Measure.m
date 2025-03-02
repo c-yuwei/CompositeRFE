@@ -330,7 +330,7 @@ classdef Measure < ConcreteElement
 			%
 			% See also subclasses.
 			
-			subclass_list = { 'Measure'  'Clustering'  'Degree'  'PathLength'  'PathLengthAv'  'SmallWorldness'  'Triangles' }; %CET: Computational Efficiency Trick
+			subclass_list = { 'Measure'  'Clustering'  'ClusteringAv'  'Degree'  'Distance'  'PathLength'  'PathLengthAv'  'SmallWorldness'  'Triangles' }; %CET: Computational Efficiency Trick
 		end
 		function prop_list = getProps(category)
 			%GETPROPS returns the property list of graph measure.

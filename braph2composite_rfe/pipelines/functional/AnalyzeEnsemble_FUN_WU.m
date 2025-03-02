@@ -547,19 +547,19 @@ classdef AnalyzeEnsemble_FUN_WU < AnalyzeEnsemble
 			prop = AnalyzeEnsemble_FUN_WU.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case AnalyzeEnsemble_FUN_WU.REPETITION % __AnalyzeEnsemble_FUN_WU.REPETITION__
+				case 15 % AnalyzeEnsemble_FUN_WU.REPETITION
 					prop_settings = Format.getFormatSettings(11);
-				case AnalyzeEnsemble_FUN_WU.F_MIN % __AnalyzeEnsemble_FUN_WU.F_MIN__
+				case 16 % AnalyzeEnsemble_FUN_WU.F_MIN
 					prop_settings = Format.getFormatSettings(11);
-				case AnalyzeEnsemble_FUN_WU.F_MAX % __AnalyzeEnsemble_FUN_WU.F_MAX__
+				case 17 % AnalyzeEnsemble_FUN_WU.F_MAX
 					prop_settings = Format.getFormatSettings(11);
-				case AnalyzeEnsemble_FUN_WU.CORRELATION_RULE % __AnalyzeEnsemble_FUN_WU.CORRELATION_RULE__
+				case 18 % AnalyzeEnsemble_FUN_WU.CORRELATION_RULE
 					prop_settings = Correlation.CORRELATION_RULE_LIST(1:3);
-				case AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE % __AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE__
+				case 19 % AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE
 					prop_settings = Correlation.NEGATIVE_WEIGHT_RULE_LIST;
-				case AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE % __AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE__
+				case 11 % AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE
 					prop_settings = 'GraphWU';
-				case AnalyzeEnsemble_FUN_WU.G_DICT % __AnalyzeEnsemble_FUN_WU.G_DICT__
+				case 12 % AnalyzeEnsemble_FUN_WU.G_DICT
 					prop_settings = 'GraphWU';
 				otherwise
 					prop_settings = getPropSettings@AnalyzeEnsemble(prop);
@@ -588,33 +588,33 @@ classdef AnalyzeEnsemble_FUN_WU < AnalyzeEnsemble
 			prop = AnalyzeEnsemble_FUN_WU.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case AnalyzeEnsemble_FUN_WU.REPETITION % __AnalyzeEnsemble_FUN_WU.REPETITION__
+				case 15 % AnalyzeEnsemble_FUN_WU.REPETITION
 					prop_default = 1;
-				case AnalyzeEnsemble_FUN_WU.F_MIN % __AnalyzeEnsemble_FUN_WU.F_MIN__
+				case 16 % AnalyzeEnsemble_FUN_WU.F_MIN
 					prop_default = 0;
-				case AnalyzeEnsemble_FUN_WU.F_MAX % __AnalyzeEnsemble_FUN_WU.F_MAX__
+				case 17 % AnalyzeEnsemble_FUN_WU.F_MAX
 					prop_default = Inf;
-				case AnalyzeEnsemble_FUN_WU.CORRELATION_RULE % __AnalyzeEnsemble_FUN_WU.CORRELATION_RULE__
+				case 18 % AnalyzeEnsemble_FUN_WU.CORRELATION_RULE
 					prop_default = Correlation.CORRELATION_RULE_LIST{1};
-				case AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE % __AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE__
+				case 19 % AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE
 					prop_default = Correlation.NEGATIVE_WEIGHT_RULE_LIST{1};
-				case AnalyzeEnsemble_FUN_WU.ELCLASS % __AnalyzeEnsemble_FUN_WU.ELCLASS__
+				case 1 % AnalyzeEnsemble_FUN_WU.ELCLASS
 					prop_default = 'AnalyzeEnsemble_FUN_WU';
-				case AnalyzeEnsemble_FUN_WU.NAME % __AnalyzeEnsemble_FUN_WU.NAME__
+				case 2 % AnalyzeEnsemble_FUN_WU.NAME
 					prop_default = 'Functional Weighted Undirected Analyze Ensemble';
-				case AnalyzeEnsemble_FUN_WU.DESCRIPTION % __AnalyzeEnsemble_FUN_WU.DESCRIPTION__
+				case 3 % AnalyzeEnsemble_FUN_WU.DESCRIPTION
 					prop_default = 'This graph analysis (AnalyzeEnsemble_FUN_WU) analyzes functional data using weighted undirected graphs.';
-				case AnalyzeEnsemble_FUN_WU.ID % __AnalyzeEnsemble_FUN_WU.ID__
+				case 5 % AnalyzeEnsemble_FUN_WU.ID
 					prop_default = 'AnalyzeEnsemble_FUN_WU ID';
-				case AnalyzeEnsemble_FUN_WU.LABEL % __AnalyzeEnsemble_FUN_WU.LABEL__
+				case 6 % AnalyzeEnsemble_FUN_WU.LABEL
 					prop_default = 'AnalyzeEnsemble_FUN_WU label';
-				case AnalyzeEnsemble_FUN_WU.NOTES % __AnalyzeEnsemble_FUN_WU.NOTES__
+				case 7 % AnalyzeEnsemble_FUN_WU.NOTES
 					prop_default = 'AnalyzeEnsemble_FUN_WU notes';
-				case AnalyzeEnsemble_FUN_WU.GR % __AnalyzeEnsemble_FUN_WU.GR__
+				case 10 % AnalyzeEnsemble_FUN_WU.GR
 					prop_default = Group('SUB_CLASS', 'SubjectFUN');
-				case AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE % __AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE__
+				case 11 % AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE
 					prop_default = Format.getFormatDefault(8, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
-				case AnalyzeEnsemble_FUN_WU.G_DICT % __AnalyzeEnsemble_FUN_WU.G_DICT__
+				case 12 % AnalyzeEnsemble_FUN_WU.G_DICT
 					prop_default = Format.getFormatDefault(10, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
 				otherwise
 					prop_default = getPropDefault@AnalyzeEnsemble(prop);
@@ -680,19 +680,19 @@ classdef AnalyzeEnsemble_FUN_WU < AnalyzeEnsemble
 			prop = AnalyzeEnsemble_FUN_WU.getPropProp(pointer);
 			
 			switch prop
-				case AnalyzeEnsemble_FUN_WU.REPETITION % __AnalyzeEnsemble_FUN_WU.REPETITION__
+				case 15 % AnalyzeEnsemble_FUN_WU.REPETITION
 					check = Format.checkFormat(11, value, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
-				case AnalyzeEnsemble_FUN_WU.F_MIN % __AnalyzeEnsemble_FUN_WU.F_MIN__
+				case 16 % AnalyzeEnsemble_FUN_WU.F_MIN
 					check = Format.checkFormat(11, value, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
-				case AnalyzeEnsemble_FUN_WU.F_MAX % __AnalyzeEnsemble_FUN_WU.F_MAX__
+				case 17 % AnalyzeEnsemble_FUN_WU.F_MAX
 					check = Format.checkFormat(11, value, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
-				case AnalyzeEnsemble_FUN_WU.CORRELATION_RULE % __AnalyzeEnsemble_FUN_WU.CORRELATION_RULE__
+				case 18 % AnalyzeEnsemble_FUN_WU.CORRELATION_RULE
 					check = Format.checkFormat(5, value, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
-				case AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE % __AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE__
+				case 19 % AnalyzeEnsemble_FUN_WU.NEGATIVE_WEIGHT_RULE
 					check = Format.checkFormat(5, value, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
-				case AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE % __AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE__
+				case 11 % AnalyzeEnsemble_FUN_WU.GRAPH_TEMPLATE
 					check = Format.checkFormat(8, value, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
-				case AnalyzeEnsemble_FUN_WU.G_DICT % __AnalyzeEnsemble_FUN_WU.G_DICT__
+				case 12 % AnalyzeEnsemble_FUN_WU.G_DICT
 					check = Format.checkFormat(10, value, AnalyzeEnsemble_FUN_WU.getPropSettings(prop));
 				otherwise
 					if prop <= 14
@@ -728,8 +728,8 @@ classdef AnalyzeEnsemble_FUN_WU < AnalyzeEnsemble
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case AnalyzeEnsemble_FUN_WU.G_DICT % __AnalyzeEnsemble_FUN_WU.G_DICT__
-					rng_settings_ = rng(); rng(a.getPropSeed(AnalyzeEnsemble_FUN_WU.G_DICT), 'twister')
+				case 12 % AnalyzeEnsemble_FUN_WU.G_DICT
+					rng_settings_ = rng(); rng(a.getPropSeed(12), 'twister')
 					
 					g_dict = IndexedDictionary('IT_CLASS', 'GraphWU');
 					gr = a.get('GR');

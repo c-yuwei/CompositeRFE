@@ -14,16 +14,20 @@ classdef DataSimulator < ConcreteElement
 	%  <strong>7</strong> <strong>NOTES</strong> 	NOTES (metadata, string) are some specific notes about the data simulator.
 	%  <strong>8</strong> <strong>TOSTRING</strong> 	TOSTRING (query, string) returns a string that represents the concrete element.
 	%  <strong>9</strong> <strong>BA</strong> 	BA (parameter, item) is a brain atlas.
-	%  <strong>10</strong> <strong>P</strong> 	P (parameter, scalar) is a number of probability for a Watts–Strogatz model.
-	%  <strong>11</strong> <strong>D</strong> 	D (parameter, scalar) is a number of degree for a Watts–Strogatz model.
-	%  <strong>12</strong> <strong>N</strong> 	N (parameter, scalar) is a number of node for a Watts–Strogatz model.
-	%  <strong>13</strong> <strong>TIME_STEP</strong> 	TIME_STEP (parameter, scalar) is time_steps.
-	%  <strong>14</strong> <strong>N_SUB</strong> 	N_SUB (data, scalar) is a number of subject to be generated.
-	%  <strong>15</strong> <strong>DIRECTORY</strong> 	DIRECTORY (data, string) is the directory to export the FUN subject group files.
-	%  <strong>16</strong> <strong>GRAPH_DATA</strong> 	GRAPH_DATA (result, cell) is the Small_World_Graph.
-	%  <strong>17</strong> <strong>SIM_DATA</strong> 	SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
-	%  <strong>18</strong> <strong>SIM_GR</strong> 	SIM_GR (result, item) is the group of subjectFUN for those simulated data.
-	%  <strong>19</strong> <strong>EXPORT_DATA</strong> 	EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
+	%  <strong>10</strong> <strong>P_MAX</strong> 	P_MAX (parameter, scalar) is the maximum probability for simulating Watts–Strogatz models.
+	%  <strong>11</strong> <strong>P_MIN</strong> 	P_MIN (parameter, scalar) is the minimum probability for simulating Watts–Strogatz models.
+	%  <strong>12</strong> <strong>P</strong> 	P (parameter, rvector) is a vector of probability for simulating Watts–Strogatz models.
+	%  <strong>13</strong> <strong>D</strong> 	D (parameter, scalar) is a number of degree for a Watts–Strogatz model.
+	%  <strong>14</strong> <strong>N</strong> 	N (parameter, scalar) is a number of node for a Watts–Strogatz model.
+	%  <strong>15</strong> <strong>TIME_STEP</strong> 	TIME_STEP (parameter, scalar) is time_steps.
+	%  <strong>16</strong> <strong>N_SUB</strong> 	N_SUB (data, scalar) is a number of subject to be generated.
+	%  <strong>17</strong> <strong>DIRECTORY</strong> 	DIRECTORY (data, string) is the directory to export the FUN subject group files.
+	%  <strong>18</strong> <strong>GR_ID</strong> 	GR_ID (data, string) is the folder name to export the FUN subject group files.
+	%  <strong>19</strong> <strong>GRAPH_DATA</strong> 	GRAPH_DATA (result, cell) is the Small_World_Graph.
+	%  <strong>20</strong> <strong>SIM_DATA</strong> 	SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
+	%  <strong>21</strong> <strong>SIM_GR</strong> 	SIM_GR (result, item) is the group of subjectFUN for those simulated data.
+	%  <strong>22</strong> <strong>EXPORT_DATA</strong> 	EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
+	%  <strong>23</strong> <strong>EXPORT_BA</strong> 	EXPORT_BA (query, empty) exports a brain atlas to XLSX file.
 	%
 	% DataSimulator methods (constructor):
 	%  DataSimulator - constructor
@@ -121,55 +125,75 @@ classdef DataSimulator < ConcreteElement
 		BA_CATEGORY = 3;
 		BA_FORMAT = 8;
 		
-		P = 10; %CET: Computational Efficiency Trick
+		P_MAX = 10; %CET: Computational Efficiency Trick
+		P_MAX_TAG = 'P_MAX';
+		P_MAX_CATEGORY = 3;
+		P_MAX_FORMAT = 11;
+		
+		P_MIN = 11; %CET: Computational Efficiency Trick
+		P_MIN_TAG = 'P_MIN';
+		P_MIN_CATEGORY = 3;
+		P_MIN_FORMAT = 11;
+		
+		P = 12; %CET: Computational Efficiency Trick
 		P_TAG = 'P';
 		P_CATEGORY = 3;
-		P_FORMAT = 11;
+		P_FORMAT = 12;
 		
-		D = 11; %CET: Computational Efficiency Trick
+		D = 13; %CET: Computational Efficiency Trick
 		D_TAG = 'D';
 		D_CATEGORY = 3;
 		D_FORMAT = 11;
 		
-		N = 12; %CET: Computational Efficiency Trick
+		N = 14; %CET: Computational Efficiency Trick
 		N_TAG = 'N';
 		N_CATEGORY = 3;
 		N_FORMAT = 11;
 		
-		TIME_STEP = 13; %CET: Computational Efficiency Trick
+		TIME_STEP = 15; %CET: Computational Efficiency Trick
 		TIME_STEP_TAG = 'TIME_STEP';
 		TIME_STEP_CATEGORY = 3;
 		TIME_STEP_FORMAT = 11;
 		
-		N_SUB = 14; %CET: Computational Efficiency Trick
+		N_SUB = 16; %CET: Computational Efficiency Trick
 		N_SUB_TAG = 'N_SUB';
 		N_SUB_CATEGORY = 4;
 		N_SUB_FORMAT = 11;
 		
-		DIRECTORY = 15; %CET: Computational Efficiency Trick
+		DIRECTORY = 17; %CET: Computational Efficiency Trick
 		DIRECTORY_TAG = 'DIRECTORY';
 		DIRECTORY_CATEGORY = 4;
 		DIRECTORY_FORMAT = 2;
 		
-		GRAPH_DATA = 16; %CET: Computational Efficiency Trick
+		GR_ID = 18; %CET: Computational Efficiency Trick
+		GR_ID_TAG = 'GR_ID';
+		GR_ID_CATEGORY = 4;
+		GR_ID_FORMAT = 2;
+		
+		GRAPH_DATA = 19; %CET: Computational Efficiency Trick
 		GRAPH_DATA_TAG = 'GRAPH_DATA';
 		GRAPH_DATA_CATEGORY = 5;
 		GRAPH_DATA_FORMAT = 16;
 		
-		SIM_DATA = 17; %CET: Computational Efficiency Trick
+		SIM_DATA = 20; %CET: Computational Efficiency Trick
 		SIM_DATA_TAG = 'SIM_DATA';
 		SIM_DATA_CATEGORY = 5;
 		SIM_DATA_FORMAT = 16;
 		
-		SIM_GR = 18; %CET: Computational Efficiency Trick
+		SIM_GR = 21; %CET: Computational Efficiency Trick
 		SIM_GR_TAG = 'SIM_GR';
 		SIM_GR_CATEGORY = 5;
 		SIM_GR_FORMAT = 8;
 		
-		EXPORT_DATA = 19; %CET: Computational Efficiency Trick
+		EXPORT_DATA = 22; %CET: Computational Efficiency Trick
 		EXPORT_DATA_TAG = 'EXPORT_DATA';
 		EXPORT_DATA_CATEGORY = 6;
 		EXPORT_DATA_FORMAT = 1;
+		
+		EXPORT_BA = 23; %CET: Computational Efficiency Trick
+		EXPORT_BA_TAG = 'EXPORT_BA';
+		EXPORT_BA_CATEGORY = 6;
+		EXPORT_BA_FORMAT = 1;
 	end
 	methods % constructor
 		function dsim = DataSimulator(varargin)
@@ -192,16 +216,20 @@ classdef DataSimulator < ConcreteElement
 			%  <strong>7</strong> <strong>NOTES</strong> 	NOTES (metadata, string) are some specific notes about the data simulator.
 			%  <strong>8</strong> <strong>TOSTRING</strong> 	TOSTRING (query, string) returns a string that represents the concrete element.
 			%  <strong>9</strong> <strong>BA</strong> 	BA (parameter, item) is a brain atlas.
-			%  <strong>10</strong> <strong>P</strong> 	P (parameter, scalar) is a number of probability for a Watts–Strogatz model.
-			%  <strong>11</strong> <strong>D</strong> 	D (parameter, scalar) is a number of degree for a Watts–Strogatz model.
-			%  <strong>12</strong> <strong>N</strong> 	N (parameter, scalar) is a number of node for a Watts–Strogatz model.
-			%  <strong>13</strong> <strong>TIME_STEP</strong> 	TIME_STEP (parameter, scalar) is time_steps.
-			%  <strong>14</strong> <strong>N_SUB</strong> 	N_SUB (data, scalar) is a number of subject to be generated.
-			%  <strong>15</strong> <strong>DIRECTORY</strong> 	DIRECTORY (data, string) is the directory to export the FUN subject group files.
-			%  <strong>16</strong> <strong>GRAPH_DATA</strong> 	GRAPH_DATA (result, cell) is the Small_World_Graph.
-			%  <strong>17</strong> <strong>SIM_DATA</strong> 	SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
-			%  <strong>18</strong> <strong>SIM_GR</strong> 	SIM_GR (result, item) is the group of subjectFUN for those simulated data.
-			%  <strong>19</strong> <strong>EXPORT_DATA</strong> 	EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
+			%  <strong>10</strong> <strong>P_MAX</strong> 	P_MAX (parameter, scalar) is the maximum probability for simulating Watts–Strogatz models.
+			%  <strong>11</strong> <strong>P_MIN</strong> 	P_MIN (parameter, scalar) is the minimum probability for simulating Watts–Strogatz models.
+			%  <strong>12</strong> <strong>P</strong> 	P (parameter, rvector) is a vector of probability for simulating Watts–Strogatz models.
+			%  <strong>13</strong> <strong>D</strong> 	D (parameter, scalar) is a number of degree for a Watts–Strogatz model.
+			%  <strong>14</strong> <strong>N</strong> 	N (parameter, scalar) is a number of node for a Watts–Strogatz model.
+			%  <strong>15</strong> <strong>TIME_STEP</strong> 	TIME_STEP (parameter, scalar) is time_steps.
+			%  <strong>16</strong> <strong>N_SUB</strong> 	N_SUB (data, scalar) is a number of subject to be generated.
+			%  <strong>17</strong> <strong>DIRECTORY</strong> 	DIRECTORY (data, string) is the directory to export the FUN subject group files.
+			%  <strong>18</strong> <strong>GR_ID</strong> 	GR_ID (data, string) is the folder name to export the FUN subject group files.
+			%  <strong>19</strong> <strong>GRAPH_DATA</strong> 	GRAPH_DATA (result, cell) is the Small_World_Graph.
+			%  <strong>20</strong> <strong>SIM_DATA</strong> 	SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
+			%  <strong>21</strong> <strong>SIM_GR</strong> 	SIM_GR (result, item) is the group of subjectFUN for those simulated data.
+			%  <strong>22</strong> <strong>EXPORT_DATA</strong> 	EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
+			%  <strong>23</strong> <strong>EXPORT_BA</strong> 	EXPORT_BA (query, empty) exports a brain atlas to XLSX file.
 			%
 			% See also Category, Format.
 			
@@ -278,7 +306,7 @@ classdef DataSimulator < ConcreteElement
 			%CET: Computational Efficiency Trick
 			
 			if nargin == 0
-				prop_list = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19];
+				prop_list = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23];
 				return
 			end
 			
@@ -288,13 +316,13 @@ classdef DataSimulator < ConcreteElement
 				case 2 % Category.METADATA
 					prop_list = [6 7];
 				case 3 % Category.PARAMETER
-					prop_list = [4 9 10 11 12 13];
+					prop_list = [4 9 10 11 12 13 14 15];
 				case 4 % Category.DATA
-					prop_list = [5 14 15];
+					prop_list = [5 16 17 18];
 				case 5 % Category.RESULT
-					prop_list = [16 17 18];
+					prop_list = [19 20 21];
 				case 6 % Category.QUERY
-					prop_list = [8 19];
+					prop_list = [8 22 23];
 				otherwise
 					prop_list = [];
 			end
@@ -320,7 +348,7 @@ classdef DataSimulator < ConcreteElement
 			%CET: Computational Efficiency Trick
 			
 			if nargin == 0
-				prop_number = 19;
+				prop_number = 23;
 				return
 			end
 			
@@ -330,13 +358,13 @@ classdef DataSimulator < ConcreteElement
 				case 2 % Category.METADATA
 					prop_number = 2;
 				case 3 % Category.PARAMETER
-					prop_number = 6;
+					prop_number = 8;
 				case 4 % Category.DATA
-					prop_number = 3;
+					prop_number = 4;
 				case 5 % Category.RESULT
 					prop_number = 3;
 				case 6 % Category.QUERY
-					prop_number = 2;
+					prop_number = 3;
 				otherwise
 					prop_number = 0;
 			end
@@ -367,7 +395,7 @@ classdef DataSimulator < ConcreteElement
 			%
 			% See also getProps, existsTag.
 			
-			check = prop >= 1 && prop <= 19 && round(prop) == prop; %CET: Computational Efficiency Trick
+			check = prop >= 1 && prop <= 23 && round(prop) == prop; %CET: Computational Efficiency Trick
 			
 			if nargout == 1
 				check_out = check;
@@ -405,7 +433,7 @@ classdef DataSimulator < ConcreteElement
 			%
 			% See also getProps, existsTag.
 			
-			check = any(strcmp(tag, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'BA'  'P'  'D'  'N'  'TIME_STEP'  'N_SUB'  'DIRECTORY'  'GRAPH_DATA'  'SIM_DATA'  'SIM_GR'  'EXPORT_DATA' })); %CET: Computational Efficiency Trick
+			check = any(strcmp(tag, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'TIME_STEP'  'N_SUB'  'DIRECTORY'  'GR_ID'  'GRAPH_DATA'  'SIM_DATA'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA' })); %CET: Computational Efficiency Trick
 			
 			if nargout == 1
 				check_out = check;
@@ -438,7 +466,7 @@ classdef DataSimulator < ConcreteElement
 			%  getPropSettings, getPropDefault, checkProp.
 			
 			if ischar(pointer)
-				prop = find(strcmp(pointer, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'BA'  'P'  'D'  'N'  'TIME_STEP'  'N_SUB'  'DIRECTORY'  'GRAPH_DATA'  'SIM_DATA'  'SIM_GR'  'EXPORT_DATA' })); % tag = pointer %CET: Computational Efficiency Trick
+				prop = find(strcmp(pointer, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'TIME_STEP'  'N_SUB'  'DIRECTORY'  'GR_ID'  'GRAPH_DATA'  'SIM_DATA'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA' })); % tag = pointer %CET: Computational Efficiency Trick
 			else % numeric
 				prop = pointer;
 			end
@@ -467,7 +495,7 @@ classdef DataSimulator < ConcreteElement
 				tag = pointer;
 			else % numeric
 				%CET: Computational Efficiency Trick
-				datasimulator_tag_list = { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'BA'  'P'  'D'  'N'  'TIME_STEP'  'N_SUB'  'DIRECTORY'  'GRAPH_DATA'  'SIM_DATA'  'SIM_GR'  'EXPORT_DATA' };
+				datasimulator_tag_list = { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'TIME_STEP'  'N_SUB'  'DIRECTORY'  'GR_ID'  'GRAPH_DATA'  'SIM_DATA'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA' };
 				tag = datasimulator_tag_list{pointer}; % prop = pointer
 			end
 		end
@@ -494,7 +522,7 @@ classdef DataSimulator < ConcreteElement
 			prop = DataSimulator.getPropProp(pointer);
 			
 			%CET: Computational Efficiency Trick
-			datasimulator_category_list = { 1  1  1  3  4  2  2  6  3  3  3  3  3  4  4  5  5  5  6 };
+			datasimulator_category_list = { 1  1  1  3  4  2  2  6  3  3  3  3  3  3  3  4  4  4  5  5  5  6  6 };
 			prop_category = datasimulator_category_list{prop};
 		end
 		function prop_format = getPropFormat(pointer)
@@ -520,7 +548,7 @@ classdef DataSimulator < ConcreteElement
 			prop = DataSimulator.getPropProp(pointer);
 			
 			%CET: Computational Efficiency Trick
-			datasimulator_format_list = { 2  2  2  8  2  2  2  2  8  11  11  11  11  11  2  16  16  8  1 };
+			datasimulator_format_list = { 2  2  2  8  2  2  2  2  8  11  11  12  11  11  11  11  2  2  16  16  8  1  1 };
 			prop_format = datasimulator_format_list{prop};
 		end
 		function prop_description = getPropDescription(pointer)
@@ -546,7 +574,7 @@ classdef DataSimulator < ConcreteElement
 			prop = DataSimulator.getPropProp(pointer);
 			
 			%CET: Computational Efficiency Trick
-			datasimulator_description_list = { 'ELCLASS (constant, string) is the class of the data simulator.'  'NAME (constant, string) is the name of the data simulator.'  'DESCRIPTION (constant, string) is the description of the data simulator.'  'TEMPLATE (parameter, item) is the template of the data simulator.'  'ID (data, string) is a few-letter code for the data simulator.'  'LABEL (metadata, string) is an extended label of data simulator.'  'NOTES (metadata, string) are some specific notes about the data simulator.'  'TOSTRING (query, string) returns a string that represents the concrete element.'  'BA (parameter, item) is a brain atlas.'  'P (parameter, scalar) is a number of probability for a Watts–Strogatz model.'  'D (parameter, scalar) is a number of degree for a Watts–Strogatz model.'  'N (parameter, scalar) is a number of node for a Watts–Strogatz model.'  'TIME_STEP (parameter, scalar) is time_steps.'  'N_SUB (data, scalar) is a number of subject to be generated.'  'DIRECTORY (data, string) is the directory to export the FUN subject group files.'  'GRAPH_DATA (result, cell) is the Small_World_Graph.'  'SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.'  'SIM_GR (result, item) is the group of subjectFUN for those simulated data.'  'EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.' };
+			datasimulator_description_list = { 'ELCLASS (constant, string) is the class of the data simulator.'  'NAME (constant, string) is the name of the data simulator.'  'DESCRIPTION (constant, string) is the description of the data simulator.'  'TEMPLATE (parameter, item) is the template of the data simulator.'  'ID (data, string) is a few-letter code for the data simulator.'  'LABEL (metadata, string) is an extended label of data simulator.'  'NOTES (metadata, string) are some specific notes about the data simulator.'  'TOSTRING (query, string) returns a string that represents the concrete element.'  'BA (parameter, item) is a brain atlas.'  'P_MAX (parameter, scalar) is the maximum probability for simulating Watts–Strogatz models.'  'P_MIN (parameter, scalar) is the minimum probability for simulating Watts–Strogatz models.'  'P (parameter, rvector) is a vector of probability for simulating Watts–Strogatz models.'  'D (parameter, scalar) is a number of degree for a Watts–Strogatz model.'  'N (parameter, scalar) is a number of node for a Watts–Strogatz model.'  'TIME_STEP (parameter, scalar) is time_steps.'  'N_SUB (data, scalar) is a number of subject to be generated.'  'DIRECTORY (data, string) is the directory to export the FUN subject group files.'  'GR_ID (data, string) is the folder name to export the FUN subject group files.'  'GRAPH_DATA (result, cell) is the Small_World_Graph.'  'SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.'  'SIM_GR (result, item) is the group of subjectFUN for those simulated data.'  'EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.'  'EXPORT_BA (query, empty) exports a brain atlas to XLSX file.' };
 			prop_description = datasimulator_description_list{prop};
 		end
 		function prop_settings = getPropSettings(pointer)
@@ -574,25 +602,33 @@ classdef DataSimulator < ConcreteElement
 			switch prop %CET: Computational Efficiency Trick
 				case 9 % DataSimulator.BA
 					prop_settings = 'BrainAtlas';
-				case 10 % DataSimulator.P
+				case 10 % DataSimulator.P_MAX
 					prop_settings = Format.getFormatSettings(11);
-				case 11 % DataSimulator.D
+				case 11 % DataSimulator.P_MIN
 					prop_settings = Format.getFormatSettings(11);
-				case 12 % DataSimulator.N
+				case 12 % DataSimulator.P
+					prop_settings = Format.getFormatSettings(12);
+				case 13 % DataSimulator.D
 					prop_settings = Format.getFormatSettings(11);
-				case 13 % DataSimulator.TIME_STEP
+				case 14 % DataSimulator.N
 					prop_settings = Format.getFormatSettings(11);
-				case 14 % DataSimulator.N_SUB
+				case 15 % DataSimulator.TIME_STEP
 					prop_settings = Format.getFormatSettings(11);
-				case 15 % DataSimulator.DIRECTORY
+				case 16 % DataSimulator.N_SUB
+					prop_settings = Format.getFormatSettings(11);
+				case 17 % DataSimulator.DIRECTORY
 					prop_settings = Format.getFormatSettings(2);
-				case 16 % DataSimulator.GRAPH_DATA
+				case 18 % DataSimulator.GR_ID
+					prop_settings = Format.getFormatSettings(2);
+				case 19 % DataSimulator.GRAPH_DATA
 					prop_settings = Format.getFormatSettings(16);
-				case 17 % DataSimulator.SIM_DATA
+				case 20 % DataSimulator.SIM_DATA
 					prop_settings = Format.getFormatSettings(16);
-				case 18 % DataSimulator.SIM_GR
+				case 21 % DataSimulator.SIM_GR
 					prop_settings = 'Group';
-				case 19 % DataSimulator.EXPORT_DATA
+				case 22 % DataSimulator.EXPORT_DATA
+					prop_settings = Format.getFormatSettings(1);
+				case 23 % DataSimulator.EXPORT_BA
 					prop_settings = Format.getFormatSettings(1);
 				case 4 % DataSimulator.TEMPLATE
 					prop_settings = 'DataSimulator';
@@ -625,25 +661,33 @@ classdef DataSimulator < ConcreteElement
 			switch prop %CET: Computational Efficiency Trick
 				case 9 % DataSimulator.BA
 					prop_default = Format.getFormatDefault(8, DataSimulator.getPropSettings(prop));
-				case 10 % DataSimulator.P
-					prop_default = 0.2;
-				case 11 % DataSimulator.D
+				case 10 % DataSimulator.P_MAX
+					prop_default = 1;
+				case 11 % DataSimulator.P_MIN
+					prop_default = 0;
+				case 12 % DataSimulator.P
+					prop_default = 1:1:10;
+				case 13 % DataSimulator.D
 					prop_default = 4;
-				case 12 % DataSimulator.N
+				case 14 % DataSimulator.N
 					prop_default = 68;
-				case 13 % DataSimulator.TIME_STEP
+				case 15 % DataSimulator.TIME_STEP
 					prop_default = 100;
-				case 14 % DataSimulator.N_SUB
+				case 16 % DataSimulator.N_SUB
 					prop_default = 10;
-				case 15 % DataSimulator.DIRECTORY
+				case 17 % DataSimulator.DIRECTORY
 					prop_default = fileparts(which('BRAPH2.LAUNCHER'));
-				case 16 % DataSimulator.GRAPH_DATA
+				case 18 % DataSimulator.GR_ID
+					prop_default = 'SIM_GR';
+				case 19 % DataSimulator.GRAPH_DATA
 					prop_default = Format.getFormatDefault(16, DataSimulator.getPropSettings(prop));
-				case 17 % DataSimulator.SIM_DATA
+				case 20 % DataSimulator.SIM_DATA
 					prop_default = Format.getFormatDefault(16, DataSimulator.getPropSettings(prop));
-				case 18 % DataSimulator.SIM_GR
+				case 21 % DataSimulator.SIM_GR
 					prop_default = Format.getFormatDefault(8, DataSimulator.getPropSettings(prop));
-				case 19 % DataSimulator.EXPORT_DATA
+				case 22 % DataSimulator.EXPORT_DATA
+					prop_default = Format.getFormatDefault(1, DataSimulator.getPropSettings(prop));
+				case 23 % DataSimulator.EXPORT_BA
 					prop_default = Format.getFormatDefault(1, DataSimulator.getPropSettings(prop));
 				case 1 % DataSimulator.ELCLASS
 					prop_default = 'DataSimulator';
@@ -723,25 +767,33 @@ classdef DataSimulator < ConcreteElement
 			switch prop
 				case 9 % DataSimulator.BA
 					check = Format.checkFormat(8, value, DataSimulator.getPropSettings(prop));
-				case 10 % DataSimulator.P
+				case 10 % DataSimulator.P_MAX
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case 11 % DataSimulator.D
+				case 11 % DataSimulator.P_MIN
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case 12 % DataSimulator.N
+				case 12 % DataSimulator.P
+					check = Format.checkFormat(12, value, DataSimulator.getPropSettings(prop));
+				case 13 % DataSimulator.D
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case 13 % DataSimulator.TIME_STEP
+				case 14 % DataSimulator.N
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case 14 % DataSimulator.N_SUB
+				case 15 % DataSimulator.TIME_STEP
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case 15 % DataSimulator.DIRECTORY
+				case 16 % DataSimulator.N_SUB
+					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
+				case 17 % DataSimulator.DIRECTORY
 					check = Format.checkFormat(2, value, DataSimulator.getPropSettings(prop));
-				case 16 % DataSimulator.GRAPH_DATA
+				case 18 % DataSimulator.GR_ID
+					check = Format.checkFormat(2, value, DataSimulator.getPropSettings(prop));
+				case 19 % DataSimulator.GRAPH_DATA
 					check = Format.checkFormat(16, value, DataSimulator.getPropSettings(prop));
-				case 17 % DataSimulator.SIM_DATA
+				case 20 % DataSimulator.SIM_DATA
 					check = Format.checkFormat(16, value, DataSimulator.getPropSettings(prop));
-				case 18 % DataSimulator.SIM_GR
+				case 21 % DataSimulator.SIM_GR
 					check = Format.checkFormat(8, value, DataSimulator.getPropSettings(prop));
-				case 19 % DataSimulator.EXPORT_DATA
+				case 22 % DataSimulator.EXPORT_DATA
+					check = Format.checkFormat(1, value, DataSimulator.getPropSettings(prop));
+				case 23 % DataSimulator.EXPORT_BA
 					check = Format.checkFormat(1, value, DataSimulator.getPropSettings(prop));
 				case 4 % DataSimulator.TEMPLATE
 					check = Format.checkFormat(8, value, DataSimulator.getPropSettings(prop));
@@ -783,12 +835,12 @@ classdef DataSimulator < ConcreteElement
 					    brain_regions = cell(1, n);
 					    for i = 1:n
 					        brain_regions{i} = BrainRegion( ...
-					            'ID', ['BR' num2str(i)], ... % 随机取ID，这里用编号
-					            'LABEL', ['Region' num2str(i)], ... % 随机取LABEL，这里用编号
-					            'NOTES', ['notes' num2str(i)], ... % NOTE 按照对应n的数字起名字
-					            'X', rand()*100 - 50, ... % X 坐标在[-50, 50] 之间随机取值
-					            'Y', rand()*100 - 50, ... % Y 坐标在[-50, 50] 之间随机取值
-					            'Z', rand()*100 - 50 ... % Z 坐标在[-50, 50] 之间随机取值
+					            'ID', ['BR' num2str(i)], ... % Randomize ID, here use the number
+					            'LABEL', ['Region' num2str(i)], ... % random LABEL, index number
+					            'NOTES', ['notes' num2str(i)], ... % NOTE names according to the number corresponding to n
+					            'X', rand()*100 - 50, ... % X [-50, 50] 
+					            'Y', rand()*100 - 50, ... % Y [-50, 50] 
+					            'Z', rand()*100 - 50 ... % Z [-50, 50] 
 					            );
 					    end
 					
@@ -800,6 +852,20 @@ classdef DataSimulator < ConcreteElement
 					        'BR_DICT', IndexedDictionary('IT_CLASS', 'BrainRegion', 'IT_LIST', brain_regions) ...
 					        );
 					    dsim.set('BA', ba);
+					end
+					
+				case 12 % DataSimulator.P
+					n_sub = dsim.get('N_SUB');
+					p = dsim.get('P');
+					if ~isequal(length(p), n_sub)     % not sure, yuxin check
+					    p_min = dsim.get('P_MIN');
+					    p_max = dsim.get('P_MAX');
+					    step = (p_max - p_min) / (n_sub - 1);
+					    if step == 0
+					        dsim.set('P', p_max*ones(1, n_sub));
+					    else
+					        dsim.set('P', p_min:step:p_max);
+					    end
 					end
 					
 				otherwise
@@ -826,74 +892,70 @@ classdef DataSimulator < ConcreteElement
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case 16 % DataSimulator.GRAPH_DATA
-					rng_settings_ = rng(); rng(dsim.getPropSeed(16), 'twister')
+				case 19 % DataSimulator.GRAPH_DATA
+					rng_settings_ = rng(); rng(dsim.getPropSeed(19), 'twister')
 					
-					% Get parameters %%%YUXIN
-					n = dsim.get('N'); % Number of nodes in the network
-					d = dsim.get('D'); % Number of nearest neighbor connections per node (must be even)
-					p = dsim.get('P'); % Probability of rewiring edges
-					time_step = dsim.get('TIME_STEP'); % time_steps
-					n_sub = dsim.get('N_SUB'); % Number of samples
+					% 获取参数
+					n = dsim.get('N'); 
+					d = dsim.get('D'); 
+					p_list = dsim.get('P');
+					n_sub = dsim.get('N_SUB'); % the number of samples
+					% initialize the cell array with a random ID, in this case a number.
+					graph_data = cell(1, n_sub);
 					
-					% Initialize a cell array to store multiple samples
-					sim_data = cell(1, n_sub);
-					
-					% Generate N_SUB sets of data
+					% generate networks with different p
 					for sub = 1:n_sub
-					    % 1. Generate adjacency matrix G using the Watts-Strogatz model
-					    G = zeros(n); % Create an n x n zero matrix
-					    half_d = d / 2; % Number of nearest neighbors each node connects to
+					    p_sub = p_list(sub);  % Take the current sample of p
+					    G = zeros(n); % create n x n null adjacency matrix
+					    half_d = d / 2; % nearest neighbor connection number
 					
-					    % 2. Connect nearest neighbors (ring structure)
+					    % 1. First generate a regular ring structure
 					    for i = 1:n
 					        for j = 1:half_d
-					            neighbor = mod(i + j - 1, n) + 1; % Compute the neighboring node
-					            G(i, neighbor) = 1; % Connect i and neighbor
-					            G(neighbor, i) = 1; % Ensure the adjacency matrix is symmetric
+					            neighbor = mod(i + j - 1, n) + 1;
+					            G(i, neighbor) = 1;
+					            G(neighbor, i) = 1;
 					        end
 					    end
 					
-					    % 3. Perform random rewiring
+					    % 2. Perform reconnection operation (make sure p takes effect)
 					    for i = 1:n
 					        for j = 1:half_d
-					            if rand < p
-					                % Disconnect the original connection
+					            if rand < p_sub  % Reconnect with probability p_sub
 					                neighbor = mod(i + j - 1, n) + 1;
 					                G(i, neighbor) = 0;
 					                G(neighbor, i) = 0;
 					
-					                % Select a new node for connection
 					                new_neighbor = i;
 					                while new_neighbor == i || G(i, new_neighbor) == 1
-					                    new_neighbor = randi(n); % Generate a new random neighbor
+					                    new_neighbor = randi(n); % Randomly select a new node
 					                end
-					                G(i, new_neighbor) = 1; % Connect to the new neighbor
+					                G(i, new_neighbor) = 1;
 					                G(new_neighbor, i) = 1;
 					            end
 					        end
 					    end
-					    graph_data{sub} = G;
+					
+					    graph_data{sub} = G; % Stores the graph generated by the current p_sub
 					end
 					
-					% 8. 返回所有生成的数据
 					value = graph_data;
 					
 					rng(rng_settings_)
 					
-				case 17 % DataSimulator.SIM_DATA
-					rng_settings_ = rng(); rng(dsim.getPropSeed(17), 'twister')
+				case 20 % DataSimulator.SIM_DATA
+					rng_settings_ = rng(); rng(dsim.getPropSeed(20), 'twister')
 					
-					% Get parameters  %%%YUXIN
+					% Get parameters
 					n_sub = dsim.get('N_SUB'); % Number of samples
 					n = dsim.get('N'); % Number of nodes in the network
-					time_step = dsim.get('TIME_STEP'); % <-- 这里添加获取时间步长变量
-					graph_data = dsim.get('GRAPH_DATA');% 获取 cell 数组
+					time_step = dsim.get('TIME_STEP'); % Time step variable
+					graph_data = dsim.get('GRAPH_DATA');% Get cell array, small world matrix
 					
 					% Generate N_SUB sets of data
 					for sub = 1:n_sub
 					
-					    graph_data_cell = graph_data{sub}; % 取出当前 subject 的邻接矩阵
+					    graph_data_cell = graph_data{sub}; % get the adjacency matrix of the current subject
 					
 					    % 4. Compute a positive definite covariance matrix (ensure usability)
 					    graph_data_cell(1:n+1:end) = 1; % Set diagonal elements to 1 to prevent non-positive definiteness
@@ -912,78 +974,21 @@ classdef DataSimulator < ConcreteElement
 					    sim_data{sub} = R;
 					end
 					
-					% 8. 返回所有生成的数据
+					% 8. Returns all generated data
 					value = sim_data;
 					
 					rng(rng_settings_)
 					
-				case 18 % DataSimulator.SIM_GR
-					rng_settings_ = rng(); rng(dsim.getPropSeed(18), 'twister')
-					
-					%%%YUXIN
-					
-					% for i = 1:n_sub
-					%     sim_data{i} = dsim.get('SIM_DATA');
-					% end
+				case 21 % DataSimulator.SIM_GR
+					rng_settings_ = rng(); rng(dsim.getPropSeed(21), 'twister')
 					
 					sim_data = dsim.get('SIM_DATA');
 					n_sub = dsim.get('N_SUB');
 					p = dsim.get('P');
 					
 					% Generate n BrainRegion instances
-					n = dsim.get('N')% 获取节点数
+					n = dsim.get('N')
 					
-					
-					
-					% % create dummy ba
-					% br1 = BrainRegion( ...
-					%     'ID', 'ISF', ...
-					%     'LABEL', 'superiorfrontal', ...
-					%     'NOTES', 'notes1', ...
-					%     'X', -12.6, ...
-					%     'Y', 22.9, ...
-					%     'Z', 42.4 ...
-					%     );
-					% br2 = BrainRegion( ...
-					%     'ID', 'lFP', ...
-					%     'LABEL', 'frontalpole', ...
-					%     'NOTES', 'notes2', ...
-					%     'X', -8.6, ...
-					%     'Y', 61.7, ...
-					%     'Z', -8.7 ...
-					%     );
-					% br3 = BrainRegion( ...
-					%     'ID', 'lRMF', ...
-					%     'LABEL', 'rostralmiddlefrontal', ...
-					%     'NOTES', 'notes3', ...
-					%     'X', -31.3, ...
-					%     'Y', 41.2, ...
-					%     'Z', 16.5 ...
-					%     );
-					% br4 = BrainRegion( ...
-					%     'ID', 'lCMF', ...
-					%     'LABEL', 'caudalmiddlefrontal', ...
-					%     'NOTES', 'notes4', ...
-					%     'X', -34.6, ...
-					%     'Y', 10.2, ...
-					%     'Z', 42.8 ...
-					%     );
-					% br5 = BrainRegion( ...
-					%     'ID', 'lPOB', ...
-					%     'LABEL', 'parsorbitalis', ...
-					%     'NOTES', 'notes5', ...
-					%     'X', -41, ...
-					%     'Y', 38.8, ...
-					%     'Z', -11.1 ...
-					%     );
-					% 
-					% ba = BrainAtlas( ...
-					%     'ID', 'TestToSaveCoolID', ...
-					%     'LABEL', 'Brain Atlas', ...
-					%     'NOTES', 'Brain atlas notes', ...
-					%     'BR_DICT', IndexedDictionary('IT_CLASS', 'BrainRegion', 'IT_LIST', {br1, br2, br3, br4, br5}) ...
-					%     );
-					% 
 					ba = dsim.get('BA');
 					
 					
@@ -995,11 +1000,11 @@ classdef DataSimulator < ConcreteElement
 					        'BA', ba, ...
 					        'FUN', sim_data{i} ...
 					        );
-					    subs{i}.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p))
+					    subs{i}.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(i)))
 					end
 					
 					value = Group( ...
-					    'ID', 'GR FUN', ...
+					    'ID', dsim.get('GR_ID'), ...
 					    'LABEL', 'Group label', ...
 					    'NOTES', 'Group notes', ...
 					    'SUB_CLASS', 'SubjectFUN', ...
@@ -1008,8 +1013,7 @@ classdef DataSimulator < ConcreteElement
 					
 					rng(rng_settings_)
 					
-				case 19 % DataSimulator.EXPORT_DATA
-					%%%YUXIN
+				case 22 % DataSimulator.EXPORT_DATA
 					directory = dsim.get('DIRECTORY');
 					if ~exist(directory, 'dir')
 					    mkdir(directory)
@@ -1022,6 +1026,15 @@ classdef DataSimulator < ConcreteElement
 					    );
 					ex.get('SAVE');
 					
+					value = {};
+					
+				case 23 % DataSimulator.EXPORT_BA
+					%%%YUXIN
+					directory = dsim.get('DIRECTORY');
+					if ~exist(directory, 'dir')
+					    mkdir(directory)
+					end
+					
 					ba = dsim.get('BA');
 					file = [directory filesep 'atlas.xlsx'];
 					ex = ExporterBrainAtlasXLS( ...
@@ -1029,9 +1042,7 @@ classdef DataSimulator < ConcreteElement
 					    'BA', ba ...
 					    );
 					ex.get('SAVE');
-					
-					
-					value={};
+					value = {};
 					
 				otherwise
 					if prop <= 8

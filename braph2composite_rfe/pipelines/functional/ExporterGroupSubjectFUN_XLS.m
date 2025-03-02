@@ -537,13 +537,13 @@ classdef ExporterGroupSubjectFUN_XLS < Exporter
 			prop = ExporterGroupSubjectFUN_XLS.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case ExporterGroupSubjectFUN_XLS.GR % __ExporterGroupSubjectFUN_XLS.GR__
+				case 10 % ExporterGroupSubjectFUN_XLS.GR
 					prop_settings = 'Group';
-				case ExporterGroupSubjectFUN_XLS.DIRECTORY % __ExporterGroupSubjectFUN_XLS.DIRECTORY__
+				case 11 % ExporterGroupSubjectFUN_XLS.DIRECTORY
 					prop_settings = Format.getFormatSettings(2);
-				case ExporterGroupSubjectFUN_XLS.PUT_DIR % __ExporterGroupSubjectFUN_XLS.PUT_DIR__
+				case 12 % ExporterGroupSubjectFUN_XLS.PUT_DIR
 					prop_settings = 'ExporterGroupSubjectFUN_XLS';
-				case ExporterGroupSubjectFUN_XLS.SAVE % __ExporterGroupSubjectFUN_XLS.SAVE__
+				case 13 % ExporterGroupSubjectFUN_XLS.SAVE
 					prop_settings = Format.getFormatSettings(1);
 				otherwise
 					prop_settings = getPropSettings@Exporter(prop);
@@ -572,25 +572,25 @@ classdef ExporterGroupSubjectFUN_XLS < Exporter
 			prop = ExporterGroupSubjectFUN_XLS.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case ExporterGroupSubjectFUN_XLS.GR % __ExporterGroupSubjectFUN_XLS.GR__
+				case 10 % ExporterGroupSubjectFUN_XLS.GR
 					prop_default = Group('SUB_CLASS', 'SubjectFUN', 'SUB_DICT', IndexedDictionary('IT_CLASS', 'SubjectFUN'));
-				case ExporterGroupSubjectFUN_XLS.DIRECTORY % __ExporterGroupSubjectFUN_XLS.DIRECTORY__
+				case 11 % ExporterGroupSubjectFUN_XLS.DIRECTORY
 					prop_default = [fileparts(which('test_braph2')) filesep 'default_group_subjects_FUN_most_likely_to_be_erased'];
-				case ExporterGroupSubjectFUN_XLS.PUT_DIR % __ExporterGroupSubjectFUN_XLS.PUT_DIR__
+				case 12 % ExporterGroupSubjectFUN_XLS.PUT_DIR
 					prop_default = Format.getFormatDefault(8, ExporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_XLS.SAVE % __ExporterGroupSubjectFUN_XLS.SAVE__
+				case 13 % ExporterGroupSubjectFUN_XLS.SAVE
 					prop_default = Format.getFormatDefault(1, ExporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_XLS.ELCLASS % __ExporterGroupSubjectFUN_XLS.ELCLASS__
+				case 1 % ExporterGroupSubjectFUN_XLS.ELCLASS
 					prop_default = 'ExporterGroupSubjectFUN_XLS';
-				case ExporterGroupSubjectFUN_XLS.NAME % __ExporterGroupSubjectFUN_XLS.NAME__
+				case 2 % ExporterGroupSubjectFUN_XLS.NAME
 					prop_default = 'Functional Subject Group XLS Exporter';
-				case ExporterGroupSubjectFUN_XLS.DESCRIPTION % __ExporterGroupSubjectFUN_XLS.DESCRIPTION__
+				case 3 % ExporterGroupSubjectFUN_XLS.DESCRIPTION
 					prop_default = 'ExporterGroupSubjectFUN_XLS exports a group of subjects with functional data to a series of XLSX files. The variables of interest (if existing) are saved in another XLSX file.';
-				case ExporterGroupSubjectFUN_XLS.ID % __ExporterGroupSubjectFUN_XLS.ID__
+				case 5 % ExporterGroupSubjectFUN_XLS.ID
 					prop_default = 'ExporterGroupSubjectFUN_XLS ID';
-				case ExporterGroupSubjectFUN_XLS.LABEL % __ExporterGroupSubjectFUN_XLS.LABEL__
+				case 6 % ExporterGroupSubjectFUN_XLS.LABEL
 					prop_default = 'ExporterGroupSubjectFUN_XLS label';
-				case ExporterGroupSubjectFUN_XLS.NOTES % __ExporterGroupSubjectFUN_XLS.NOTES__
+				case 7 % ExporterGroupSubjectFUN_XLS.NOTES
 					prop_default = 'ExporterGroupSubjectFUN_XLS notes';
 				otherwise
 					prop_default = getPropDefault@Exporter(prop);
@@ -656,16 +656,16 @@ classdef ExporterGroupSubjectFUN_XLS < Exporter
 			prop = ExporterGroupSubjectFUN_XLS.getPropProp(pointer);
 			
 			switch prop
-				case ExporterGroupSubjectFUN_XLS.GR % __ExporterGroupSubjectFUN_XLS.GR__
+				case 10 % ExporterGroupSubjectFUN_XLS.GR
 					check = Format.checkFormat(8, value, ExporterGroupSubjectFUN_XLS.getPropSettings(prop));
 					if check
 						check = any(strcmp(value.get('SUB_CLASS'), subclasses('SubjectFUN', [], [], true))); % Format.checkFormat(8, value) already checked
 					end
-				case ExporterGroupSubjectFUN_XLS.DIRECTORY % __ExporterGroupSubjectFUN_XLS.DIRECTORY__
+				case 11 % ExporterGroupSubjectFUN_XLS.DIRECTORY
 					check = Format.checkFormat(2, value, ExporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_XLS.PUT_DIR % __ExporterGroupSubjectFUN_XLS.PUT_DIR__
+				case 12 % ExporterGroupSubjectFUN_XLS.PUT_DIR
 					check = Format.checkFormat(8, value, ExporterGroupSubjectFUN_XLS.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_XLS.SAVE % __ExporterGroupSubjectFUN_XLS.SAVE__
+				case 13 % ExporterGroupSubjectFUN_XLS.SAVE
 					check = Format.checkFormat(1, value, ExporterGroupSubjectFUN_XLS.getPropSettings(prop));
 				otherwise
 					if prop <= 9
@@ -701,15 +701,15 @@ classdef ExporterGroupSubjectFUN_XLS < Exporter
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case ExporterGroupSubjectFUN_XLS.PUT_DIR % __ExporterGroupSubjectFUN_XLS.PUT_DIR__
+				case 12 % ExporterGroupSubjectFUN_XLS.PUT_DIR
 					directory = uigetdir('Select directory');
 					if ischar(directory) && isfolder(directory)
 						ex.set('DIRECTORY', directory);
 					end
 					value = ex;
 					
-				case ExporterGroupSubjectFUN_XLS.SAVE % __ExporterGroupSubjectFUN_XLS.SAVE__
-					rng_settings_ = rng(); rng(ex.getPropSeed(ExporterGroupSubjectFUN_XLS.SAVE), 'twister')
+				case 13 % ExporterGroupSubjectFUN_XLS.SAVE
+					rng_settings_ = rng(); rng(ex.getPropSeed(13), 'twister')
 					
 					directory = ex.get('DIRECTORY');
 					

@@ -538,13 +538,13 @@ classdef ExporterGroupSubjectFUN_TXT < Exporter
 			prop = ExporterGroupSubjectFUN_TXT.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case ExporterGroupSubjectFUN_TXT.GR % __ExporterGroupSubjectFUN_TXT.GR__
+				case 10 % ExporterGroupSubjectFUN_TXT.GR
 					prop_settings = 'Group';
-				case ExporterGroupSubjectFUN_TXT.DIRECTORY % __ExporterGroupSubjectFUN_TXT.DIRECTORY__
+				case 11 % ExporterGroupSubjectFUN_TXT.DIRECTORY
 					prop_settings = Format.getFormatSettings(2);
-				case ExporterGroupSubjectFUN_TXT.PUT_DIR % __ExporterGroupSubjectFUN_TXT.PUT_DIR__
+				case 12 % ExporterGroupSubjectFUN_TXT.PUT_DIR
 					prop_settings = 'ExporterGroupSubjectFUN_TXT';
-				case ExporterGroupSubjectFUN_TXT.SAVE % __ExporterGroupSubjectFUN_TXT.SAVE__
+				case 13 % ExporterGroupSubjectFUN_TXT.SAVE
 					prop_settings = Format.getFormatSettings(1);
 				otherwise
 					prop_settings = getPropSettings@Exporter(prop);
@@ -573,25 +573,25 @@ classdef ExporterGroupSubjectFUN_TXT < Exporter
 			prop = ExporterGroupSubjectFUN_TXT.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case ExporterGroupSubjectFUN_TXT.GR % __ExporterGroupSubjectFUN_TXT.GR__
+				case 10 % ExporterGroupSubjectFUN_TXT.GR
 					prop_default = Group('SUB_CLASS', 'SubjectFUN', 'SUB_DICT', IndexedDictionary('IT_CLASS', 'SubjectFUN'));
-				case ExporterGroupSubjectFUN_TXT.DIRECTORY % __ExporterGroupSubjectFUN_TXT.DIRECTORY__
+				case 11 % ExporterGroupSubjectFUN_TXT.DIRECTORY
 					prop_default = [fileparts(which('test_braph2')) filesep 'default_group_subjects_FUN_most_likely_to_be_erased'];
-				case ExporterGroupSubjectFUN_TXT.PUT_DIR % __ExporterGroupSubjectFUN_TXT.PUT_DIR__
+				case 12 % ExporterGroupSubjectFUN_TXT.PUT_DIR
 					prop_default = Format.getFormatDefault(8, ExporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_TXT.SAVE % __ExporterGroupSubjectFUN_TXT.SAVE__
+				case 13 % ExporterGroupSubjectFUN_TXT.SAVE
 					prop_default = Format.getFormatDefault(1, ExporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_TXT.ELCLASS % __ExporterGroupSubjectFUN_TXT.ELCLASS__
+				case 1 % ExporterGroupSubjectFUN_TXT.ELCLASS
 					prop_default = 'ExporterGroupSubjectFUN_TXT';
-				case ExporterGroupSubjectFUN_TXT.NAME % __ExporterGroupSubjectFUN_TXT.NAME__
+				case 2 % ExporterGroupSubjectFUN_TXT.NAME
 					prop_default = 'Functional Subject Group TXT Exporter';
-				case ExporterGroupSubjectFUN_TXT.DESCRIPTION % __ExporterGroupSubjectFUN_TXT.DESCRIPTION__
+				case 3 % ExporterGroupSubjectFUN_TXT.DESCRIPTION
 					prop_default = 'ExporterGroupSubjectFUN_TXT exports a group of subjects with functional data to a series of TXT file and their covariates age and sex (if existing) to another TXT file.';
-				case ExporterGroupSubjectFUN_TXT.ID % __ExporterGroupSubjectFUN_TXT.ID__
+				case 5 % ExporterGroupSubjectFUN_TXT.ID
 					prop_default = 'ExporterGroupSubjectFUN_TXT ID';
-				case ExporterGroupSubjectFUN_TXT.LABEL % __ExporterGroupSubjectFUN_TXT.LABEL__
+				case 6 % ExporterGroupSubjectFUN_TXT.LABEL
 					prop_default = 'ExporterGroupSubjectFUN_TXT label';
-				case ExporterGroupSubjectFUN_TXT.NOTES % __ExporterGroupSubjectFUN_TXT.NOTES__
+				case 7 % ExporterGroupSubjectFUN_TXT.NOTES
 					prop_default = 'ExporterGroupSubjectFUN_TXT notes';
 				otherwise
 					prop_default = getPropDefault@Exporter(prop);
@@ -657,13 +657,13 @@ classdef ExporterGroupSubjectFUN_TXT < Exporter
 			prop = ExporterGroupSubjectFUN_TXT.getPropProp(pointer);
 			
 			switch prop
-				case ExporterGroupSubjectFUN_TXT.GR % __ExporterGroupSubjectFUN_TXT.GR__
+				case 10 % ExporterGroupSubjectFUN_TXT.GR
 					check = Format.checkFormat(8, value, ExporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_TXT.DIRECTORY % __ExporterGroupSubjectFUN_TXT.DIRECTORY__
+				case 11 % ExporterGroupSubjectFUN_TXT.DIRECTORY
 					check = Format.checkFormat(2, value, ExporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_TXT.PUT_DIR % __ExporterGroupSubjectFUN_TXT.PUT_DIR__
+				case 12 % ExporterGroupSubjectFUN_TXT.PUT_DIR
 					check = Format.checkFormat(8, value, ExporterGroupSubjectFUN_TXT.getPropSettings(prop));
-				case ExporterGroupSubjectFUN_TXT.SAVE % __ExporterGroupSubjectFUN_TXT.SAVE__
+				case 13 % ExporterGroupSubjectFUN_TXT.SAVE
 					check = Format.checkFormat(1, value, ExporterGroupSubjectFUN_TXT.getPropSettings(prop));
 				otherwise
 					if prop <= 9
@@ -699,15 +699,15 @@ classdef ExporterGroupSubjectFUN_TXT < Exporter
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case ExporterGroupSubjectFUN_TXT.PUT_DIR % __ExporterGroupSubjectFUN_TXT.PUT_DIR__
+				case 12 % ExporterGroupSubjectFUN_TXT.PUT_DIR
 					directory = uigetdir('Select directory');
 					if ischar(directory) && isfolder(directory)
 					    ex.set('DIRECTORY', directory);
 					end
 					value = ex;
 					
-				case ExporterGroupSubjectFUN_TXT.SAVE % __ExporterGroupSubjectFUN_TXT.SAVE__
-					rng_settings_ = rng(); rng(ex.getPropSeed(ExporterGroupSubjectFUN_TXT.SAVE), 'twister')
+				case 13 % ExporterGroupSubjectFUN_TXT.SAVE
+					rng_settings_ = rng(); rng(ex.getPropSeed(13), 'twister')
 					
 					directory = ex.get('DIRECTORY');
 					
@@ -805,7 +805,7 @@ classdef ExporterGroupSubjectFUN_TXT < Exporter
 			msg = ['Error while checking ' tostring(ex) ' ' ex.getPropTag(prop) '.'];
 			
 			switch prop
-				case ExporterGroupSubjectFUN_TXT.GR % __ExporterGroupSubjectFUN_TXT.GR__
+				case 10 % ExporterGroupSubjectFUN_TXT.GR
 					check = any(strcmp(value.get('SUB_CLASS'), subclasses('SubjectFUN', [], [], true))); % Format.checkFormat(8, value) already checked
 					
 				otherwise
