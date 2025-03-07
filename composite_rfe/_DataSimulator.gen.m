@@ -10,6 +10,134 @@ create_data_NN_CLA_FUN_XLS
 %%% ¡build!
 1
 
+%% ¡layout!
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.ID
+%%%% ¡title!
+Data Simulator ID
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.LABEL
+%%%% ¡title!
+Data Simulator LABEL
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.WAITBAR
+%%%% ¡title!
+WAITBAR ON/OFF
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.BA
+%%%% ¡title!
+Brain Atlas
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.P_MAX
+%%%% ¡title!
+Maximum Rewiring Probability
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.P_MIN
+%%%% ¡title!
+Minimum Rewiring Probability
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.P
+%%%% ¡title!
+Probabilities
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.D
+%%%% ¡title!
+Network Degree
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.N
+%%%% ¡title!
+Network Node Number
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.EFF_NODES
+%%%% ¡title!
+Effective Nodes
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.TIME_STEP
+%%%% ¡title!
+Simulated Time Step
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.N_SUB
+%%%% ¡title!
+Number Simulated Subjects
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.SIM_DIRECTORY
+%%%% ¡title!
+Exporting Directory
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.SIM_GR_ID
+%%%% ¡title!
+Exporting Folder Name
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.SIM_G_DICT
+%%%% ¡title!
+Simulated G DICT
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.SIM_GR
+%%%% ¡title!
+Simulated Group
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.EXPORT_DATA
+%%%% ¡title!
+EXPORT Simulated Data
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.EXPORT_BA
+%%%% ¡title!
+EXPORT Brain Atlas
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.PLOT_GRAPH
+%%%% ¡title!
+Plot Graph
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.PLOT_CLUSTERING
+%%%% ¡title!
+Plot Clustering
+
+%%% ¡prop!
+%%%% ¡id!
+DataSimulator.NOTES
+%%%% ¡title!
+Data Simulator NOTES
+
 %% ¡props_update!
 
 %%% ¡prop!
@@ -49,6 +177,11 @@ NOTES (metadata, string) are some specific notes about the data simulator.
 %% ¡props!
 
 %%% ¡prop!
+WAITBAR (gui, logical) detemines whether to show the waitbar.
+%%%% ¡default!
+true
+
+%%% ¡prop!
 BA (parameter, item) is a brain atlas.
 %%%% ¡settings!
 'BrainAtlas'
@@ -59,12 +192,12 @@ if ba.get('BR_DICT').get('LENGTH') == 0
     brain_regions = cell(1, n);
     for i = 1:n
         brain_regions{i} = BrainRegion( ...
-            'ID', ['BR' num2str(i)], ... % 随机取ID，这里用编号
-            'LABEL', ['Region' num2str(i)], ... % 随机取LABEL，这里用编号
-            'NOTES', ['notes' num2str(i)], ... % NOTE 按照对应n的数字起名字
-            'X', rand()*100 - 50, ... % X 坐标在[-50, 50] 之间随机取值
-            'Y', rand()*100 - 50, ... % Y 坐标在[-50, 50] 之间随机取值
-            'Z', rand()*100 - 50 ... % Z 坐标在[-50, 50] 之间随机取值
+            'ID', ['BR' num2str(i)], ... % Randomize ID, here use the number
+            'LABEL', ['Region' num2str(i)], ... % random LABEL, index number
+            'NOTES', ['notes' num2str(i)], ... % NOTE names according to the number corresponding to n
+            'X', rand()*100 - 50, ... % X [-50, 50] 
+            'Y', rand()*100 - 50, ... % Y [-50, 50] 
+            'Z', rand()*100 - 50 ... % Z [-50, 50] 
             );
     end
 
@@ -91,11 +224,11 @@ P_MIN (parameter, scalar) is the minimum probability for simulating Watts–Stro
 %%% ¡prop!
 P (parameter, rvector) is a vector of probability for simulating Watts–Strogatz models.
 %%%% ¡default!
-1:1:10
+0:0.1:1
 %%%% ¡postprocessing!
 n_sub = dsim.get('N_SUB');
 p = dsim.get('P');
-if ~isequal(length(p), n_sub)     
+if ~isequal(length(p), n_sub)    
     p_min = dsim.get('P_MIN');
     p_max = dsim.get('P_MAX');
     step = (p_max - p_min) / (n_sub - 1);
@@ -117,6 +250,11 @@ N (parameter, scalar) is a number of node for a Watts–Strogatz model.
 68
 
 %%% ¡prop!
+EFF_NODES (parameter, scalar) represents the effective nodes for a Watts–Strogatz model.
+%%%% ¡default!
+1:1:10
+
+%%% ¡prop!
 TIME_STEP (parameter, scalar) is time_steps.
 %%%% ¡default!
 100
@@ -127,34 +265,37 @@ N_SUB (data, scalar) is a number of subject to be generated.
 10
 
 %%% ¡prop!
-DIRECTORY (data, string) is the directory to export the FUN subject group files.
+SIM_DIRECTORY (data, string) is the directory to export the FUN subject group files.
 %%%% ¡default!
 fileparts(which('BRAPH2.LAUNCHER'))
 
 %%% ¡prop!
-GR_ID (data, string) is the folder name to export the FUN subject group files.
+SIM_GR_ID (data, string) is the folder name to export the FUN subject group files.
 %%%% ¡default!
 'SIM_GR'
 
 %%% ¡prop!
-GRAPH_DATA (result, cell) is the Small_World_Graph.
+SIM_G_DICT (result, idict) is a graph dictionary for simulated graph
+%%%% ¡settings!
+'Graph'
 %%%% ¡calculate!
-% 获取参数
-n = dsim.get('N'); % 节点数
-d = dsim.get('D'); % 连接数
-p_list = dsim.get('P'); % 连接概率
-n_sub = dsim.get('N_SUB'); % 样本数量
+n_whole = dsim.get('N'); 
+eff_nodes = dsim.get('EFF_NODES');
+n = length(eff_nodes);
+d = dsim.get('D'); 
+p_list = dsim.get('P');
+n_sub = dsim.get('N_SUB'); % the number of samples
+% initialize the cell array with a random ID, in this case a number.
+g_dict = IndexedDictionary('IT_CLASS', 'Graph');
 
-% 初始化 cell 数组
-graph_data = cell(1, n_sub);
+% generate networks with different p
+wb = braph2waitbar(dsim.get('WAITBAR'), .15, ['Organizing Infor ...']);
+for sub = 1:1:n_sub
+    p_sub = p_list(sub);  % Take the current sample of p
+    G = zeros(n); % create n x n null adjacency matrix
+    half_d = d / 2; % nearest neighbor connection number
 
-% 生成不同 p 的网络
-for sub = 1:n_sub
-    p_sub = p_list(sub);  % 取当前样本的 p
-    G = zeros(n); % 创建 n x n 的空邻接矩阵
-    half_d = d / 2; % 最近邻连接数
-
-    % 1. 先生成规则的环状结构
+    % 1. First generate a regular ring structure
     for i = 1:n
         for j = 1:half_d
             neighbor = mod(i + j - 1, n) + 1;
@@ -163,43 +304,50 @@ for sub = 1:n_sub
         end
     end
 
-    % 2. 进行重连操作（确保 p 生效）
+    % 2. Perform reconnection operation (make sure p takes effect)
     for i = 1:n
         for j = 1:half_d
-            if rand < p_sub  % 按照 p_sub 的概率进行重连
+            if rand < p_sub  % Reconnect with probability p_sub
                 neighbor = mod(i + j - 1, n) + 1;
                 G(i, neighbor) = 0;
                 G(neighbor, i) = 0;
 
                 new_neighbor = i;
                 while new_neighbor == i || G(i, new_neighbor) == 1
-                    new_neighbor = randi(n); % 随机选择一个新的节点
+                    new_neighbor = randi(n); % Randomly select a new node
                 end
                 G(i, new_neighbor) = 1;
                 G(new_neighbor, i) = 1;
             end
         end
     end
-
-    graph_data{sub} = G; % 存储当前 p_sub 生成的图
+    b = zeros(n_whole);
+    b(eff_nodes, n_whole) = G;
+    g_dict.add(GraphWU('B', b));
+    braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Network ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
-
-value = graph_data;
-
+braph2waitbar(wb, 'close')
+value = g_dict;
 
 %%% ¡prop!
-SIM_DATA (result, cell) is the simulated data using the Watts–Strogatz model.
+SIM_SUB_DICT (result, idict) is the simulated data using the Watts–Strogatz model.
+%%%% ¡settings!
+'SubjectFUN'
 %%%% ¡calculate! 
 % Get parameters
 n_sub = dsim.get('N_SUB'); % Number of samples
 n = dsim.get('N'); % Number of nodes in the network
 time_step = dsim.get('TIME_STEP'); % Time step variable
-graph_data = dsim.get('GRAPH_DATA');% Get cell array, small world matrix
+sim_g_dict = dsim.get('SIM_G_DICT');% Get cell array, small world matrix
+
+ba = dsim.get('BA');
+sub_dict = IndexedDictionary('IT_CLASS', 'SubjectFUN');
 
 % Generate N_SUB sets of data
-for sub = 1:n_sub
+wb = braph2waitbar(dsim.get('WAITBAR'), .15, ['Organizing Infor ...']);
+for sub = 1:1:n_sub
 
-    graph_data_cell = graph_data{sub}; % 取出当前 subject 的邻接矩阵
+    graph_data_cell = sim_g_dict.get('IT', sub).get('A'); % get the adjacency matrix of the current subject
 
     % 4. Compute a positive definite covariance matrix (ensure usability)
     graph_data_cell(1:n+1:end) = 1; % Set diagonal elements to 1 to prevent non-positive definiteness
@@ -215,50 +363,38 @@ for sub = 1:n_sub
     R = (R - mean_R) ./ std_R; % Normalize the data
 
     % 7. Store in the cell array
-    sim_data{sub} = R;
+    subj = SubjectFUN( ...
+        'ID', ['Subject FUN ' num2str(i)], ...
+        'LABEL', ['Subject FUN ' num2str(i)], ...
+        'NOTES', ['Notes on Subject FUN ' num2str(i)], ...
+        'BA', ba, ...
+        'FUN', R ...
+        );
+    subj.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(i)));
+    sub_dict.add(subj);
+    braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Subject FUN ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
-
-% 8. 返回所有生成的数据
-value = sim_data;
+braph2waitbar(wb, 'close')
+value = sub_dict;
 
 %%% ¡prop!
 SIM_GR (result, item) is the group of subjectFUN for those simulated data.
 %%%% ¡settings!
 'Group'
 %%%% ¡calculate!
-sim_data = dsim.get('SIM_DATA');
-n_sub = dsim.get('N_SUB');
-p = dsim.get('P');
-
-% Generate n BrainRegion instances
-n = dsim.get('N')% 获取节点数
-
-ba = dsim.get('BA');
-
-
-for i = 1:n_sub
-    subs{i} = SubjectFUN( ...
-        'ID', ['Subject FUN ' num2str(i)], ...
-        'LABEL', ['Subject FUN ' num2str(i)], ...
-        'NOTES', ['Notes on Subject FUN ' num2str(i)], ...
-        'BA', ba, ...
-        'FUN', sim_data{i} ...
-        );
-    subs{i}.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(i)))
-end
-
+sub_dict = dsim.get('SIM_SUB_DICT')
 value = Group( ...
-    'ID', dsim.get('GR_ID'), ...
+    'ID', dsim.get('SIM_GR_ID'), ...
     'LABEL', 'Group label', ...
     'NOTES', 'Group notes', ...
     'SUB_CLASS', 'SubjectFUN', ...
-    'SUB_DICT', IndexedDictionary('IT_CLASS', 'SubjectFUN', 'IT_LIST', subs) ...
+    'SUB_DICT', sub_dict ...
     );
 
 %%% ¡prop!
 EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
 %%%% ¡calculate!
-directory = dsim.get('DIRECTORY');
+directory = dsim.get('SIM_DIRECTORY');
 if ~exist(directory, 'dir')
     mkdir(directory)
 end
@@ -275,8 +411,7 @@ value = {};
 %%% ¡prop!
 EXPORT_BA (query, empty) exports a brain atlas to XLSX file.
 %%%% ¡calculate!
-%%%YUXIN
-directory = dsim.get('DIRECTORY');
+directory = dsim.get('SIM_DIRECTORY');
 if ~exist(directory, 'dir')
     mkdir(directory)
 end
@@ -288,6 +423,16 @@ ex = ExporterBrainAtlasXLS( ...
     'BA', ba ...
     );
 ex.get('SAVE');
+value = {};
+
+%%% ¡prop!
+PLOT_GRAPH (query, empty) plots graph.
+%%%% ¡calculate!
+value = {};
+
+%%% ¡prop!
+PLOT_CLUSTERING (query, empty) plots graph.
+%%%% ¡calculate!
 value = {};
 
 %% ¡tests!
