@@ -8,8 +8,9 @@ clear variables %#ok<*NASGU>
 output_folder = [fileparts(which('DataSimulator')) filesep 'SIM_DATASET_TWO_GROUPS'];
 
 % create simulated data for group 1
-dsim_1 = DataSimulator('P_MAX', 0.02, 'P_MIN', 0.02, 'D', 4, 'N', 10, 'TIME_STEP', 200, 'N_SUB', 25, 'SIM_DIRECTORY', output_folder, 'SIM_GR_ID', 'SimGroup1');
-graph_data_1 = dsim_1.get('SIM_G_DICT');
+eff_nodes = [1 3 6 8 10 12 14];
+dsim_1 = DataSimulator('P_MAX', 0.8, 'P_MIN', 0.8, 'D', 4, 'N', 20, 'EFF_NODES', eff_nodes, 'TIME_STEP', 200, 'N_SUB', 25, 'SIM_DIRECTORY', output_folder, 'SIM_GR_ID', 'SimGroup1');
+g_dict_1 = dsim_1.get('SIM_G_DICT');
 
 %yuxin add the circle plot for sim_data_1 with 5x5 panels
 % draw group 1 data
@@ -17,14 +18,20 @@ figure;
 tiledlayout(5, 5, 'Padding', 'compact', 'TileSpacing', 'compact');
 for i = 1:25
     nexttile;
-    G = graph(graph_data_1{i}, 'OmitSelfLoops');
-    plot(G, 'Layout', 'circle', 'NodeLabel', {});
-    title(['Sample ' num2str(i)]);
+    G = graph(cell2mat(g_dict_1.get('IT', i).get('A')), 'OmitSelfLoops');
+    
+    % Default node colors: black
+    node_colors = repmat([0 0 0], numnodes(G), 1); % RGB for black
+    
+    % Set the highlighted nodes to red
+    node_colors(eff_nodes, :) = repmat([1 0 0], numel(eff_nodes), 1); % RGB for red
+    
+    plot(G, 'Layout', 'circle', 'NodeLabel', {}, 'NodeColor', node_colors);
 end
 
 % create simulated data for group 2
-dsim_2 = DataSimulator('P_MAX', 0.5, 'P_MIN', 0.5, 'D', 4, 'N', 10, 'TIME_STEP', 200, 'N_SUB', 25, 'SIM_DIRECTORY', output_folder, 'SIM_GR_ID', 'SimGroup2');
-graph_data_2 = dsim_2.get('GRAPH_DATA');
+dsim_2 = DataSimulator('P_MAX', 0.02, 'P_MIN', 0.02, 'D', 4, 'N', 20, 'EFF_NODES', eff_nodes, 'TIME_STEP', 200, 'N_SUB', 25, 'SIM_DIRECTORY', output_folder, 'SIM_GR_ID', 'SimGroup2');
+g_dict_2 = dsim_2.get('SIM_G_DICT');
 
 %yuxin add the circle plot for sim_data_2 with 5x5 panels
 % draw group 2 data
@@ -32,12 +39,16 @@ figure;
 tiledlayout(5, 5, 'Padding', 'compact', 'TileSpacing', 'compact');
 for i = 1:25
     nexttile;
-    G = graph(graph_data_2{i}, 'OmitSelfLoops');
-    plot(G, 'Layout', 'circle', 'NodeLabel', {});
-    title(['Sample ' num2str(i)]);
+    G = graph(cell2mat(g_dict_2.get('IT', i).get('A')), 'OmitSelfLoops');
+    
+    % Default node colors: black
+    node_colors = repmat([0 0 0], numnodes(G), 1); % RGB for black
+    
+    % Set the highlighted nodes to red
+    node_colors(eff_nodes, :) = repmat([1 0 0], numel(eff_nodes), 1); % RGB for red
+    
+    plot(G, 'Layout', 'circle', 'NodeLabel', {}, 'NodeColor', node_colors);
 end
-
-
 
 % export to folder
 dsim_1.get('EXPORT_BA');

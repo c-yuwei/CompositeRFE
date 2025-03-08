@@ -279,9 +279,8 @@ SIM_G_DICT (result, idict) is a graph dictionary for simulated graph
 %%%% ¡settings!
 'Graph'
 %%%% ¡calculate!
-n_whole = dsim.get('N'); 
+n = dsim.get('N'); 
 eff_nodes = dsim.get('EFF_NODES');
-n = length(eff_nodes);
 d = dsim.get('D'); 
 p_list = dsim.get('P');
 n_sub = dsim.get('N_SUB'); % the number of samples
@@ -307,22 +306,21 @@ for sub = 1:1:n_sub
     % 2. Perform reconnection operation (make sure p takes effect)
     for i = 1:n
         for j = 1:half_d
-            if rand < p_sub  % Reconnect with probability p_sub
+            if rand < p_sub && ismember(i, eff_nodes)  % Reconnect with probability p_sub
                 neighbor = mod(i + j - 1, n) + 1;
                 G(i, neighbor) = 0;
                 G(neighbor, i) = 0;
 
                 new_neighbor = i;
                 while new_neighbor == i || G(i, new_neighbor) == 1
-                    new_neighbor = randi(n); % Randomly select a new node
+                    new_neighbor = eff_nodes(randi(length(eff_nodes))); % Randomly select a new node
                 end
                 G(i, new_neighbor) = 1;
                 G(new_neighbor, i) = 1;
             end
         end
     end
-    b = zeros(n_whole);
-    b(eff_nodes, eff_nodes) = G;
+    b = G;
     g_dict.get('ADD', GraphWU('ID', ['Simulated network ' num2str(sub)], 'B', b));
     braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Network ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
