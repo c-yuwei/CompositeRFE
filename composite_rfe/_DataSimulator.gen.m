@@ -250,7 +250,7 @@ N (parameter, scalar) is a number of node for a Watts–Strogatz model.
 68
 
 %%% ¡prop!
-EFF_NODES (parameter, scalar) represents the effective nodes for a Watts–Strogatz model.
+EFF_NODES (parameter, rvector) represents the effective nodes for a Watts–Strogatz model.
 %%%% ¡default!
 1:1:10
 
