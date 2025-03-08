@@ -8,8 +8,8 @@ clear variables %#ok<*NASGU>
 output_folder = [fileparts(which('DataSimulator')) filesep 'SIM_DATASET_TWO_GROUPS'];
 
 % create simulated data for group 1
-dsim_1 = DataSimulator('P_MAX', 0.02, 'P_MIN', 0.02, 'D', 4, 'N', 10, 'TIME_STEP', 200, 'N_SUB', 25, 'DIRECTORY', output_folder, 'GR_ID', 'SimGroup1');
-graph_data_1 = dsim_1.get('GRAPH_DATA');
+dsim_1 = DataSimulator('P_MAX', 0.02, 'P_MIN', 0.02, 'D', 4, 'N', 10, 'TIME_STEP', 200, 'N_SUB', 25, 'SIM_DIRECTORY', output_folder, 'SIM_GR_ID', 'SimGroup1');
+graph_data_1 = dsim_1.get('SIM_G_DICT');
 
 %yuxin add the circle plot for sim_data_1 with 5x5 panels
 % draw group 1 data
@@ -23,7 +23,7 @@ for i = 1:25
 end
 
 % create simulated data for group 2
-dsim_2 = DataSimulator('P_MAX', 0.5, 'P_MIN', 0.5, 'D', 4, 'N', 10, 'TIME_STEP', 200, 'N_SUB', 25, 'DIRECTORY', output_folder, 'GR_ID', 'SimGroup2');
+dsim_2 = DataSimulator('P_MAX', 0.5, 'P_MIN', 0.5, 'D', 4, 'N', 10, 'TIME_STEP', 200, 'N_SUB', 25, 'SIM_DIRECTORY', output_folder, 'SIM_GR_ID', 'SimGroup2');
 graph_data_2 = dsim_2.get('GRAPH_DATA');
 
 %yuxin add the circle plot for sim_data_2 with 5x5 panels

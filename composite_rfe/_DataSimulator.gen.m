@@ -322,8 +322,8 @@ for sub = 1:1:n_sub
         end
     end
     b = zeros(n_whole);
-    b(eff_nodes, n_whole) = G;
-    g_dict.add(GraphWU('B', b));
+    b(eff_nodes, eff_nodes) = G;
+    g_dict.get('ADD', GraphWU('ID', ['Simulated network ' num2str(sub)], 'B', b));
     braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Network ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
 braph2waitbar(wb, 'close')
@@ -371,7 +371,7 @@ for sub = 1:1:n_sub
         'FUN', R ...
         );
     subj.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(i)));
-    sub_dict.add(subj);
+    sub_dict.get('ADD', subj);
     braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Subject FUN ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
 braph2waitbar(wb, 'close')
