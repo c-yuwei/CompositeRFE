@@ -253,6 +253,12 @@ N (parameter, scalar) is a number of node for a Watts–Strogatz model.
 EFF_NODES (parameter, rvector) represents the effective nodes for a Watts–Strogatz model.
 %%%% ¡default!
 1:1:10
+%%%% ¡postset!
+n = dsim.get('N');
+eff_nodes = dsim.getr('EFF_NODES');
+if isa(eff_nodes, 'NoValue') && n ~= 0
+    dsim.set('EFF_NODES', 1:1:n);
+end
 
 %%% ¡prop!
 TIME_STEP (parameter, scalar) is time_steps.
@@ -337,6 +343,7 @@ n_sub = dsim.get('N_SUB'); % Number of samples
 n = dsim.get('N'); % Number of nodes in the network
 time_step = dsim.get('TIME_STEP'); % Time step variable
 sim_g_dict = dsim.get('SIM_G_DICT');% Get cell array, small world matrix
+p = dsim.get('P');
 
 ba = dsim.get('BA');
 sub_dict = IndexedDictionary('IT_CLASS', 'SubjectFUN');
@@ -345,7 +352,7 @@ sub_dict = IndexedDictionary('IT_CLASS', 'SubjectFUN');
 wb = braph2waitbar(dsim.get('WAITBAR'), .15, ['Organizing Infor ...']);
 for sub = 1:1:n_sub
 
-    graph_data_cell = sim_g_dict.get('IT', sub).get('A'); % get the adjacency matrix of the current subject
+    graph_data_cell = cell2mat(sim_g_dict.get('IT', sub).get('A')); % get the adjacency matrix of the current subject
 
     % 4. Compute a positive definite covariance matrix (ensure usability)
     graph_data_cell(1:n+1:end) = 1; % Set diagonal elements to 1 to prevent non-positive definiteness
@@ -362,13 +369,13 @@ for sub = 1:1:n_sub
 
     % 7. Store in the cell array
     subj = SubjectFUN( ...
-        'ID', ['Subject FUN ' num2str(i)], ...
-        'LABEL', ['Subject FUN ' num2str(i)], ...
-        'NOTES', ['Notes on Subject FUN ' num2str(i)], ...
+        'ID', ['Subject FUN ' num2str(sub)], ...
+        'LABEL', ['Subject FUN ' num2str(sub)], ...
+        'NOTES', ['Notes on Subject FUN ' num2str(sub)], ...
         'BA', ba, ...
         'FUN', R ...
         );
-    subj.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(i)));
+    subj.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(sub)));
     sub_dict.get('ADD', subj);
     braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Subject FUN ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
