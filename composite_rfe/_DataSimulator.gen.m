@@ -124,7 +124,7 @@ EXPORT Brain Atlas
 %%%% ¡id!
 DataSimulator.PLOT_GRAPH
 %%%% ¡title!
-Plot Graph
+Plot Circled Graphs
 
 %%% ¡prop!
 %%%% ¡id!
@@ -281,6 +281,15 @@ SIM_GR_ID (data, string) is the folder name to export the FUN subject group file
 'SIM_GR'
 
 %%% ¡prop!
+GRAPH_TEMPLATE (parameter, item) is the graph template to set all graph and measure parameters.
+%%%% ¡settings!
+'Graph'
+%%%% ¡gui!
+pr = PanelPropItem('EL', dsim, 'PROP', DataSimulator.GRAPH_TEMPLATE, ...
+    'BUTTON_TEXT', ['GRAPH TEMPLATE (' dsim.get('GRAPH_TEMPLATE').getClass() ')'], ...
+    varargin{:});
+
+%%% ¡prop!
 SIM_G_DICT (result, idict) is a graph dictionary for simulated graph
 %%%% ¡settings!
 'Graph'
@@ -292,6 +301,7 @@ p_list = dsim.get('P');
 n_sub = dsim.get('N_SUB'); % the number of samples
 % initialize the cell array with a random ID, in this case a number.
 g_dict = IndexedDictionary('IT_CLASS', 'Graph');
+g_temp = dsim.memorize('GRAPH_TEMPLATE');
 
 % generate networks with different p
 wb = braph2waitbar(dsim.get('WAITBAR'), .15, ['Organizing Infor ...']);
@@ -327,11 +337,16 @@ for sub = 1:1:n_sub
         end
     end
     b = G;
-    g_dict.get('ADD', GraphWU('ID', ['Simulated network ' num2str(sub)], 'B', b));
+    g = eval(g_temp.get('ELCLASS'));
+    g_dict.get('ADD', g.set('ID', ['Simulated network ' num2str(sub)], 'B', b));
     braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Network ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
 braph2waitbar(wb, 'close')
 value = g_dict;
+%%%% ¡gui!
+pr = AnalyzeEnsemblePP_GDict('EL', dsim, 'PROP', DataSimulator.SIM_G_DICT, ...
+    'WAITBAR', DataSimulator.getCallback('WAITBAR'), ...
+    varargin{:});
 
 %%% ¡prop!
 SIM_SUB_DICT (result, idict) is the simulated data using the Watts–Strogatz model.
