@@ -268,6 +268,10 @@ end
 %%%% ¡postset!
 eff_br_dict = dsim.get('EFF_BR_DICT');
 br_dict = dsim.get('BA').get('BR_DICT');
+if br_dict.get('LENGTH') == 0
+    dsim.postprocessing(DataSimulator.BA);
+    br_dict = dsim.get('BA').get('BR_DICT');
+end
 if br_dict.get('LENGTH') > 0
     if eff_br_dict.get('LENGTH') == 0
         eff_nodes = dsim.get('EFF_NODES');
