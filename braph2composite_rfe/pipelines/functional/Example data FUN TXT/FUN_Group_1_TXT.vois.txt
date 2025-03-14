@@ -1,0 +1,27 @@
+Subject ID	Age	Sex
+		{ 'Female'  'Male' }
+SubjectFUN_1	14	Male
+SubjectFUN_2	18	Female
+SubjectFUN_3	21	Female
+SubjectFUN_4	76	Female
+SubjectFUN_5	63	Male
+SubjectFUN_6	21	Female
+SubjectFUN_7	28	Female
+SubjectFUN_8	78	Male
+SubjectFUN_9	64	Male
+SubjectFUN_10	11	Male
+SubjectFUN_11	62	Female
+SubjectFUN_12	22	Female
+SubjectFUN_13	55	Female
+SubjectFUN_14	22	Female
+SubjectFUN_15	53	Female
+SubjectFUN_16	84	Male
+SubjectFUN_17	27	Male
+SubjectFUN_18	56	Female
+SubjectFUN_19	73	Male
+SubjectFUN_20	1	Male
+SubjectFUN_21	12	Male
+SubjectFUN_22	54	Male
+SubjectFUN_23	73	Male
+SubjectFUN_24	37	Male
+SubjectFUN_25	30	Female
