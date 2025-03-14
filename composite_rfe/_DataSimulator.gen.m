@@ -481,8 +481,7 @@ value = {};
 PLOT_GRAPH (query, empty) plots graph.
 %%%% ¡calculate!
 figure;
-%YUXIN make the panel number adaptable with the number of the networks to
-%be plotted (now it is 5x5 fixed)
+%YUXIN add brain region name on the plot directly
 tiledlayout(5, 5, 'Padding', 'compact', 'TileSpacing', 'compact');
 g_dict = dsim.get('SIM_G_DICT');
 eff_nodes = dsim.get('EFF_NODES');
