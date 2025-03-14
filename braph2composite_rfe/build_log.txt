@@ -46,6 +46,7 @@ NNxMLP_FeatureImportanceBrainSurfacePP_Measure,1
 NNxMLP_FeatureImportanceBrainSurface_CV,1
 NNxMLP_FeatureImportance_CV,1
 DataSimulator,1
+DataSimulatorPP_EFF_BR_Dict,1
 NNxMLP_FeatureImportanceAcrossFUN,1
 AnalyzeEnsemble_FUN_WU,1
 ExporterGroupSubjectFUN_TXT,1
@@ -123,6 +124,7 @@ GraphHistPF,1
 GraphPP_MDict,1
 Measure,1
 MeasurePF,1
+MeasurePF_BU,1
 MeasurePF_GU,1
 MeasurePF_NU,1
 MeasurePF_NxPP_Node,1

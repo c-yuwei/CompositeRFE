@@ -511,7 +511,7 @@ classdef Distance < Measure
 			prop = Distance.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case Distance.TEMPLATE % __Distance.TEMPLATE__
+				case 4 % Distance.TEMPLATE
 					prop_settings = 'Distance';
 				otherwise
 					prop_settings = getPropSettings@Measure(prop);
@@ -540,27 +540,27 @@ classdef Distance < Measure
 			prop = Distance.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case Distance.ELCLASS % __Distance.ELCLASS__
+				case 1 % Distance.ELCLASS
 					prop_default = 'Distance';
-				case Distance.NAME % __Distance.NAME__
+				case 2 % Distance.NAME
 					prop_default = 'Distance';
-				case Distance.DESCRIPTION % __Distance.DESCRIPTION__
+				case 3 % Distance.DESCRIPTION
 					prop_default = 'The Distance (Distance) of a graph is the shortest path between all pairs of nodes within a layer of the graph. For weighted graphs, the distance is calculated with the Dijkstra algorithm using the inverse weight as the distance associated to the edge.';
-				case Distance.TEMPLATE % __Distance.TEMPLATE__
+				case 4 % Distance.TEMPLATE
 					prop_default = Format.getFormatDefault(8, Distance.getPropSettings(prop));
-				case Distance.ID % __Distance.ID__
+				case 5 % Distance.ID
 					prop_default = 'Distance ID';
-				case Distance.LABEL % __Distance.LABEL__
+				case 6 % Distance.LABEL
 					prop_default = 'Distance label';
-				case Distance.NOTES % __Distance.NOTES__
+				case 7 % Distance.NOTES
 					prop_default = 'Distance notes';
-				case Distance.SHAPE % __Distance.SHAPE__
+				case 9 % Distance.SHAPE
 					prop_default = 3;
-				case Distance.SCOPE % __Distance.SCOPE__
+				case 10 % Distance.SCOPE
 					prop_default = 2;
-				case Distance.PARAMETRICITY % __Distance.PARAMETRICITY__
+				case 11 % Distance.PARAMETRICITY
 					prop_default = 2;
-				case Distance.COMPATIBLE_GRAPHS % __Distance.COMPATIBLE_GRAPHS__
+				case 12 % Distance.COMPATIBLE_GRAPHS
 					prop_default = {'GraphBD' 'GraphBU' 'GraphWD' 'GraphWU' 'MultigraphBUD' 'MultigraphBUT' 'MultiplexBD' 'MultiplexBU' 'MultiplexWD' 'MultiplexWU' 'MultiplexBUD' 'MultiplexBUT' 'OrdMxBD' 'OrdMxBUD' 'OrdMxBU' 'OrdMxWD' 'OrdMxWU' 'OrdMxBUT' 'MultilayerWD' 'MultilayerBD' 'MultilayerWU' 'OrdMlWD' 'OrdMlWU' 'OrdMlBD' 'MultilayerBUT' 'MultilayerBU' 'MultilayerBUD' 'OrdMlBU' 'OrdMlBUD' 'OrdMlBUT'};;
 				otherwise
 					prop_default = getPropDefault@Measure(prop);
@@ -626,7 +626,7 @@ classdef Distance < Measure
 			prop = Distance.getPropProp(pointer);
 			
 			switch prop
-				case Distance.TEMPLATE % __Distance.TEMPLATE__
+				case 4 % Distance.TEMPLATE
 					check = Format.checkFormat(8, value, Distance.getPropSettings(prop));
 				otherwise
 					if prop <= 15
@@ -662,8 +662,8 @@ classdef Distance < Measure
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case Distance.M % __Distance.M__
-					rng_settings_ = rng(); rng(m.getPropSeed(Distance.M), 'twister')
+				case 14 % Distance.M
+					rng_settings_ = rng(); rng(m.getPropSeed(14), 'twister')
 					
 					g = m.get('G'); % graph from measure class
 					A = g.get('A'); % cell with adjacency matrix (for graph) or 2D-cell array (for multigraph, multiplex, etc.)

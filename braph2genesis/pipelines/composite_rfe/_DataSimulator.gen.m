@@ -68,9 +68,9 @@ Network Node Number
 
 %%% ¡prop!
 %%%% ¡id!
-DataSimulator.EFF_NODES
+DataSimulator.EFF_BR_DICT
 %%%% ¡title!
-Effective Nodes
+Effective Brain Regions
 
 %%% ¡prop!
 %%%% ¡id!
@@ -124,7 +124,7 @@ EXPORT Brain Atlas
 %%%% ¡id!
 DataSimulator.PLOT_GRAPH
 %%%% ¡title!
-Plot Graph
+Plot Circled Graphs
 
 %%% ¡prop!
 %%%% ¡id!
@@ -194,7 +194,7 @@ if ba.get('BR_DICT').get('LENGTH') == 0
         brain_regions{i} = BrainRegion( ...
             'ID', ['BR' num2str(i)], ... % Randomize ID, here use the number
             'LABEL', ['Region' num2str(i)], ... % random LABEL, index number
-            'NOTES', ['notes' num2str(i)], ... % NOTE names according to the number corresponding to n
+            'NOTES', ['Notes' num2str(i)], ... % NOTE names according to the number corresponding to n
             'X', rand()*100 - 50, ... % X [-50, 50] 
             'Y', rand()*100 - 50, ... % Y [-50, 50] 
             'Z', rand()*100 - 50 ... % Z [-50, 50] 
@@ -238,6 +238,12 @@ if ~isequal(length(p), n_sub)
         dsim.set('P', p_min:step:p_max);
     end
 end
+%%%% ¡gui!
+pr = PanelPropRVectorSmart('EL', dsim, 'PROP', DataSimulator.P, ...
+    'MIN', dsim.get('P_MIN'), 'MAX', dsim.get('P_MAX'), ...
+    'UNIQUE_VALUE', false, ...
+    'DEFAULT', 0:0.1:1, ...
+    varargin{:});
 
 %%% ¡prop!
 D (parameter, scalar) is a number of degree for a Watts–Strogatz model.
@@ -250,9 +256,35 @@ N (parameter, scalar) is a number of node for a Watts–Strogatz model.
 68
 
 %%% ¡prop!
-EFF_NODES (parameter, scalar) represents the effective nodes for a Watts–Strogatz model.
+EFF_NODES (data, rvector) represents the effective nodes for a Watts–Strogatz model.
 %%%% ¡default!
-1:1:10
+1:1:11
+%%%% ¡postprocessing!
+n = dsim.get('N');
+eff_nodes = dsim.getr('EFF_NODES');
+if isa(eff_nodes, 'NoValue') && n ~= 0
+    dsim.set('EFF_NODES', 1:1:n);
+end
+%%%% ¡postset!
+eff_br_dict = dsim.get('EFF_BR_DICT');
+br_dict = dsim.get('BA').get('BR_DICT');
+if br_dict.get('LENGTH') > 0
+    if eff_br_dict.get('LENGTH') == 0
+        eff_nodes = dsim.get('EFF_NODES');
+        br_it_list = br_dict.get('IT_LIST');
+        eff_br_dict.set('IT_LIST',br_it_list(eff_nodes));
+        dsim.set('EFF_BR_DICT', eff_br_dict);
+    end
+end
+
+%%% ¡prop!
+EFF_BR_DICT (data, idict) contains the effective brain regions of the simulated netwrok.
+%%%% ¡settings!
+'BrainRegion'
+%%%% ¡gui!
+pr = DataSimulatorPP_EFF_BR_Dict('EL', dsim, 'PROP', DataSimulator.EFF_BR_DICT, ...
+    'WAITBAR', dsim.getCallback('WAITBAR'), ...
+    varargin{:});
 
 %%% ¡prop!
 TIME_STEP (parameter, scalar) is time_steps.
@@ -262,12 +294,12 @@ TIME_STEP (parameter, scalar) is time_steps.
 %%% ¡prop!
 N_SUB (data, scalar) is a number of subject to be generated.
 %%%% ¡default!
-10
+11
 
 %%% ¡prop!
 SIM_DIRECTORY (data, string) is the directory to export the FUN subject group files.
 %%%% ¡default!
-fileparts(which('BRAPH2.LAUNCHER'))
+fileparts(which(BRAPH2.LAUNCHER))
 
 %%% ¡prop!
 SIM_GR_ID (data, string) is the folder name to export the FUN subject group files.
@@ -275,18 +307,29 @@ SIM_GR_ID (data, string) is the folder name to export the FUN subject group file
 'SIM_GR'
 
 %%% ¡prop!
+GRAPH_TEMPLATE (parameter, item) is the graph template to set all graph and measure parameters.
+%%%% ¡settings!
+'Graph'
+%%%% ¡default!
+GraphWU()
+%%%% ¡gui!
+pr = PanelPropItem('EL', dsim, 'PROP', DataSimulator.GRAPH_TEMPLATE, ...
+    'BUTTON_TEXT', ['GRAPH TEMPLATE (' dsim.get('GRAPH_TEMPLATE').getClass() ')'], ...
+    varargin{:});
+
+%%% ¡prop!
 SIM_G_DICT (result, idict) is a graph dictionary for simulated graph
 %%%% ¡settings!
 'Graph'
 %%%% ¡calculate!
-n_whole = dsim.get('N'); 
+n = dsim.get('N'); 
 eff_nodes = dsim.get('EFF_NODES');
-n = length(eff_nodes);
 d = dsim.get('D'); 
 p_list = dsim.get('P');
 n_sub = dsim.get('N_SUB'); % the number of samples
 % initialize the cell array with a random ID, in this case a number.
 g_dict = IndexedDictionary('IT_CLASS', 'Graph');
+g_temp = dsim.memorize('GRAPH_TEMPLATE');
 
 % generate networks with different p
 wb = braph2waitbar(dsim.get('WAITBAR'), .15, ['Organizing Infor ...']);
@@ -307,27 +350,31 @@ for sub = 1:1:n_sub
     % 2. Perform reconnection operation (make sure p takes effect)
     for i = 1:n
         for j = 1:half_d
-            if rand < p_sub  % Reconnect with probability p_sub
+            if rand < p_sub && ismember(i, eff_nodes)  % Reconnect with probability p_sub
                 neighbor = mod(i + j - 1, n) + 1;
                 G(i, neighbor) = 0;
                 G(neighbor, i) = 0;
 
                 new_neighbor = i;
                 while new_neighbor == i || G(i, new_neighbor) == 1
-                    new_neighbor = randi(n); % Randomly select a new node
+                    new_neighbor = eff_nodes(randi(length(eff_nodes))); % Randomly select a new node
                 end
                 G(i, new_neighbor) = 1;
                 G(new_neighbor, i) = 1;
             end
         end
     end
-    b = zeros(n_whole);
-    b(eff_nodes, n_whole) = G;
-    g_dict.add(GraphWU('B', b));
+    b = G;
+    g = eval(g_temp.get('ELCLASS'));
+    g_dict.get('ADD', g.set('ID', ['Simulated network ' num2str(sub)], 'B', b));
     braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Network ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
 braph2waitbar(wb, 'close')
 value = g_dict;
+%%%% ¡gui!
+pr = AnalyzeEnsemblePP_GDict('EL', dsim, 'PROP', DataSimulator.SIM_G_DICT, ...
+    'WAITBAR', dsim.getCallback('WAITBAR'), ...
+    varargin{:});
 
 %%% ¡prop!
 SIM_SUB_DICT (result, idict) is the simulated data using the Watts–Strogatz model.
@@ -339,6 +386,7 @@ n_sub = dsim.get('N_SUB'); % Number of samples
 n = dsim.get('N'); % Number of nodes in the network
 time_step = dsim.get('TIME_STEP'); % Time step variable
 sim_g_dict = dsim.get('SIM_G_DICT');% Get cell array, small world matrix
+p = dsim.get('P');
 
 ba = dsim.get('BA');
 sub_dict = IndexedDictionary('IT_CLASS', 'SubjectFUN');
@@ -347,7 +395,7 @@ sub_dict = IndexedDictionary('IT_CLASS', 'SubjectFUN');
 wb = braph2waitbar(dsim.get('WAITBAR'), .15, ['Organizing Infor ...']);
 for sub = 1:1:n_sub
 
-    graph_data_cell = sim_g_dict.get('IT', sub).get('A'); % get the adjacency matrix of the current subject
+    graph_data_cell = cell2mat(sim_g_dict.get('IT', sub).get('A')); % get the adjacency matrix of the current subject
 
     % 4. Compute a positive definite covariance matrix (ensure usability)
     graph_data_cell(1:n+1:end) = 1; % Set diagonal elements to 1 to prevent non-positive definiteness
@@ -364,14 +412,14 @@ for sub = 1:1:n_sub
 
     % 7. Store in the cell array
     subj = SubjectFUN( ...
-        'ID', ['Subject FUN ' num2str(i)], ...
-        'LABEL', ['Subject FUN ' num2str(i)], ...
-        'NOTES', ['Notes on Subject FUN ' num2str(i)], ...
+        'ID', ['Subject FUN ' num2str(sub)], ...
+        'LABEL', ['Subject FUN ' num2str(sub)], ...
+        'NOTES', ['Notes on Subject FUN ' num2str(sub)], ...
         'BA', ba, ...
         'FUN', R ...
         );
-    subj.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(i)));
-    sub_dict.add(subj);
+    subj.memorize('VOI_DICT').get('ADD', VOINumeric('ID', 'P', 'V', p(sub)));
+    sub_dict.get('ADD', subj);
     braph2waitbar(wb, .15 + .85 * sub / n_sub, ['Constructing Subject FUN ' num2str(sub) ' of ' num2str(n_sub) ' ...'])
 end
 braph2waitbar(wb, 'close')
@@ -382,7 +430,7 @@ SIM_GR (result, item) is the group of subjectFUN for those simulated data.
 %%%% ¡settings!
 'Group'
 %%%% ¡calculate!
-sub_dict = dsim.get('SIM_SUB_DICT')
+sub_dict = dsim.get('SIM_SUB_DICT');
 value = Group( ...
     'ID', dsim.get('SIM_GR_ID'), ...
     'LABEL', 'Group label', ...
@@ -428,15 +476,34 @@ value = {};
 %%% ¡prop!
 PLOT_GRAPH (query, empty) plots graph.
 %%%% ¡calculate!
+figure;
+%YUXIN make the panel number adaptable with the number of the networks to
+%be plotted (now it is 5x5 fixed)
+tiledlayout(5, 5, 'Padding', 'compact', 'TileSpacing', 'compact');
+g_dict = dsim.get('SIM_G_DICT');
+eff_nodes = dsim.get('EFF_NODES');
+for i = 1:25
+    nexttile;
+    G = graph(cell2mat(g_dict.get('IT', i).get('A')), 'OmitSelfLoops');
+
+    % Default node colors: black
+    node_colors = repmat([0 0 0], numnodes(G), 1); % RGB for black
+
+    % Set the highlighted nodes to red
+    node_colors(eff_nodes, :) = repmat([1 0 0], numel(eff_nodes), 1); % RGB for red
+
+    plot(G, 'Layout', 'circle', 'NodeLabel', {}, 'NodeColor', node_colors);
+end
 value = {};
 
 %%% ¡prop!
 PLOT_CLUSTERING (query, empty) plots graph.
 %%%% ¡calculate!
+%YUXIN make this work
 value = {};
 
 %% ¡tests!
 
 %%% ¡excluded_props!
-[DataSimulator.TEMPLATE DataSimulator.EXPORT_DATA DataSimulator.BA]
+[DataSimulator.TEMPLATE DataSimulator.BA DataSimulator.EXPORT_DATA DataSimulator.EXPORT_BA DataSimulator.PLOT_GRAPH DataSimulator.PLOT_CLUSTERING]
 

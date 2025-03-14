@@ -674,7 +674,7 @@ classdef GraphWU < Graph
 				case 9 % GraphWU.GRAPH_TYPE
 					prop_default = 1;
 				case 32 % GraphWU.COMPATIBLE_MEASURES
-					prop_default = { 'Clustering'  'ClusteringAv'  'Degree'  'PathLength'  'PathLengthAv'  'SmallWorldness'  'Triangles' };
+					prop_default = { 'Clustering'  'ClusteringAv'  'Degree'  'Distance'  'PathLength'  'PathLengthAv'  'SmallWorldness'  'Triangles' };
 				otherwise
 					prop_default = getPropDefault@Graph(prop);
 			end
