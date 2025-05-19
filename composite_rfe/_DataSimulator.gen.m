@@ -128,9 +128,9 @@ Plot Circled Graphs
 
 %%% ¡prop!
 %%%% ¡id!
-DataSimulator.PLOT_CLUSTERING
+DataSimulator.PLOT_PATHLENGTH
 %%%% ¡title!
-Plot Clustering
+Plot Path Length
 
 %%% ¡prop!
 %%%% ¡id!
@@ -321,6 +321,9 @@ pr = PanelPropItem('EL', dsim, 'PROP', DataSimulator.GRAPH_TEMPLATE, ...
     'BUTTON_TEXT', ['GRAPH TEMPLATE (' dsim.get('GRAPH_TEMPLATE').getClass() ')'], ...
     varargin{:});
 
+
+%生成小世界网络
+
 %%% ¡prop!
 SIM_G_DICT (result, idict) is a graph dictionary for simulated graph
 %%%% ¡settings!
@@ -481,33 +484,98 @@ value = {};
 PLOT_GRAPH (query, empty) plots graph.
 %%%% ¡calculate!
 figure;
-%YUXIN make the panel number adaptable with the number of the networks to
-%be plotted (now it is 5x5 fixed)
-tiledlayout(5, 5, 'Padding', 'compact', 'TileSpacing', 'compact');
+% 适配网络数量，最多绘制 5x5 网格
+num_graphs = min(25, dsim.get('N_SUB'));
+rows = ceil(sqrt(num_graphs)); % 动态确定行列数
+cols = ceil(num_graphs / rows);
+tiledlayout(rows, cols, 'Padding', 'compact', 'TileSpacing', 'compact');
+
+% 获取 Watts-Strogatz 网络集合
 g_dict = dsim.get('SIM_G_DICT');
-eff_nodes = dsim.get('EFF_NODES');
-for i = 1:25
-    nexttile;
-    G = graph(cell2mat(g_dict.get('IT', i).get('A')), 'OmitSelfLoops');
+eff_nodes = dsim.get('EFF_NODES'); % 需要高亮的节点索引
+ba = dsim.get('BA'); % 获取脑区对象
+br_dict = ba.get('BR_DICT'); % 获取脑区列表
 
-    % Default node colors: black
-    node_colors = repmat([0 0 0], numnodes(G), 1); % RGB for black
-
-    % Set the highlighted nodes to red
-    node_colors(eff_nodes, :) = repmat([1 0 0], numel(eff_nodes), 1); % RGB for red
-
-    plot(G, 'Layout', 'circle', 'NodeLabel', {}, 'NodeColor', node_colors);
+% 获取脑区标签
+br_labels = cell(br_dict.get('LENGTH'), 1);
+for i = 1:br_dict.get('LENGTH')
+    br_labels{i} = br_dict.get('IT', i).get('LABEL'); % 获取脑区名
 end
+
+% 遍历并绘制 Watts-Strogatz 小世界网络
+for i = 1:num_graphs
+    nexttile;
+
+    % 获取 **已有** Watts-Strogatz 网络的邻接矩阵
+    G_matrix = cell2mat(g_dict.get('IT', i).get('A'));
+    G = graph(G_matrix, 'OmitSelfLoops');
+
+    % 默认所有节点颜色为黑色
+    node_colors = repmat([0 0 0], numnodes(G), 1); % 黑色
+
+    % 设置高亮节点颜色（红色）
+    node_colors(eff_nodes, :) = repmat([1 0 0], numel(eff_nodes), 1); % 红色
+
+    % 绘制 Watts-Strogatz 小世界网络（Circle 布局）
+    h = plot(G, 'Layout', 'circle', 'NodeLabel', {}, 'NodeColor', node_colors);
+
+    % 添加脑区名称标签
+    for j = 1:numel(eff_nodes)
+        node_idx = eff_nodes(j);
+        if node_idx <= numel(br_labels) % 避免超出索引
+            highlight(h, node_idx, 'NodeColor', 'r', 'MarkerSize', 8); % 高亮节点
+            text(h.XData(node_idx), h.YData(node_idx), br_labels{node_idx}, ...
+                'FontSize', 8, 'FontWeight', 'bold', 'Color', 'blue', ...
+                'HorizontalAlignment', 'right', 'VerticalAlignment', 'middle');
+        end
+    end
+end
+
 value = {};
 
 %%% ¡prop!
-PLOT_CLUSTERING (query, empty) plots graph.
+PLOT_PATHLENGTH (query, empty) plots graph.
 %%%% ¡calculate!
-%YUXIN make this work
+% 获取 Watts-Strogatz 网络集合
+g_dict = dsim.get('SIM_G_DICT'); % 获取已有 Watts-Strogatz 网络
+p_values = dsim.get('P'); % 获取重连概率 P 的列表
+n = dsim.get('N'); % 获取网络的节点数
+L_values = nan(size(p_values)); % 预分配路径长度存储数组
+
+% 计算已有 Watts-Strogatz 网络的平均路径长度
+wb = braph2waitbar(dsim.get('WAITBAR'), .15, ['Calculating Average Path Length ...']);
+for i = 1:length(p_values)
+    % 获取已有 Watts-Strogatz 网络的邻接矩阵
+    G_matrix = cell2mat(g_dict.get('IT', i).get('A')); % 获取第 i 个网络的邻接矩阵
+    G_graph = graph(G_matrix); % 转换为 MATLAB 的 Graph 对象
+    
+    % 计算平均最短路径长度 (L)
+    if all(conncomp(G_graph) == 1) % 确保图是连通的
+        L_values(i) = mean(mean(distances(G_graph))); % 计算路径长度
+    else
+        L_values(i) = NaN; % 若图不连通，则设为 NaN
+    end
+
+    % 更新进度条
+    braph2waitbar(wb, .15 + .85 * i / length(p_values), ['Processing ' num2str(i) ' of ' num2str(length(p_values))]);
+end
+braph2waitbar(wb, 'close');
+
+% 绘制 平均路径长度 vs. 重连概率 P
+figure;
+semilogx(p_values, L_values, 'bo-', 'MarkerFaceColor', 'b'); % 对数坐标绘制
+xlabel('Rewiring Probability (P)');
+ylabel('Average Path Length (L)');
+title('Average Path Length vs. Rewiring Probability');
+grid on;
+legend('Simulation');
+
 value = {};
+
+
 
 %% ¡tests!
 
 %%% ¡excluded_props!
-[DataSimulator.TEMPLATE DataSimulator.BA DataSimulator.EXPORT_DATA DataSimulator.EXPORT_BA DataSimulator.PLOT_GRAPH DataSimulator.PLOT_CLUSTERING]
+[DataSimulator.TEMPLATE DataSimulator.BA DataSimulator.EXPORT_DATA DataSimulator.EXPORT_BA DataSimulator.PLOT_GRAPH DataSimulator.PLOT_PATHLENGTH]
 

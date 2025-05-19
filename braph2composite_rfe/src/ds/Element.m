@@ -1039,7 +1039,7 @@ classdef Element < Category & Format & matlab.mixin.Copyable
                         % backup properties (if prop is checked)
                         if BRAPH2.CHECKED && el.isChecked(prop)
                             props_backup = el.props; % props backup
-                        end                        
+                        end       
 
                         value = el.calculateValue(prop);
 
