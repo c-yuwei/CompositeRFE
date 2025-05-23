@@ -33,7 +33,7 @@ classdef DataSimulator < ConcreteElement
 	%  <strong>26</strong> <strong>EXPORT_DATA</strong> 	EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
 	%  <strong>27</strong> <strong>EXPORT_BA</strong> 	EXPORT_BA (query, empty) exports a brain atlas to XLSX file.
 	%  <strong>28</strong> <strong>PLOT_GRAPH</strong> 	PLOT_GRAPH (query, empty) plots graph.
-	%  <strong>29</strong> <strong>PLOT_CLUSTERING</strong> 	PLOT_CLUSTERING (query, empty) plots graph.
+	%  <strong>29</strong> <strong>PLOT_PATHLENGTH</strong> 	PLOT_PATHLENGTH (query, empty) plots graph.
 	%
 	% DataSimulator methods (constructor):
 	%  DataSimulator - constructor
@@ -226,10 +226,10 @@ classdef DataSimulator < ConcreteElement
 		PLOT_GRAPH_CATEGORY = 6;
 		PLOT_GRAPH_FORMAT = 1;
 		
-		PLOT_CLUSTERING = 29; %CET: Computational Efficiency Trick
-		PLOT_CLUSTERING_TAG = 'PLOT_CLUSTERING';
-		PLOT_CLUSTERING_CATEGORY = 6;
-		PLOT_CLUSTERING_FORMAT = 1;
+		PLOT_PATHLENGTH = 29; %CET: Computational Efficiency Trick
+		PLOT_PATHLENGTH_TAG = 'PLOT_PATHLENGTH';
+		PLOT_PATHLENGTH_CATEGORY = 6;
+		PLOT_PATHLENGTH_FORMAT = 1;
 	end
 	methods % constructor
 		function dsim = DataSimulator(varargin)
@@ -271,7 +271,7 @@ classdef DataSimulator < ConcreteElement
 			%  <strong>26</strong> <strong>EXPORT_DATA</strong> 	EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.
 			%  <strong>27</strong> <strong>EXPORT_BA</strong> 	EXPORT_BA (query, empty) exports a brain atlas to XLSX file.
 			%  <strong>28</strong> <strong>PLOT_GRAPH</strong> 	PLOT_GRAPH (query, empty) plots graph.
-			%  <strong>29</strong> <strong>PLOT_CLUSTERING</strong> 	PLOT_CLUSTERING (query, empty) plots graph.
+			%  <strong>29</strong> <strong>PLOT_PATHLENGTH</strong> 	PLOT_PATHLENGTH (query, empty) plots graph.
 			%
 			% See also Category, Format.
 			
@@ -479,7 +479,7 @@ classdef DataSimulator < ConcreteElement
 			%
 			% See also getProps, existsTag.
 			
-			check = any(strcmp(tag, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'WAITBAR'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'EFF_NODES'  'EFF_BR_DICT'  'TIME_STEP'  'N_SUB'  'SIM_DIRECTORY'  'SIM_GR_ID'  'GRAPH_TEMPLATE'  'SIM_G_DICT'  'SIM_SUB_DICT'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA'  'PLOT_GRAPH'  'PLOT_CLUSTERING' })); %CET: Computational Efficiency Trick
+			check = any(strcmp(tag, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'WAITBAR'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'EFF_NODES'  'EFF_BR_DICT'  'TIME_STEP'  'N_SUB'  'SIM_DIRECTORY'  'SIM_GR_ID'  'GRAPH_TEMPLATE'  'SIM_G_DICT'  'SIM_SUB_DICT'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA'  'PLOT_GRAPH'  'PLOT_PATHLENGTH' })); %CET: Computational Efficiency Trick
 			
 			if nargout == 1
 				check_out = check;
@@ -512,7 +512,7 @@ classdef DataSimulator < ConcreteElement
 			%  getPropSettings, getPropDefault, checkProp.
 			
 			if ischar(pointer)
-				prop = find(strcmp(pointer, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'WAITBAR'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'EFF_NODES'  'EFF_BR_DICT'  'TIME_STEP'  'N_SUB'  'SIM_DIRECTORY'  'SIM_GR_ID'  'GRAPH_TEMPLATE'  'SIM_G_DICT'  'SIM_SUB_DICT'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA'  'PLOT_GRAPH'  'PLOT_CLUSTERING' })); % tag = pointer %CET: Computational Efficiency Trick
+				prop = find(strcmp(pointer, { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'WAITBAR'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'EFF_NODES'  'EFF_BR_DICT'  'TIME_STEP'  'N_SUB'  'SIM_DIRECTORY'  'SIM_GR_ID'  'GRAPH_TEMPLATE'  'SIM_G_DICT'  'SIM_SUB_DICT'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA'  'PLOT_GRAPH'  'PLOT_PATHLENGTH' })); % tag = pointer %CET: Computational Efficiency Trick
 			else % numeric
 				prop = pointer;
 			end
@@ -541,7 +541,7 @@ classdef DataSimulator < ConcreteElement
 				tag = pointer;
 			else % numeric
 				%CET: Computational Efficiency Trick
-				datasimulator_tag_list = { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'WAITBAR'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'EFF_NODES'  'EFF_BR_DICT'  'TIME_STEP'  'N_SUB'  'SIM_DIRECTORY'  'SIM_GR_ID'  'GRAPH_TEMPLATE'  'SIM_G_DICT'  'SIM_SUB_DICT'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA'  'PLOT_GRAPH'  'PLOT_CLUSTERING' };
+				datasimulator_tag_list = { 'ELCLASS'  'NAME'  'DESCRIPTION'  'TEMPLATE'  'ID'  'LABEL'  'NOTES'  'TOSTRING'  'WAITBAR'  'BA'  'P_MAX'  'P_MIN'  'P'  'D'  'N'  'EFF_NODES'  'EFF_BR_DICT'  'TIME_STEP'  'N_SUB'  'SIM_DIRECTORY'  'SIM_GR_ID'  'GRAPH_TEMPLATE'  'SIM_G_DICT'  'SIM_SUB_DICT'  'SIM_GR'  'EXPORT_DATA'  'EXPORT_BA'  'PLOT_GRAPH'  'PLOT_PATHLENGTH' };
 				tag = datasimulator_tag_list{pointer}; % prop = pointer
 			end
 		end
@@ -620,7 +620,7 @@ classdef DataSimulator < ConcreteElement
 			prop = DataSimulator.getPropProp(pointer);
 			
 			%CET: Computational Efficiency Trick
-			datasimulator_description_list = { 'ELCLASS (constant, string) is the class of the data simulator.'  'NAME (constant, string) is the name of the data simulator.'  'DESCRIPTION (constant, string) is the description of the data simulator.'  'TEMPLATE (parameter, item) is the template of the data simulator.'  'ID (data, string) is a few-letter code for the data simulator.'  'LABEL (metadata, string) is an extended label of data simulator.'  'NOTES (metadata, string) are some specific notes about the data simulator.'  'TOSTRING (query, string) returns a string that represents the concrete element.'  'WAITBAR (gui, logical) detemines whether to show the waitbar.'  'BA (parameter, item) is a brain atlas.'  'P_MAX (parameter, scalar) is the maximum probability for simulating Watts–Strogatz models.'  'P_MIN (parameter, scalar) is the minimum probability for simulating Watts–Strogatz models.'  'P (parameter, rvector) is a vector of probability for simulating Watts–Strogatz models.'  'D (parameter, scalar) is a number of degree for a Watts–Strogatz model.'  'N (parameter, scalar) is a number of node for a Watts–Strogatz model.'  'EFF_NODES (data, rvector) represents the effective nodes for a Watts–Strogatz model.'  'EFF_BR_DICT (data, idict) contains the effective brain regions of the simulated netwrok.'  'TIME_STEP (parameter, scalar) is time_steps.'  'N_SUB (data, scalar) is a number of subject to be generated.'  'SIM_DIRECTORY (data, string) is the directory to export the FUN subject group files.'  'SIM_GR_ID (data, string) is the folder name to export the FUN subject group files.'  'GRAPH_TEMPLATE (parameter, item) is the graph template to set all graph and measure parameters.'  'SIM_G_DICT (result, idict) is a graph dictionary for simulated graph'  'SIM_SUB_DICT (result, idict) is the simulated data using the Watts–Strogatz model.'  'SIM_GR (result, item) is the group of subjectFUN for those simulated data.'  'EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.'  'EXPORT_BA (query, empty) exports a brain atlas to XLSX file.'  'PLOT_GRAPH (query, empty) plots graph.'  'PLOT_CLUSTERING (query, empty) plots graph.' };
+			datasimulator_description_list = { 'ELCLASS (constant, string) is the class of the data simulator.'  'NAME (constant, string) is the name of the data simulator.'  'DESCRIPTION (constant, string) is the description of the data simulator.'  'TEMPLATE (parameter, item) is the template of the data simulator.'  'ID (data, string) is a few-letter code for the data simulator.'  'LABEL (metadata, string) is an extended label of data simulator.'  'NOTES (metadata, string) are some specific notes about the data simulator.'  'TOSTRING (query, string) returns a string that represents the concrete element.'  'WAITBAR (gui, logical) detemines whether to show the waitbar.'  'BA (parameter, item) is a brain atlas.'  'P_MAX (parameter, scalar) is the maximum probability for simulating Watts–Strogatz models.'  'P_MIN (parameter, scalar) is the minimum probability for simulating Watts–Strogatz models.'  'P (parameter, rvector) is a vector of probability for simulating Watts–Strogatz models.'  'D (parameter, scalar) is a number of degree for a Watts–Strogatz model.'  'N (parameter, scalar) is a number of node for a Watts–Strogatz model.'  'EFF_NODES (data, rvector) represents the effective nodes for a Watts–Strogatz model.'  'EFF_BR_DICT (data, idict) contains the effective brain regions of the simulated netwrok.'  'TIME_STEP (parameter, scalar) is time_steps.'  'N_SUB (data, scalar) is a number of subject to be generated.'  'SIM_DIRECTORY (data, string) is the directory to export the FUN subject group files.'  'SIM_GR_ID (data, string) is the folder name to export the FUN subject group files.'  'GRAPH_TEMPLATE (parameter, item) is the graph template to set all graph and measure parameters.'  'SIM_G_DICT (result, idict) is a graph dictionary for simulated graph'  'SIM_SUB_DICT (result, idict) is the simulated data using the Watts–Strogatz model.'  'SIM_GR (result, item) is the group of subjectFUN for those simulated data.'  'EXPORT_DATA (query, empty) exports a group of subjects with the simulated fMRI data to a series of XLSX file.'  'EXPORT_BA (query, empty) exports a brain atlas to XLSX file.'  'PLOT_GRAPH (query, empty) plots graph.'  'PLOT_PATHLENGTH (query, empty) plots graph.' };
 			prop_description = datasimulator_description_list{prop};
 		end
 		function prop_settings = getPropSettings(pointer)
@@ -646,49 +646,49 @@ classdef DataSimulator < ConcreteElement
 			prop = DataSimulator.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case DataSimulator.WAITBAR % __DataSimulator.WAITBAR__
+				case 9 % DataSimulator.WAITBAR
 					prop_settings = Format.getFormatSettings(4);
-				case DataSimulator.BA % __DataSimulator.BA__
+				case 10 % DataSimulator.BA
 					prop_settings = 'BrainAtlas';
-				case DataSimulator.P_MAX % __DataSimulator.P_MAX__
+				case 11 % DataSimulator.P_MAX
 					prop_settings = Format.getFormatSettings(11);
-				case DataSimulator.P_MIN % __DataSimulator.P_MIN__
+				case 12 % DataSimulator.P_MIN
 					prop_settings = Format.getFormatSettings(11);
-				case DataSimulator.P % __DataSimulator.P__
+				case 13 % DataSimulator.P
 					prop_settings = Format.getFormatSettings(12);
-				case DataSimulator.D % __DataSimulator.D__
+				case 14 % DataSimulator.D
 					prop_settings = Format.getFormatSettings(11);
-				case DataSimulator.N % __DataSimulator.N__
+				case 15 % DataSimulator.N
 					prop_settings = Format.getFormatSettings(11);
-				case DataSimulator.EFF_NODES % __DataSimulator.EFF_NODES__
+				case 16 % DataSimulator.EFF_NODES
 					prop_settings = Format.getFormatSettings(12);
-				case DataSimulator.EFF_BR_DICT % __DataSimulator.EFF_BR_DICT__
+				case 17 % DataSimulator.EFF_BR_DICT
 					prop_settings = 'BrainRegion';
-				case DataSimulator.TIME_STEP % __DataSimulator.TIME_STEP__
+				case 18 % DataSimulator.TIME_STEP
 					prop_settings = Format.getFormatSettings(11);
-				case DataSimulator.N_SUB % __DataSimulator.N_SUB__
+				case 19 % DataSimulator.N_SUB
 					prop_settings = Format.getFormatSettings(11);
-				case DataSimulator.SIM_DIRECTORY % __DataSimulator.SIM_DIRECTORY__
+				case 20 % DataSimulator.SIM_DIRECTORY
 					prop_settings = Format.getFormatSettings(2);
-				case DataSimulator.SIM_GR_ID % __DataSimulator.SIM_GR_ID__
+				case 21 % DataSimulator.SIM_GR_ID
 					prop_settings = Format.getFormatSettings(2);
-				case DataSimulator.GRAPH_TEMPLATE % __DataSimulator.GRAPH_TEMPLATE__
+				case 22 % DataSimulator.GRAPH_TEMPLATE
 					prop_settings = 'Graph';
-				case DataSimulator.SIM_G_DICT % __DataSimulator.SIM_G_DICT__
+				case 23 % DataSimulator.SIM_G_DICT
 					prop_settings = 'Graph';
-				case DataSimulator.SIM_SUB_DICT % __DataSimulator.SIM_SUB_DICT__
+				case 24 % DataSimulator.SIM_SUB_DICT
 					prop_settings = 'SubjectFUN';
-				case DataSimulator.SIM_GR % __DataSimulator.SIM_GR__
+				case 25 % DataSimulator.SIM_GR
 					prop_settings = 'Group';
-				case DataSimulator.EXPORT_DATA % __DataSimulator.EXPORT_DATA__
+				case 26 % DataSimulator.EXPORT_DATA
 					prop_settings = Format.getFormatSettings(1);
-				case DataSimulator.EXPORT_BA % __DataSimulator.EXPORT_BA__
+				case 27 % DataSimulator.EXPORT_BA
 					prop_settings = Format.getFormatSettings(1);
-				case DataSimulator.PLOT_GRAPH % __DataSimulator.PLOT_GRAPH__
+				case 28 % DataSimulator.PLOT_GRAPH
 					prop_settings = Format.getFormatSettings(1);
-				case DataSimulator.PLOT_CLUSTERING % __DataSimulator.PLOT_CLUSTERING__
+				case DataSimulator.PLOT_PATHLENGTH % __DataSimulator.PLOT_PATHLENGTH__
 					prop_settings = Format.getFormatSettings(1);
-				case DataSimulator.TEMPLATE % __DataSimulator.TEMPLATE__
+				case 4 % DataSimulator.TEMPLATE
 					prop_settings = 'DataSimulator';
 				otherwise
 					prop_settings = getPropSettings@ConcreteElement(prop);
@@ -717,59 +717,59 @@ classdef DataSimulator < ConcreteElement
 			prop = DataSimulator.getPropProp(pointer);
 			
 			switch prop %CET: Computational Efficiency Trick
-				case DataSimulator.WAITBAR % __DataSimulator.WAITBAR__
+				case 9 % DataSimulator.WAITBAR
 					prop_default = true;
-				case DataSimulator.BA % __DataSimulator.BA__
+				case 10 % DataSimulator.BA
 					prop_default = Format.getFormatDefault(8, DataSimulator.getPropSettings(prop));
-				case DataSimulator.P_MAX % __DataSimulator.P_MAX__
+				case 11 % DataSimulator.P_MAX
 					prop_default = 1;
-				case DataSimulator.P_MIN % __DataSimulator.P_MIN__
+				case 12 % DataSimulator.P_MIN
 					prop_default = 0;
-				case DataSimulator.P % __DataSimulator.P__
+				case 13 % DataSimulator.P
 					prop_default = 0:0.1:1;
-				case DataSimulator.D % __DataSimulator.D__
+				case 14 % DataSimulator.D
 					prop_default = 4;
-				case DataSimulator.N % __DataSimulator.N__
+				case 15 % DataSimulator.N
 					prop_default = 68;
-				case DataSimulator.EFF_NODES % __DataSimulator.EFF_NODES__
+				case 16 % DataSimulator.EFF_NODES
 					prop_default = 1:1:11;
-				case DataSimulator.EFF_BR_DICT % __DataSimulator.EFF_BR_DICT__
+				case 17 % DataSimulator.EFF_BR_DICT
 					prop_default = Format.getFormatDefault(10, DataSimulator.getPropSettings(prop));
-				case DataSimulator.TIME_STEP % __DataSimulator.TIME_STEP__
+				case 18 % DataSimulator.TIME_STEP
 					prop_default = 100;
-				case DataSimulator.N_SUB % __DataSimulator.N_SUB__
+				case 19 % DataSimulator.N_SUB
 					prop_default = 11;
-				case DataSimulator.SIM_DIRECTORY % __DataSimulator.SIM_DIRECTORY__
+				case 20 % DataSimulator.SIM_DIRECTORY
 					prop_default = fileparts(which(BRAPH2.LAUNCHER));
-				case DataSimulator.SIM_GR_ID % __DataSimulator.SIM_GR_ID__
+				case 21 % DataSimulator.SIM_GR_ID
 					prop_default = 'SIM_GR';
-				case DataSimulator.GRAPH_TEMPLATE % __DataSimulator.GRAPH_TEMPLATE__
+				case 22 % DataSimulator.GRAPH_TEMPLATE
 					prop_default = GraphWU();
-				case DataSimulator.SIM_G_DICT % __DataSimulator.SIM_G_DICT__
+				case 23 % DataSimulator.SIM_G_DICT
 					prop_default = Format.getFormatDefault(10, DataSimulator.getPropSettings(prop));
-				case DataSimulator.SIM_SUB_DICT % __DataSimulator.SIM_SUB_DICT__
+				case 24 % DataSimulator.SIM_SUB_DICT
 					prop_default = Format.getFormatDefault(10, DataSimulator.getPropSettings(prop));
-				case DataSimulator.SIM_GR % __DataSimulator.SIM_GR__
+				case 25 % DataSimulator.SIM_GR
 					prop_default = Format.getFormatDefault(8, DataSimulator.getPropSettings(prop));
-				case DataSimulator.EXPORT_DATA % __DataSimulator.EXPORT_DATA__
+				case 26 % DataSimulator.EXPORT_DATA
 					prop_default = Format.getFormatDefault(1, DataSimulator.getPropSettings(prop));
-				case DataSimulator.EXPORT_BA % __DataSimulator.EXPORT_BA__
+				case 27 % DataSimulator.EXPORT_BA
 					prop_default = Format.getFormatDefault(1, DataSimulator.getPropSettings(prop));
-				case DataSimulator.PLOT_GRAPH % __DataSimulator.PLOT_GRAPH__
+				case 28 % DataSimulator.PLOT_GRAPH
 					prop_default = Format.getFormatDefault(1, DataSimulator.getPropSettings(prop));
-				case DataSimulator.PLOT_CLUSTERING % __DataSimulator.PLOT_CLUSTERING__
+				case DataSimulator.PLOT_PATHLENGTH % __DataSimulator.PLOT_PATHLENGTH__
 					prop_default = Format.getFormatDefault(1, DataSimulator.getPropSettings(prop));
-				case DataSimulator.ELCLASS % __DataSimulator.ELCLASS__
+				case 1 % DataSimulator.ELCLASS
 					prop_default = 'DataSimulator';
-				case DataSimulator.NAME % __DataSimulator.NAME__
+				case 2 % DataSimulator.NAME
 					prop_default = 'Neural Network Dataset';
-				case DataSimulator.DESCRIPTION % __DataSimulator.DESCRIPTION__
+				case 3 % DataSimulator.DESCRIPTION
 					prop_default = 'XXX';
-				case DataSimulator.TEMPLATE % __DataSimulator.TEMPLATE__
+				case 4 % DataSimulator.TEMPLATE
 					prop_default = Format.getFormatDefault(8, DataSimulator.getPropSettings(prop));
-				case DataSimulator.LABEL % __DataSimulator.LABEL__
+				case 6 % DataSimulator.LABEL
 					prop_default = 'DataSimulator label';
-				case DataSimulator.NOTES % __DataSimulator.NOTES__
+				case 7 % DataSimulator.NOTES
 					prop_default = 'DataSimulator notes';
 				otherwise
 					prop_default = getPropDefault@ConcreteElement(prop);
@@ -835,49 +835,49 @@ classdef DataSimulator < ConcreteElement
 			prop = DataSimulator.getPropProp(pointer);
 			
 			switch prop
-				case DataSimulator.WAITBAR % __DataSimulator.WAITBAR__
+				case 9 % DataSimulator.WAITBAR
 					check = Format.checkFormat(4, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.BA % __DataSimulator.BA__
+				case 10 % DataSimulator.BA
 					check = Format.checkFormat(8, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.P_MAX % __DataSimulator.P_MAX__
+				case 11 % DataSimulator.P_MAX
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.P_MIN % __DataSimulator.P_MIN__
+				case 12 % DataSimulator.P_MIN
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.P % __DataSimulator.P__
+				case 13 % DataSimulator.P
 					check = Format.checkFormat(12, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.D % __DataSimulator.D__
+				case 14 % DataSimulator.D
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.N % __DataSimulator.N__
+				case 15 % DataSimulator.N
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.EFF_NODES % __DataSimulator.EFF_NODES__
+				case 16 % DataSimulator.EFF_NODES
 					check = Format.checkFormat(12, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.EFF_BR_DICT % __DataSimulator.EFF_BR_DICT__
+				case 17 % DataSimulator.EFF_BR_DICT
 					check = Format.checkFormat(10, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.TIME_STEP % __DataSimulator.TIME_STEP__
+				case 18 % DataSimulator.TIME_STEP
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.N_SUB % __DataSimulator.N_SUB__
+				case 19 % DataSimulator.N_SUB
 					check = Format.checkFormat(11, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.SIM_DIRECTORY % __DataSimulator.SIM_DIRECTORY__
+				case 20 % DataSimulator.SIM_DIRECTORY
 					check = Format.checkFormat(2, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.SIM_GR_ID % __DataSimulator.SIM_GR_ID__
+				case 21 % DataSimulator.SIM_GR_ID
 					check = Format.checkFormat(2, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.GRAPH_TEMPLATE % __DataSimulator.GRAPH_TEMPLATE__
+				case 22 % DataSimulator.GRAPH_TEMPLATE
 					check = Format.checkFormat(8, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.SIM_G_DICT % __DataSimulator.SIM_G_DICT__
+				case 23 % DataSimulator.SIM_G_DICT
 					check = Format.checkFormat(10, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.SIM_SUB_DICT % __DataSimulator.SIM_SUB_DICT__
+				case 24 % DataSimulator.SIM_SUB_DICT
 					check = Format.checkFormat(10, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.SIM_GR % __DataSimulator.SIM_GR__
+				case 25 % DataSimulator.SIM_GR
 					check = Format.checkFormat(8, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.EXPORT_DATA % __DataSimulator.EXPORT_DATA__
+				case 26 % DataSimulator.EXPORT_DATA
 					check = Format.checkFormat(1, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.EXPORT_BA % __DataSimulator.EXPORT_BA__
+				case 27 % DataSimulator.EXPORT_BA
 					check = Format.checkFormat(1, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.PLOT_GRAPH % __DataSimulator.PLOT_GRAPH__
+				case 28 % DataSimulator.PLOT_GRAPH
 					check = Format.checkFormat(1, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.PLOT_CLUSTERING % __DataSimulator.PLOT_CLUSTERING__
+				case DataSimulator.PLOT_PATHLENGTH % __DataSimulator.PLOT_PATHLENGTH__
 					check = Format.checkFormat(1, value, DataSimulator.getPropSettings(prop));
-				case DataSimulator.TEMPLATE % __DataSimulator.TEMPLATE__
+				case 4 % DataSimulator.TEMPLATE
 					check = Format.checkFormat(8, value, DataSimulator.getPropSettings(prop));
 				otherwise
 					if prop <= 8
@@ -910,19 +910,19 @@ classdef DataSimulator < ConcreteElement
 			%  checkValue.
 			
 			switch prop
-				case DataSimulator.EFF_NODES % __DataSimulator.EFF_NODES__
+				case 16 % DataSimulator.EFF_NODES
 					eff_br_dict = dsim.get('EFF_BR_DICT');
 					br_dict = dsim.get('BA').get('BR_DICT');
-                    if br_dict.get('LENGTH') == 0
-                        dsim.postprocessing(DataSimulator.BA);
-                        br_dict = dsim.get('BA').get('BR_DICT');
-                    end
+					if br_dict.get('LENGTH') == 0
+					    dsim.postprocessing(10);
+					    br_dict = dsim.get('BA').get('BR_DICT');
+					end
 					if br_dict.get('LENGTH') > 0
 					    if eff_br_dict.get('LENGTH') == 0
 					        eff_nodes = dsim.get('EFF_NODES');
 					        br_it_list = br_dict.get('IT_LIST');
 					        eff_br_dict.set('IT_LIST',br_it_list(eff_nodes));
-                            dsim.set('EFF_BR_DICT', eff_br_dict);
+					        dsim.set('EFF_BR_DICT', eff_br_dict);
 					    end
 					end
 					
@@ -947,7 +947,7 @@ classdef DataSimulator < ConcreteElement
 			%  checkValue.
 			
 			switch prop
-				case DataSimulator.BA % __DataSimulator.BA__
+				case 10 % DataSimulator.BA
 					ba = dsim.get('BA');
 					if ba.get('BR_DICT').get('LENGTH') == 0
 					    n = dsim.get('N');
@@ -973,7 +973,7 @@ classdef DataSimulator < ConcreteElement
 					    dsim.set('BA', ba);
 					end
 					
-				case DataSimulator.P % __DataSimulator.P__
+				case 13 % DataSimulator.P
 					n_sub = dsim.get('N_SUB');
 					p = dsim.get('P');
 					if ~isequal(length(p), n_sub)    
@@ -987,7 +987,7 @@ classdef DataSimulator < ConcreteElement
 					    end
 					end
 					
-				case DataSimulator.EFF_NODES % __DataSimulator.EFF_NODES__
+				case 16 % DataSimulator.EFF_NODES
 					n = dsim.get('N');
 					eff_nodes = dsim.getr('EFF_NODES');
 					if isa(eff_nodes, 'NoValue') && n ~= 0
@@ -1018,8 +1018,8 @@ classdef DataSimulator < ConcreteElement
 			%  postset, postprocessing, checkValue.
 			
 			switch prop
-				case DataSimulator.SIM_G_DICT % __DataSimulator.SIM_G_DICT__
-					rng_settings_ = rng(); rng(dsim.getPropSeed(DataSimulator.SIM_G_DICT), 'twister')
+				case 23 % DataSimulator.SIM_G_DICT
+					rng_settings_ = rng(); rng(dsim.getPropSeed(23), 'twister')
 					
 					n = dsim.get('N'); 
 					eff_nodes = dsim.get('EFF_NODES');
@@ -1056,7 +1056,6 @@ classdef DataSimulator < ConcreteElement
 					
 					                new_neighbor = i;
 					                while new_neighbor == i || G(i, new_neighbor) == 1
-                                        %% 
 					                    new_neighbor = eff_nodes(randi(length(eff_nodes))); % Randomly select a new node
 					                end
 					                G(i, new_neighbor) = 1;
@@ -1074,8 +1073,8 @@ classdef DataSimulator < ConcreteElement
 					
 					rng(rng_settings_)
 					
-				case DataSimulator.SIM_SUB_DICT % __DataSimulator.SIM_SUB_DICT__
-					rng_settings_ = rng(); rng(dsim.getPropSeed(DataSimulator.SIM_SUB_DICT), 'twister')
+				case 24 % DataSimulator.SIM_SUB_DICT
+					rng_settings_ = rng(); rng(dsim.getPropSeed(24), 'twister')
 					
 					% Get parameters
 					n_sub = dsim.get('N_SUB'); % Number of samples
@@ -1123,8 +1122,8 @@ classdef DataSimulator < ConcreteElement
 					
 					rng(rng_settings_)
 					
-				case DataSimulator.SIM_GR % __DataSimulator.SIM_GR__
-					rng_settings_ = rng(); rng(dsim.getPropSeed(DataSimulator.SIM_GR), 'twister')
+				case 25 % DataSimulator.SIM_GR
+					rng_settings_ = rng(); rng(dsim.getPropSeed(25), 'twister')
 					
 					sub_dict = dsim.get('SIM_SUB_DICT');
 					value = Group( ...
@@ -1137,7 +1136,7 @@ classdef DataSimulator < ConcreteElement
 					
 					rng(rng_settings_)
 					
-				case DataSimulator.EXPORT_DATA % __DataSimulator.EXPORT_DATA__
+				case 26 % DataSimulator.EXPORT_DATA
 					directory = dsim.get('SIM_DIRECTORY');
 					if ~exist(directory, 'dir')
 					    mkdir(directory)
@@ -1152,7 +1151,7 @@ classdef DataSimulator < ConcreteElement
 					
 					value = {};
 					
-				case DataSimulator.EXPORT_BA % __DataSimulator.EXPORT_BA__
+				case 27 % DataSimulator.EXPORT_BA
 					directory = dsim.get('SIM_DIRECTORY');
 					if ~exist(directory, 'dir')
 					    mkdir(directory)
@@ -1167,29 +1166,92 @@ classdef DataSimulator < ConcreteElement
 					ex.get('SAVE');
 					value = {};
 					
-				case DataSimulator.PLOT_GRAPH % __DataSimulator.PLOT_GRAPH__
+				case 28 % DataSimulator.PLOT_GRAPH
 					figure;
-					%YUXIN make the panel number adaptable with the number of the networks to
-					%be plotted (now it is 5x5 fixed)
-					tiledlayout(5, 5, 'Padding', 'compact', 'TileSpacing', 'compact');
+					% 适配网络数量，最多绘制 5x5 网格
+					num_graphs = min(25, dsim.get('N_SUB'));
+					rows = ceil(sqrt(num_graphs)); % 动态确定行列数
+					cols = ceil(num_graphs / rows);
+					tiledlayout(rows, cols, 'Padding', 'compact', 'TileSpacing', 'compact');
+					
+					% 获取 Watts-Strogatz 网络集合
 					g_dict = dsim.get('SIM_G_DICT');
-					eff_nodes = dsim.get('EFF_NODES');
-					for i = 1:25
-					    nexttile;
-					    G = graph(cell2mat(g_dict.get('IT', i).get('A')), 'OmitSelfLoops');
+					eff_nodes = dsim.get('EFF_NODES'); % 需要高亮的节点索引
+					ba = dsim.get('BA'); % 获取脑区对象
+					br_dict = ba.get('BR_DICT'); % 获取脑区列表
 					
-					    % Default node colors: black
-					    node_colors = repmat([0 0 0], numnodes(G), 1); % RGB for black
-					
-					    % Set the highlighted nodes to red
-					    node_colors(eff_nodes, :) = repmat([1 0 0], numel(eff_nodes), 1); % RGB for red
-					
-					    plot(G, 'Layout', 'circle', 'NodeLabel', {}, 'NodeColor', node_colors);
+					% 获取脑区标签
+					br_labels = cell(br_dict.get('LENGTH'), 1);
+					for i = 1:br_dict.get('LENGTH')
+					    br_labels{i} = br_dict.get('IT', i).get('LABEL'); % 获取脑区名
 					end
+					
+					% 遍历并绘制 Watts-Strogatz 小世界网络
+					for i = 1:num_graphs
+					    nexttile;
+					
+					    % 获取 **已有** Watts-Strogatz 网络的邻接矩阵
+					    G_matrix = cell2mat(g_dict.get('IT', i).get('A'));
+					    G = graph(G_matrix, 'OmitSelfLoops');
+					
+					    % 默认所有节点颜色为黑色
+					    node_colors = repmat([0 0 0], numnodes(G), 1); % 黑色
+					
+					    % 设置高亮节点颜色（红色）
+					    node_colors(eff_nodes, :) = repmat([1 0 0], numel(eff_nodes), 1); % 红色
+					
+					    % 绘制 Watts-Strogatz 小世界网络（Circle 布局）
+					    h = plot(G, 'Layout', 'circle', 'NodeLabel', {}, 'NodeColor', node_colors);
+					
+					    % 添加脑区名称标签
+					    for j = 1:numel(eff_nodes)
+					        node_idx = eff_nodes(j);
+					        if node_idx <= numel(br_labels) % 避免超出索引
+					            highlight(h, node_idx, 'NodeColor', 'r', 'MarkerSize', 8); % 高亮节点
+					            text(h.XData(node_idx), h.YData(node_idx), br_labels{node_idx}, ...
+					                'FontSize', 8, 'FontWeight', 'bold', 'Color', 'blue', ...
+					                'HorizontalAlignment', 'right', 'VerticalAlignment', 'middle');
+					        end
+					    end
+					end
+					
 					value = {};
 					
-				case DataSimulator.PLOT_CLUSTERING % __DataSimulator.PLOT_CLUSTERING__
-					%YUXIN make this work
+				case DataSimulator.PLOT_PATHLENGTH % __DataSimulator.PLOT_PATHLENGTH__
+					% 获取 Watts-Strogatz 网络集合
+					g_dict = dsim.get('SIM_G_DICT'); % 获取已有 Watts-Strogatz 网络
+					p_values = dsim.get('P'); % 获取重连概率 P 的列表
+					n = dsim.get('N'); % 获取网络的节点数
+					L_values = nan(size(p_values)); % 预分配路径长度存储数组
+					
+					% 计算已有 Watts-Strogatz 网络的平均路径长度
+					wb = braph2waitbar(dsim.get('WAITBAR'), .15, ['Calculating Average Path Length ...']);
+					for i = 1:length(p_values)
+					    % 获取已有 Watts-Strogatz 网络的邻接矩阵
+					    G_matrix = cell2mat(g_dict.get('IT', i).get('A')); % 获取第 i 个网络的邻接矩阵
+					    G_graph = graph(G_matrix); % 转换为 MATLAB 的 Graph 对象
+					    
+					    % 计算平均最短路径长度 (L)
+					    if all(conncomp(G_graph) == 1) % 确保图是连通的
+					        L_values(i) = mean(mean(distances(G_graph))); % 计算路径长度
+					    else
+					        L_values(i) = NaN; % 若图不连通，则设为 NaN
+					    end
+					
+					    % 更新进度条
+					    braph2waitbar(wb, .15 + .85 * i / length(p_values), ['Processing ' num2str(i) ' of ' num2str(length(p_values))]);
+					end
+					braph2waitbar(wb, 'close');
+					
+					% 绘制 平均路径长度 vs. 重连概率 P
+					figure;
+					semilogx(p_values, L_values, 'bo-', 'MarkerFaceColor', 'b'); % 对数坐标绘制
+					xlabel('Rewiring Probability (P)');
+					ylabel('Average Path Length (L)');
+					title('Average Path Length vs. Rewiring Probability');
+					grid on;
+					legend('Simulation');
+					
 					value = {};
 					
 				otherwise
@@ -1219,25 +1281,28 @@ classdef DataSimulator < ConcreteElement
 			%  PanelPropString, PanelPropStringList.
 			
 			switch prop
-				case DataSimulator.P % __DataSimulator.P__
-					pr = PanelPropRVectorSmart('EL', dsim, 'PROP', DataSimulator.P, ...
+				case 13 % DataSimulator.P
+					pr = PanelPropRVectorSmart('EL', dsim, 'PROP', 13, ...
 					    'MIN', dsim.get('P_MIN'), 'MAX', dsim.get('P_MAX'), ...
 					    'UNIQUE_VALUE', false, ...
 					    'DEFAULT', 0:0.1:1, ...
 					    varargin{:});
 					
-				case DataSimulator.EFF_BR_DICT % __DataSimulator.EFF_BR_DICT__
-					pr = DataSimulatorPP_EFF_BR_Dict('EL', dsim, 'PROP', DataSimulator.EFF_BR_DICT, ...
+				case 17 % DataSimulator.EFF_BR_DICT
+					pr = DataSimulatorPP_EFF_BR_Dict('EL', dsim, 'PROP', 17, ...
 					    'WAITBAR', dsim.getCallback('WAITBAR'), ...
 					    varargin{:});
 					
-				case DataSimulator.GRAPH_TEMPLATE % __DataSimulator.GRAPH_TEMPLATE__
-					pr = PanelPropItem('EL', dsim, 'PROP', DataSimulator.GRAPH_TEMPLATE, ...
+				case 22 % DataSimulator.GRAPH_TEMPLATE
+					pr = PanelPropItem('EL', dsim, 'PROP', 22, ...
 					    'BUTTON_TEXT', ['GRAPH TEMPLATE (' dsim.get('GRAPH_TEMPLATE').getClass() ')'], ...
 					    varargin{:});
 					
-				case DataSimulator.SIM_G_DICT % __DataSimulator.SIM_G_DICT__
-					pr = AnalyzeEnsemblePP_GDict('EL', dsim, 'PROP', DataSimulator.SIM_G_DICT, ...
+					
+					%生成小世界网络
+					
+				case 23 % DataSimulator.SIM_G_DICT
+					pr = AnalyzeEnsemblePP_GDict('EL', dsim, 'PROP', 23, ...
 					    'WAITBAR', dsim.getCallback('WAITBAR'), ...
 					    varargin{:});
 					

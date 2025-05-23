@@ -648,7 +648,7 @@ classdef DataSimulatorPP_EFF_BR_Dict < PanelProp
 				case 23 % DataSimulatorPP_EFF_BR_Dict.EL
 					prop_default = DataSimulator();
 				case 24 % DataSimulatorPP_EFF_BR_Dict.PROP
-					prop_default = DataSimulator.EFF_BR_DICT;
+					prop_default = 17;
 				otherwise
 					prop_default = getPropDefault@PanelProp(prop);
 			end
@@ -931,8 +931,8 @@ classdef DataSimulatorPP_EFF_BR_Dict < PanelProp
 			    br_it_list = dsim.get('BA').get('BR_DICT').get('IT_LIST');
 			    br_list = cellfun(@(x) x.get('ID'), br_it_list, 'UniformOutput', false);
 			    selected = pr.get('SELECTED');
-
-                dsim.set('EFF_NODES', selected');
+			
+			    dsim.set('EFF_NODES', selected);
 			    
 			    added_keys_length = eff_br_dict.get('LENGTH');
 			    eff_br_dict.get('REMOVE_ALL', 1:1:added_keys_length);

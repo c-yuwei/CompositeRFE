@@ -3,7 +3,7 @@ distribution_moniker = 'composite_rfe';
 pipeline_folders = {
     'composite_rfe'
     };
-braph2_version = 'heads/ywc-lite-genesis';
+braph2_version = 'heads/develop';
 
 % Add here all included and excluded folders and elements
 % '-folder'                 the folder and its elements will be excluded
