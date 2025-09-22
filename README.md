@@ -12,8 +12,6 @@ The **BRAPH 2 Watts–Strogatz Model** is a BRAPH 2 distribution that uses the *
 
 The goal is to create synthetic datasets that reproduce small-world characteristics, which are widely observed in empirical brain networks. This distribution builds on the analytical functionalities of the standard [BRAPH 2](https://github.com/braph-software/BRAPH-2/tree/develop) distribution.  More details on the analysis and tutorials can be found in the main BRAPH 2 repository: [Tutorials](https://github.com/braph-software/BRAPH-2/tree/develop/tutorials).  
 
-This distribution also forms part of the Master’s thesis work of Yuxin Guo, _Software Quality Evaluation of AI/ML-Based Neuroimaging Tools_, conducted at the Department of Computer Science and Engineering (CSE), Chalmers University of Technology.
-
 ## Purpose  
 
 The Watts–Strogatz model is used here to:  
@@ -23,8 +21,8 @@ The Watts–Strogatz model is used here to:
 
 ## Validation  
 
-The simulated data is validated by comparing the **average path length** of generated networks with the theoretical values expected from Watts–Strogatz graphs.  
-For reference, see Argun, A., et al. (2021). *Simulation of Complex Systems*. IOP Publishing. [Link](https://iopscience.iop.org/book/mono/978-0-7503-3843-1)  
+The simulated data is validated by comparing the **average path length** of generated networks with the theoretical values expected from Watts–Strogatz graphs as described in Argun, A., et al. (2021). *Simulation of Complex Systems*. IOP Publishing. [Link](https://iopscience.iop.org/book/mono/978-0-7503-3843-1).
+This distribution also contributes to the Master’s thesis work of Yuxin Guo, _Software Quality Evaluation of AI/ML-Based Neuroimaging Tools_, conducted at the Department of Computer Science and Engineering (CSE), Chalmers University of Technology.
 
 ![Fig_4_1.png](media/Fig_4_1.png)
 > 
@@ -42,8 +40,6 @@ In addition, the simulated dataset is applied to verify two pipelines from the B
 ![Fig_4_4.png](media/Fig_4_4.png)
 > 
 > **Application of simulated data to standard BRAPH 2 deep learning pipelines** The Watts–Strogatz networks were used to test BRAPH 2’s regression pipelines. (a) GUI interface of the pipeline configuration for training/test splitting and neural network regression. (b) Example simulated networks used as input. (c) Predicted vs. ground truth correlation (Pearson’s r) demonstrates strong model fit. (d) Robustness analysis across 100 trials shows stable performance, confirming that simulated data can be used to validate and benchmark analysis pipelines.
-
-
 
 ## Software Compilation  
 
