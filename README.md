@@ -9,10 +9,9 @@
 # BRAPH 2 Watts–Strogatz Model  
 
 The **BRAPH 2 Watts–Strogatz Model** is a BRAPH 2 distribution that uses the **Watts–Strogatz small-world network model** to generate simulated fMRI-like data.  
-The goal is to create synthetic datasets that reproduce small-world characteristics, which are widely observed in empirical brain networks.  
 
-This distribution builds on the analytical functionalities of the standard [BRAPH 2](https://github.com/braph-software/BRAPH-2/tree/develop) distribution.  
-More details on the analysis and tutorials can be found in the main BRAPH 2 repository: [Tutorials](https://github.com/braph-software/BRAPH-2/tree/develop/tutorials).  
+The goal is to create synthetic datasets that reproduce small-world characteristics, which are widely observed in empirical brain networks.  
+This distribution builds on the analytical functionalities of the standard [BRAPH 2](https://github.com/braph-software/BRAPH-2/tree/develop) distribution.  More details on the analysis and tutorials can be found in the main BRAPH 2 repository: [Tutorials](https://github.com/braph-software/BRAPH-2/tree/develop/tutorials).  
 
 ## Purpose  
 
@@ -24,8 +23,7 @@ The Watts–Strogatz model is used here to:
 ## Validation  
 
 The simulated data is validated by comparing the **average path length** of generated networks with the theoretical values expected from Watts–Strogatz graphs.  
-See:  
-- Argun, A., et al. (2021). *Simulation of Complex Systems*. IOP Publishing. [Link](https://iopscience.iop.org/book/mono/978-0-7503-3843-1)  
+For reference, see Argun, A., et al. (2021). *Simulation of Complex Systems*. IOP Publishing. [Link](https://iopscience.iop.org/book/mono/978-0-7503-3843-1)  
 
 ![Fig_4_1.png](media/Fig_4_1.png)
 > 
