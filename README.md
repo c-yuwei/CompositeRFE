@@ -22,7 +22,6 @@ The Watts–Strogatz model is used here to:
 ## Validation  
 
 The simulated data is validated by comparing the **average path length** of generated networks with the theoretical values expected from Watts–Strogatz graphs as described in Argun, A., et al. (2021). *Simulation of Complex Systems*. IOP Publishing. [Link](https://iopscience.iop.org/book/mono/978-0-7503-3843-1).
-This distribution also contributes to the Master’s thesis work of Yuxin Guo, _Software Quality Evaluation of AI/ML-Based Neuroimaging Tools_, conducted at the Department of Computer Science and Engineering (CSE), Chalmers University of Technology.
 
 ![Fig_4_1.png](media/Fig_4_1.png)
 > 
@@ -40,6 +39,8 @@ In addition, the simulated dataset is applied to verify two pipelines from the B
 ![Fig_4_4.png](media/Fig_4_4.png)
 > 
 > **Application of simulated data to standard BRAPH 2 deep learning pipelines** The Watts–Strogatz networks were used to test BRAPH 2’s regression pipelines. (a) GUI interface of the pipeline configuration for training/test splitting and neural network regression. (b) Example simulated networks used as input. (c) Predicted vs. ground truth correlation (Pearson’s r) demonstrates strong model fit. (d) Robustness analysis across 100 trials shows stable performance, confirming that simulated data can be used to validate and benchmark analysis pipelines.
+
+This distribution also contributes to the Master’s thesis work of Yuxin Guo, _Software Quality Evaluation of AI/ML-Based Neuroimaging Tools_, conducted at the Department of Computer Science and Engineering (CSE), Chalmers University of Technology.
 
 ## Software Compilation  
 
