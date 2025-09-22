@@ -19,7 +19,7 @@ More details on the analysis and tutorials can be found in the main BRAPH 2 repo
 The Watts–Strogatz model is used here to:  
 1. **Generate small-world networks** that capture key properties of brain connectivity.  
 2. **Produce simulated fMRI data** based on these networks.  
-3. **help researchers verify fMRI analysis pipelines** by testing whether small-worldness is detected and whether user-defined brain regions of interest can be recovered.
+3. **Help researchers verify fMRI analysis pipelines** by testing whether small-worldness is detected and whether user-defined brain regions of interest can be recovered.
 
 ## Validation  
 
