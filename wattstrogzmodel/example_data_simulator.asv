@@ -1,0 +1,260 @@
+%EXAMPLE_DATA_SIMULATOR
+% Script example data simulator
+
+clear variables %#ok<*NASGU>
+
+%% Simulate data with small worldness (Task 1)
+
+output_folder = [fileparts(which('DataSimulator')) filesep 'SIM_DATASET_TWO_GROUPS'];
+
+% create simulated data for group 1
+dsim_1 = DataSimulator('P_MAX', 0.02, 'P_MIN', 0.02, 'D', 4, 'N', 10, 'TIME_STEP', 200, 'N_SUB', 25, 'DIRECTORY', output_folder, 'GR_ID', 'SimGroup1');
+graph_data_1 = dsim_1.get('GRAPH_DATA');
+
+%yuxin add the circle plot for sim_data_1 with 5x5 panels
+% 画出 group 1 的数据
+figure;
+tiledlayout(5, 5, 'Padding', 'compact', 'TileSpacing', 'compact');
+for i = 1:25
+    nexttile;
+    G = graph(graph_data_1{i}, 'OmitSelfLoops');
+    plot(G, 'Layout', 'circle', 'NodeLabel', {});
+    title(['Sample ' num2str(i)]);
+end
+
+% create simulated data for group 2
+dsim_2 = DataSimulator('P_MAX', 0.5, 'P_MIN', 0.5, 'D', 4, 'N', 10, 'TIME_STEP', 200, 'N_SUB', 25, 'DIRECTORY', output_folder, 'GR_ID', 'SimGroup2');
+graph_data_2 = dsim_2.get('GRAPH_DATA');
+
+%yuxin add the circle plot for sim_data_2 with 5x5 panels
+% 画出 group 2 的数据
+figure;
+tiledlayout(5, 5, 'Padding', 'compact', 'TileSpacing', 'compact');
+for i = 1:25
+    nexttile;
+    G = graph(graph_data_2{i}, 'OmitSelfLoops');
+    plot(G, 'Layout', 'circle', 'NodeLabel', {});
+    title(['Sample ' num2str(i)]);
+end
+
+
+
+% export to folder
+dsim_1.get('EXPORT_BA');
+dsim_1.get('EXPORT_DATA');
+dsim_2.get('EXPORT_DATA');
+
+%% Load simulated data and verify the built-in meausre functions (Task 2)
+% Load Brain Atlas
+im_ba = ImporterBrainAtlasXLS( ...
+    'FILE', [output_folder filesep 'atlas.xlsx'], ...
+    'WAITBAR', true ...
+    );
+
+ba = im_ba.get('BA');
+
+% Load Group of Simulated Data
+im_gr1 = ImporterGroupSubjectFUN_XLS( ...
+    'DIRECTORY', [output_folder filesep 'SimGroup1'], ...
+    'BA', ba, ...
+    'WAITBAR', true ...
+    );
+
+gr1 = im_gr1.get('GR');
+
+im_gr2 = ImporterGroupSubjectFUN_XLS( ...
+    'DIRECTORY', [output_folder filesep 'SimGroup2'], ...
+    'BA', ba, ...
+    'WAITBAR', true ...
+    );
+
+gr2 = im_gr2.get('GR');
+
+% Analysis FUN WU
+a_WU1 = AnalyzeEnsemble_FUN_WU( ...
+    'GR', gr1 ...
+    );
+
+a_WU2 = AnalyzeEnsemble_FUN_WU( ...
+    'TEMPLATE', a_WU1, ...
+    'GR', gr2 ...
+    );
+
+% Calculate individual network
+clustering_WU1 = a_WU1.get('MEASUREENSEMBLE', 'Clustering').get('M');
+clustering_WU2 = a_WU2.get('MEASUREENSEMBLE', 'Clustering').get('M');
+clusteringAv_WU1 = a_WU1.get('MEASUREENSEMBLE', 'ClusteringAv').get('M');
+clusteringAv_WU2 = a_WU2.get('MEASUREENSEMBLE', 'ClusteringAv').get('M');
+sm_WU1 = a_WU1.get('MEASUREENSEMBLE', 'SmallWorldness').get('M');
+sm_WU2 = a_WU2.get('MEASUREENSEMBLE', 'SmallWorldness').get('M');
+
+%% Load simulated data and produce text book figures (Task 3)
+
+% --------------------------- TASK 3 ------------------------------------
+%  Load simulated data and produce text book figures
+%  在本小节中，我们将基于 dsim 生成的 TEXT_BOOOK_DATA 进行以下操作：
+%  1) 使用内置方法（graph + distances）计算小世界路径长度，并绘制图像
+%  2) 额外编写一个自定义函数，手动计算每个图的平均最短路径长度，并绘制对比图
+
+% 指定输出文件夹
+output_folder = [fileparts(which('DataSimulator')) filesep 'SIM_DATASET_VARYING_P'];
+
+dsim = DataSimulator('P_MAX', 1, 'P_MIN', 0, 'D', 6, 'N', 500, 'TIME_STEP', 200, 'N_SUB', 40, 'DIRECTORY', output_folder, 'GR_ID', 'TEXT_BOOOK_DATA');
+
+% 获取 dsim 生成的图数据和 p 值
+ground_truth_graph_data = dsim.get('GRAPH_DATA');
+p = dsim.get('P');
+
+% 提取所有的唯一 p
+unique_p = unique(p);
+n_sub = dsim.get('N_SUB');
+
+% (1) 使用内置 distances() 函数计算平均最短路径长度
+small_world_path_lengths_builtin = zeros(size(unique_p));
+
+for idx = 1:length(unique_p)
+    current_p = unique_p(idx);
+    path_lengths = [];
+
+    for i = 1:n_sub
+        if p(i) == current_p
+            % 构造图
+            G = graph(ground_truth_graph_data{i}, 'OmitSelfLoops');
+            % 使用内置 distances() 函数
+            dists = distances(G);
+            % 将 Inf 替换为 NaN
+            dists(dists == Inf) = NaN;
+            % 计算该图的平均最短路径长度
+            path_lengths = [path_lengths; nanmean(dists(:))];
+        end
+    end
+
+    % 每个 p 下的平均最短路径长度
+    small_world_path_lengths_builtin(idx) = nanmean(path_lengths);
+end
+
+% (2) 使用自定义函数 (BFS) 手动计算平均最短路径长度
+small_world_path_lengths_custom = zeros(size(unique_p));
+
+for idx = 1:length(unique_p)
+    current_p = unique_p(idx);
+    path_lengths = [];
+
+    for i = 1:n_sub
+        if p(i) == current_p
+            % 读取邻接矩阵
+            A = ground_truth_graph_data{i};
+            % 计算距离矩阵
+            distMat = computeShortestPathsBFS(A);
+            % 将 Inf 替换为 NaN
+            distMat(distMat == Inf) = NaN;
+            % 计算该图的平均最短路径长度
+            path_lengths = [path_lengths; nanmean(distMat(:))];
+        end
+    end
+
+    % 每个 p 下的平均最短路径长度
+    small_world_path_lengths_custom(idx) = nanmean(path_lengths);
+end
+
+% (3) 绘制结果到两张**不同**的图上
+% 图1：基于内置 distances() 的结果
+figure;
+plot(unique_p, small_world_path_lengths_builtin, '-o', 'LineWidth', 2);
+xlabel('Connection Probability P');
+ylabel('Small-world Path Length');
+title('Small-world Path Length (Builtin distances())');
+grid on;
+
+% 图2：基于自定义 BFS 的结果
+figure;
+plot(unique_p, small_world_path_lengths_custom, '-x', 'LineWidth', 2);
+xlabel('Connection Probability P');
+ylabel('Small-world Path Length');
+title('Small-world Path Length (Custom BFS)');
+grid on;
+
+disp('Plots generated successfully (two separate figures for comparison)!');
+
+% (下面可选) 将模拟数据导出
+% dsim.get('EXPORT_BA');
+% dsim.get('EXPORT_DATA');
+
+% 自定义函数：使用 BFS 求解“无权图”的所有节点对之间最短路径
+function distMat = computeShortestPathsBFS(adj)
+    % 说明：
+    %   adj: N x N 的邻接矩阵（0/1），无权图
+    %   distMat: N x N 的距离矩阵
+    %
+    %   我们对每个节点执行一次 BFS，分别求出该节点到所有其他节点的最短路径。
+    %   若不可达，则该距离将保持为 Inf。
+
+    N = size(adj, 1);
+    distMat = Inf(N, N);
+
+    for startNode = 1:N
+        distMat(startNode, startNode) = 0;  % 自己到自己距离=0
+
+        % BFS 队列
+        queue = [startNode];
+        visited = false(1, N);
+        visited(startNode) = true;
+
+        while ~isempty(queue)
+            currentNode = queue(1);
+            queue(1) = []; % 出队
+
+            % 查找 currentNode 的所有邻居
+            neighbors = find(adj(currentNode, :) > 0);
+            for neighbor = neighbors
+                if ~visited(neighbor)
+                    visited(neighbor) = true;
+                    queue(end+1) = neighbor; %#ok<AGROW>
+                    distMat(startNode, neighbor) = distMat(startNode, currentNode) + 1;
+                end
+            end
+        end
+    end
+end
+
+dsim.get('EXPORT_BA');
+dsim.get('EXPORT_DATA');
+
+
+%%
+
+% load ba and data
+im_ba = ImporterBrainAtlasXLS( ...
+    'FILE', [output_folder filesep 'atlas.xlsx'], ...
+    'WAITBAR', true ...
+    );
+
+ba = im_ba.get('BA');
+
+im_gr = ImporterGroupSubjectFUN_XLS( ...
+    'DIRECTORY', [output_folder filesep 'TEXT_BOOOK_DATA'], ...
+    'BA', ba, ...
+    'WAITBAR', true ...
+    );
+
+gr = im_gr.get('GR');
+
+a_WU = AnalyzeEnsemble_FUN_WU( ...
+    'GR', gr ...
+    );
+
+g_dict = a_WU.get('G_DICT');
+
+graph_data = g_dict.get('IT_LIST');
+
+%yuxin compare on the ground_truth_graph_data 
+
+target_measure = 'PathLengthAv';
+
+for i = 1:g_dict.get('LENGTH')
+    pathlength_av(i) = g_dict.get('IT', i).get('M_DICT').get('IT', target_measure).get('M');
+end
+
+%yuxin add the plot of pathlength_av with respect to p 
+
+%% Key feature configuration (Task 4)

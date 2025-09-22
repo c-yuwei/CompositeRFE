@@ -1,0 +1,58 @@
+ELCLASS
+NaN
+NAME
+NaN
+DESCRIPTION
+NaN
+TEMPLATE
+NaN
+Data Simulator ID
+1
+Data Simulator LABEL
+2
+Data Simulator NOTES
+21
+TOSTRING
+NaN
+WAITBAR ON/OFF
+3
+Brain Atlas
+4
+Maximum Rewiring Probability
+5
+Minimum Rewiring Probability
+6
+Probabilities
+7
+Network Degree
+8
+Network Node Number
+9
+EFF_NODES
+NaN
+Effective Brain Regions
+10
+Simulated Time Step
+11
+Number Simulated Subjects
+12
+Exporting Directory
+13
+Exporting Folder Name
+14
+GRAPH_TEMPLATE
+NaN
+Simulated G DICT
+15
+SIM_SUB_DICT
+NaN
+Simulated Group
+16
+EXPORT Simulated Data
+17
+EXPORT Brain Atlas
+18
+Plot Circled Graphs
+19
+Plot Clustering
+20
