@@ -14,8 +14,6 @@ The goal is to create synthetic datasets that reproduce small-world characterist
 This distribution builds on the analytical functionalities of the standard [BRAPH 2](https://github.com/braph-software/BRAPH-2/tree/develop) distribution.  
 More details on the analysis and tutorials can be found in the main BRAPH 2 repository: [Tutorials](https://github.com/braph-software/BRAPH-2/tree/develop/tutorials).  
 
----
-
 ## Purpose  
 
 The Watts–Strogatz model is used here to:  
